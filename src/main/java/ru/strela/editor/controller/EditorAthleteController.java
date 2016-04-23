@@ -51,9 +51,7 @@ public class EditorAthleteController extends EditorController {
 
     @RequestMapping(value = {"/edit/{id}", "/edit"}, method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Map<String, String> pathVariables) {
-    	ModelAndView modelAndView = getModel(TextUtils.getIntValue(pathVariables.get("id")));
-        
-        return modelAndView;
+    	return getModel(TextUtils.getIntValue(pathVariables.get("id")));
     }
     
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
@@ -87,7 +85,6 @@ public class EditorAthleteController extends EditorController {
             	saved.setFacebook(athlete.getFacebook());
             	saved.setInstagram(athlete.getInstagram());
             	saved.setSkype(athlete.getSkype());
-            	
             	saved.setComment(athlete.getComment());
 
         		athlete = saved;
