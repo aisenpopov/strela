@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <display-name>Custom Text Functions</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>ts</short-name>
+    <uri>http://strela.ru/</uri>
+
+    <function>
+        <name>cutText</name>
+        <function-class>ru.strela.util.TextUtils</function-class>
+        <function-signature>java.lang.String cutText(java.lang.String, int)</function-signature>
+    </function>
+    
+    <function>
+        <name>price</name>
+        <function-class>ru.strela.util.TextUtils</function-class>
+        <function-signature>java.lang.String priceNumber(java.lang.Double)</function-signature>
+    </function>
+
+</taglib>

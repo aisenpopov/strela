@@ -1,0 +1,39 @@
+
+.mp-main-image-slider {
+	
+	.slick-slide {
+		
+		.c-s-bg {
+			background: transparent url("../img/web/main-image-slider-overlay.png") repeat-x scroll 0 0;
+		}
+		
+		&.slick-active {
+			.c-s-bg {
+				background: none; 
+			}
+		}
+	}
+}
+
+.mp-main-image-photo {
+	overflow: hidden;
+	
+	.slick-list {
+		overflow: visible;
+		left: -275px;
+	}
+	
+	.slick-slide {
+		
+		.c-s-bg {
+			background: transparent url("../img/web/main-image-photo-overlay.png") repeat-x scroll 0 0;
+		}
+		
+		&.slick-center, &.slick-center + div {
+			.c-s-bg {
+				background: none; 
+			}
+		}
+		
+	}
+}
