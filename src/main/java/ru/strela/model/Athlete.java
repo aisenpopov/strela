@@ -54,8 +54,8 @@ public class Athlete extends BaseEntity implements HasImage {
 	private String rashguardSize;
 	private Date birthday;
 	private Date startDate;
-	private double weight;
-	private double height;
+	private Double weight;
+	private Double height;
 	private boolean instructor;
 	private boolean retired;
 	private String passportNumber;
@@ -180,19 +180,19 @@ public class Athlete extends BaseEntity implements HasImage {
 		this.startDate = startDate;
 	}
 
-	public double getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
-	public double getHeight() {
+	public Double getHeight() {
 		return height;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(Double height) {
 		this.height = height;
 	}
 

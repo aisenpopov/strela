@@ -19,10 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.strela.config.ProjectConfiguration;
 import ru.strela.editor.menu.EditorMenuBar;
 import ru.strela.editor.menu.MenuItem;
-import ru.strela.model.Athlete;
-import ru.strela.model.City;
-import ru.strela.model.Country;
-import ru.strela.model.RegistrationRegion;
+import ru.strela.model.*;
 import ru.strela.model.auth.Person;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonServer;
@@ -91,6 +88,12 @@ public abstract class EditorController extends AjaxUpdater {
 				} else {
 					setValue(personService.findById(new Athlete(TextUtils.getIntValue(text))));
 				}
+			} else if("team".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					setValue(applicationService.findById(new Team(TextUtils.getIntValue(text))));
+				}
 			}
 		}
 
@@ -121,6 +124,11 @@ public abstract class EditorController extends AjaxUpdater {
 				if(athlete != null) {
 					return String.valueOf(athlete.getId());
 				}
+			} else if("team".equals(fieldName)) {
+				Team team = (Team)getValue();
+				if(team != null) {
+					return String.valueOf(team.getId());
+				}
 			}
 			
 			return null;
@@ -138,6 +146,8 @@ public abstract class EditorController extends AjaxUpdater {
         binder.registerCustomEditor(City.class, "city", new CustomEditorSupport("city"));
         binder.registerCustomEditor(Athlete.class, "athlete", new CustomEditorSupport("athlete"));
         binder.registerCustomEditor(Athlete.class, "chiefInstructor", new CustomEditorSupport("chiefInstructor"));
+		binder.registerCustomEditor(Team.class, "team", new CustomEditorSupport("team"));
+		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
     }
     
     @ModelAttribute("menu")

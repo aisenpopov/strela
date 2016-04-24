@@ -45,7 +45,7 @@ public class Team extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity=Athlete.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="chief_instructor_id", nullable=false)
+	@JoinColumn(name="chief_instructor_id")
 	public Athlete getChiefInstructor() {
 		return chiefInstructor;
 	}

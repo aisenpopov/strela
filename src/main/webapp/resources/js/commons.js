@@ -191,6 +191,8 @@ var C = {
 	
 	initRemoveable: function(elements, options) {
 		var loc = Util.getLocation();
+		var i = loc.indexOf('?');
+		if (i > 0) loc = loc.substring(0, i);
         var settings = $.extend( {
             'title' : "Вы уверены что хотите удалить элемент?",
             'url' : (loc[loc.length - 1] == '/' ? "" : "/") + "remove"

@@ -74,7 +74,8 @@ public class EditorAthleteController extends EditorController {
             	saved.setPassportNumber(athlete.getPassportNumber());
             	saved.setInstructor(athlete.isInstructor());
             	saved.setRetired(athlete.isRetired());
-            	
+
+				saved.setTeam(athlete.getTeam());
             	saved.setRegistrationRegion(athlete.getRegistrationRegion());
             	saved.setPerson(athlete.getPerson());
             	

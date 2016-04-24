@@ -137,6 +137,12 @@
 									
 									<fieldset>
 										<section>
+											<label class="label">Команда</label>
+											<label class="input">
+												<form:input class="form-control" type="text" path="team"/>
+											</label>
+										</section>
+										<section>
                                             <label class="label">Регион регистрации</label>
                                             <label class="input">
                                             	<form:input class="form-control" type="text" path="registrationRegion"/>

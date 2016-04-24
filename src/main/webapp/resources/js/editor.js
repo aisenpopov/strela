@@ -149,6 +149,10 @@
 			type: 'registration_region', 
 			formatResult: E.formatResultCategory
 		});
+		C.initAutocomplete($("input[name*=team]"), {
+			type: 'team',
+			formatResult: E.formatResultCategory
+		});
 	},
 	
 	initRegistrationRegionList: function() {

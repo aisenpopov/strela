@@ -10,16 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ru.strela.model.Athlete;
-import ru.strela.model.City;
-import ru.strela.model.Country;
-import ru.strela.model.RegistrationRegion;
+import ru.strela.model.*;
 import ru.strela.model.auth.Person;
-import ru.strela.model.filter.AthleteFilter;
-import ru.strela.model.filter.BaseFilter;
-import ru.strela.model.filter.CityFilter;
-import ru.strela.model.filter.CountryFilter;
-import ru.strela.model.filter.PersonFilter;
+import ru.strela.model.filter.*;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonService;
 
@@ -132,7 +125,36 @@ public class AutoсompleteController {
 
         return result;
     }
-    
+
+    @RequestMapping(value = "/team/find", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> findTeam(@RequestParam(value = "q", required = false) String q) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+        TeamFilter filter = new TeamFilter();
+        filter.setQuery(q);
+        for(Team team : applicationService.findTeams(filter)) {
+            result.add(new ResponseItem(team.getId(), team.getName()));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/team/get", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> getTeam(@RequestParam(value = "ids[]") Integer[] ids) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+
+        for(Integer id : ids) {
+            if(id == null) continue;
+
+            Team team = applicationService.findById(new Team(id));
+            if(team == null) continue;
+
+            result.add(new ResponseItem(team.getId(), team.getName()));
+        }
+
+        return result;
+    }
+
     @RequestMapping(value = "/person/find", method = RequestMethod.POST)
     @ResponseBody
     public List<ResponseItem> findPerson(@RequestParam(value = "q", required = false) String q, @RequestParam(value = "hasNotAthlete", required = false) Boolean hasNotAthlete) {

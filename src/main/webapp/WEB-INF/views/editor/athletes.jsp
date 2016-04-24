@@ -46,6 +46,8 @@
 													<th>ID</th>
 													<th>ФИО</th>
 													<th>Пользователь</th>
+													<th>Команда</th>
+													<th>Регион регистрации</th>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
 												</tr>
 											</thead>
@@ -55,6 +57,8 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.displayName}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.person.login}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${empty item.team ? '' : item.team.name}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${empty item.registrationRegion ? '' : item.registrationRegion.name}</a></td>
 																
 												        <td>
 												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
