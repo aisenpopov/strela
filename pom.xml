@@ -395,7 +395,7 @@
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
                 <db.username>postgres</db.username>
-                <db.password></db.password>
+                <db.password>fZvwCrX9</db.password>
                 <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
                 <db.url>jdbc:postgresql://localhost:5432/strela?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</db.url>
 
@@ -409,8 +409,30 @@
                 <image.dir>/media/images</image.dir>
                 <image.upload.dir>media/images/</image.upload.dir>
                 
-                <domain></domain>
+                <domain>strela.link</domain>
             </properties>
         </profile>
+		<profile>
+			 <id>dev</id>
+			 <properties>
+				 <db.driver>org.postgresql.Driver</db.driver>
+				 <db.username>postgres</db.username>
+				 <db.password>fZvwCrX9</db.password>
+				 <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+				 <db.url>jdbc:postgresql://localhost:5432/devstrela?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</db.url>
+
+				 <mail.smtp.host>smtp.yandex.ru</mail.smtp.host>
+				 <mail.smtp.user></mail.smtp.user>
+				 <mail.smtp.from-addr></mail.smtp.from-addr>
+				 <mail.smtp.password></mail.smtp.password>
+				 <mail.admin.emails></mail.admin.emails>
+
+				 <upload.dir>/tmp/</upload.dir>
+				 <image.dir>/media/images</image.dir>
+				 <image.upload.dir>media/images/</image.upload.dir>
+
+				 <domain>dev.strela.link</domain>
+			 </properties>
+		 </profile>
     </profiles>
 </project>
