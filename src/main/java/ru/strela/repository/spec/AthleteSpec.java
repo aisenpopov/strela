@@ -3,10 +3,7 @@ package ru.strela.repository.spec;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,7 +19,11 @@ public class AthleteSpec {
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
                 if(StringUtils.isNotBlank(filter.getQuery())) {
-                    predicates.add(builder.like(builder.lower(root.get("firstName").as(String.class)),
+                    Expression<String> displayName = builder.concat(root.get("lastName").as(String.class), " ");
+                    displayName = builder.concat(displayName, root.get("firstName").as(String.class));
+                    displayName = builder.concat(displayName, " ");
+                    displayName = builder.concat(displayName, root.get("middleName").as(String.class));
+                    predicates.add(builder.like(builder.lower(displayName),
                             "%" + filter.getQuery().toLowerCase() + "%"));
                 }
                 return builder.and(predicates.toArray(new Predicate[0]));
