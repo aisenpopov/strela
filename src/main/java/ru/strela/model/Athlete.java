@@ -320,12 +320,12 @@ public class Athlete extends BaseEntity implements HasImage {
 	@Transient
 	public String getDisplayName() {
 		StringBuilder builder = new StringBuilder();
-		if(StringUtils.isNotBlank(firstName)) {
-			builder.append(firstName);
-		}
 		if(StringUtils.isNotBlank(lastName)) {
-			if(builder.length() > 0) builder.append(" ");
 			builder.append(lastName);
+		}
+		if(StringUtils.isNotBlank(firstName)) {
+			if(builder.length() > 0) builder.append(" ");
+			builder.append(firstName);
 		}
 		if(StringUtils.isNotBlank(middleName)) {
 			if(builder.length() > 0) builder.append(" ");
