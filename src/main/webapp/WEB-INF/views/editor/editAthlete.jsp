@@ -38,14 +38,14 @@
 										    </label>
 										</section>
 										<section>
-										    <label class="label">Фамилия <span>*</span></label>
+										    <label class="label">Фамилия</label>
 										    <label class="input">
 												<form:input type="text" path="lastName" class="form-control"/>
 												<form:errors class="help-block error" path="lastName"/>
 										    </label>
 										</section>
 										<section>
-										    <label class="label">Отчество <span>*</span></label>
+										    <label class="label">Отчество</label>
 										    <label class="input">
 												<form:input type="text" path="middleName" class="form-control"/>
 												<form:errors class="help-block error" path="middleName"/>
@@ -75,14 +75,14 @@
 										</section>
 										
 										<section>
-										    <label class="label">Вес(кг) <span>*</span></label>
+										    <label class="label">Вес(кг)</label>
 										    <label class="input">
 												<form:input type="text" path="weight" class="form-control"/>
 												<form:errors class="help-block error" path="weight"/>
 										    </label>
 										</section>
 										<section>
-										    <label class="label">Рост(см) <span>*</span></label>
+										    <label class="label">Рост(см)</label>
 										    <label class="input">
 												<form:input type="text" path="height" class="form-control"/>
 												<form:errors class="help-block error" path="height"/>
