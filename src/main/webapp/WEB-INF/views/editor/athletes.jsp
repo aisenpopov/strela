@@ -50,7 +50,7 @@
 													<te:sortableTableHeader filter="${filter}" field="lastName" title="ФИО"/>
 													<te:sortableTableHeader filter="${filter}" field="person.login" title="Пользователь"/>
 													<te:sortableTableHeader filter="${filter}" field="team.name" title="Команда"/>
-													<te:sortableTableHeader filter="${filter}" field="registrationRegion" title="Регион регистрации"/>
+													<te:sortableTableHeader filter="${filter}" field="registrationRegion.name" title="Регион регистрации"/>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
 												</tr>
 											</thead>
