@@ -108,7 +108,13 @@
 		var area = $(".team-editor");
 		
 		C.initAutocomplete($("input[name*=city]"), { type : 'city', formatResult: E.formatResultCategory});
-		C.initAutocomplete($("input[name*=chiefInstructor]"), { type : 'athlete', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=chiefInstructor]"), {
+			type: 'athlete',
+			formatResult: E.formatResultCategory,
+			params: {
+				instructor: true
+			}
+		});
 	},
 	
 	initPersonList: function() {
@@ -125,6 +131,7 @@
 		var area = $(".sys-athletes");
 		
 		C.initRemoveable(area.find(".sys-item"));
+		C.initSortableTable(area);
 	},
 	
 	initAthletePage: function() {

@@ -30,6 +30,9 @@
 											<label class="label">Поиск</label> 
 											<label class="input"> 
 												<form:input class="form-control" type="text" path="query" />
+
+												<form:hidden path="orders[0].field"/>
+												<form:hidden path="orders[0].direction"/>
 											</label>
 										</section>							
 										<section class="col col-4">
@@ -43,11 +46,11 @@
 										<table class="table table-striped table-bordered">
 											<thead>
 												<tr>
-													<th>ID</th>
-													<th>ФИО</th>
-													<th>Пользователь</th>
-													<th>Команда</th>
-													<th>Регион регистрации</th>
+													<te:sortableTableHeader filter="${filter}" field="id" title="ID"/>
+													<te:sortableTableHeader filter="${filter}" field="lastName" title="ФИО"/>
+													<te:sortableTableHeader filter="${filter}" field="person.login" title="Пользователь"/>
+													<te:sortableTableHeader filter="${filter}" field="team.name" title="Команда"/>
+													<te:sortableTableHeader filter="${filter}" field="registrationRegion" title="Регион регистрации"/>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
 												</tr>
 											</thead>

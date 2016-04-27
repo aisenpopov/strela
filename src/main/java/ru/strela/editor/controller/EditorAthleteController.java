@@ -33,16 +33,18 @@ import ru.strela.util.image.ImageFormat;
 @RequestMapping("/editor/athlete")
 public class EditorAthleteController extends EditorController {
 	
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = {RequestMethod.GET})
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
                              @ModelAttribute("filter") AthleteFilter filter,
                              @PathVariable Map<String, String> pathVariables) {
     	ModelBuilder model = new ModelBuilder("editor/athletes");
-        if(filter == null) {        	
+        if (filter == null) {
         	filter = new AthleteFilter();
         }
-        filter.addOrder(new Order("id", OrderDirection.Asc));
+		if (filter.getOrders() == null || filter.getOrders().isEmpty()) {
+			filter.addOrder(new Order("id", OrderDirection.Asc));
+		}
         Page<Athlete> page = personService.findAthletes(filter, pageNumber - 1, pageSize);
         model.put("page", page);
         

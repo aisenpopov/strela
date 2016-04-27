@@ -1,8 +1,8 @@
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (1, 'Стрела - Москва', 2, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (2, 'Стрела - Санкт - Петербург', 3, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (3, 'Стрела - Смоленск', 5, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (4, 'Стрела - Элиста', 6, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (5, 'Стрела - Иркутск', 7, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (6, 'Стрела - Красноярск', 8, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (7, 'Стрела - Дербент', 9, NULL);
-INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (8, 'Стрела - Казань', 10, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Москва - Стрела', 2, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Санкт - Петербург - Стрела', 3, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Смоленск - Стрела', 5, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Элиста - Стрела', 6, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Иркутск - Стрела', 7, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Красноярск - Стрела', 8, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Дербент - Стрела', 9, NULL);
+INSERT INTO team (id, name, city_id, chief_instructor_id) VALUES (nextval('team_id_seq'), 'Казань - Стрела', 10, NULL);

@@ -254,6 +254,22 @@ var C = {
 		});
 	},
 
+	initSortableTable: function(area) {
+		area.on("click", ".sys-sortable", function() {
+			var filterForm = area.find(".sys-filter");
+			if (filterForm.length) {
+				var field = $(this).attr("data-sort-field"),
+					direction = $(this).attr("data-sort-direction");
+
+				filterForm.find("input[name='orders[0].field']").val(field);
+				filterForm.find("input[name='orders[0].direction']").val(direction === "Asc" ? "Desc" : "Asc");
+				filterForm.submit();
+			}
+
+			return false;
+		});
+	},
+
 	initLoadable: function(options) {
 		var settings = $.extend( {
 			'action' : "load-page",

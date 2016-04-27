@@ -26,6 +26,10 @@ public class AthleteSpec {
                     predicates.add(builder.like(builder.lower(displayName),
                             "%" + filter.getQuery().toLowerCase() + "%"));
                 }
+                if (filter.getInstructor() != null) {
+                    predicates.add(builder.equal(root.get("instructor"), filter.getInstructor()));
+                }
+
                 return builder.and(predicates.toArray(new Predicate[0]));
             }
         };

@@ -192,10 +192,11 @@ public class AutoсompleteController {
     
     @RequestMapping(value = "/athlete/find", method = RequestMethod.POST)
     @ResponseBody
-    public List<ResponseItem> findAthlete(@RequestParam(value = "q", required = false) String q) {
+    public List<ResponseItem> findAthlete(@RequestParam(value = "q", required = false) String q, @RequestParam(value = "instructor", required = false) Boolean instructor) {
         List<ResponseItem> result = new ArrayList<ResponseItem>();
         AthleteFilter filter = new AthleteFilter();
         filter.setQuery(q);
+        filter.setInstructor(instructor);
         for(Athlete athlete : personService.findAthletes(filter)) {
         	result.add(new ResponseItem(athlete.getId(), athlete.getDisplayName()));
         }
