@@ -1,12 +1,5 @@
 package ru.strela.editor.controller.core;
 
-import java.beans.PropertyEditorSupport;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -15,7 +8,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import ru.strela.config.ProjectConfiguration;
 import ru.strela.editor.menu.EditorMenuBar;
 import ru.strela.editor.menu.MenuItem;
@@ -24,9 +16,17 @@ import ru.strela.model.auth.Person;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonServer;
 import ru.strela.service.PersonService;
+import ru.strela.util.AutocompleteHelper;
 import ru.strela.util.PagerUtils;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.AjaxUpdater;
+
+import javax.servlet.http.HttpServletRequest;
+import java.beans.PropertyEditorSupport;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public abstract class EditorController extends AjaxUpdater {
 	
@@ -82,11 +82,22 @@ public abstract class EditorController extends AjaxUpdater {
 				} else {
 					setValue(applicationService.findById(new City(TextUtils.getIntValue(text))));
 				}
-			} else if("athlete".equals(fieldName) || "chiefInstructor".equals(fieldName)) {
+			} else if("athlete".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
 					setValue(personService.findById(new Athlete(TextUtils.getIntValue(text))));
+				}
+			} else if ("athletes".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					List<Athlete> athletes = new ArrayList<Athlete>();
+					for(Integer id: AutocompleteHelper.parseMultipleValue(text)) {
+						Athlete athlete = personService.findById(new Athlete(id));
+						athletes.add(athlete);
+					}
+					setValue(athletes);
 				}
 			} else if("team".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
@@ -119,11 +130,18 @@ public abstract class EditorController extends AjaxUpdater {
 				if(city != null) {
 					return String.valueOf(city.getId());
 				}
-			} else if("athlete".equals(fieldName) || "chiefInstructor".equals(fieldName)) {
+			} else if("athlete".equals(fieldName)) {
 				Athlete athlete = (Athlete)getValue();
 				if(athlete != null) {
 					return String.valueOf(athlete.getId());
 				}
+			} else if("athletes".equals(fieldName)) {
+				AutocompleteHelper autocompleteHelper = new AutocompleteHelper();
+				for(Athlete athlete : (List<Athlete>)getValue()) {
+					autocompleteHelper.addValue(athlete.getId());
+				}
+				return autocompleteHelper.getValue();
+
 			} else if("team".equals(fieldName)) {
 				Team team = (Team)getValue();
 				if(team != null) {
@@ -145,9 +163,10 @@ public abstract class EditorController extends AjaxUpdater {
         binder.registerCustomEditor(Person.class, "person", new CustomEditorSupport("person"));
         binder.registerCustomEditor(City.class, "city", new CustomEditorSupport("city"));
         binder.registerCustomEditor(Athlete.class, "athlete", new CustomEditorSupport("athlete"));
-        binder.registerCustomEditor(Athlete.class, "chiefInstructor", new CustomEditorSupport("chiefInstructor"));
+        binder.registerCustomEditor(Athlete.class, "chiefInstructor", new CustomEditorSupport("athlete"));
 		binder.registerCustomEditor(Team.class, "team", new CustomEditorSupport("team"));
 		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
+		binder.registerCustomEditor(List.class, "instructors", new CustomEditorSupport("athletes"));
     }
     
     @ModelAttribute("menu")

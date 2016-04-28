@@ -35,6 +35,11 @@ public class EditorMenuConfig {
 			team.setCaption("Команды");
 			team.setHref("team");
 			directory.addItem(team);
+
+			MenuItem gym = new MenuItem();
+			gym.setCaption("Залы");
+			gym.setHref("gym");
+			directory.addItem(gym);
 			
 			MenuItem registrationRegion = new MenuItem();
 			registrationRegion.setCaption("Регионы регистрации");

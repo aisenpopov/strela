@@ -1,24 +1,16 @@
 package ru.strela.editor.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.Athlete;
+import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
@@ -29,9 +21,16 @@ import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/editor/athlete")
 public class EditorAthleteController extends EditorController {
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
     @RequestMapping(value = {"/"}, method = {RequestMethod.GET})
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
@@ -58,10 +57,25 @@ public class EditorAthleteController extends EditorController {
     
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
     public ModelAndView save(Athlete athlete, BindingResult result, @PathVariable Map<String, String> pathVariables) {
-    	if(validate(result, athlete)) {
-            if(athlete.getId() != 0) {
+    	if (validate(result, athlete)) {
+			Person person = athlete.getPerson();
+			String newPassword = person.getPassword();
+			if (person.getId() != 0) {
+				Person existPerson = personService.findById(person);
+
+				existPerson.setLogin(person.getLogin());
+				existPerson.setAdmin(person.isAdmin());
+				existPerson.setDisabled(person.isDisabled());
+
+				person = existPerson;
+			}
+			if (StringUtils.isNotBlank(newPassword)) {
+				person.setPassword(passwordEncoder.encode(newPassword));
+			}
+
+            if (athlete.getId() != 0) {
             	Athlete saved = personService.findById(new Athlete(athlete.getId()));
-            	
+
             	saved.setFirstName(athlete.getFirstName());
             	saved.setLastName(athlete.getLastName());
             	saved.setMiddleName(athlete.getMiddleName());
@@ -77,9 +91,8 @@ public class EditorAthleteController extends EditorController {
             	saved.setInstructor(athlete.isInstructor());
             	saved.setRetired(athlete.isRetired());
 
-				saved.setTeam(athlete.getTeam());
             	saved.setRegistrationRegion(athlete.getRegistrationRegion());
-            	saved.setPerson(athlete.getPerson());
+				saved.setTeam(athlete.getTeam());
             	
             	saved.setEmail(athlete.getEmail());
             	saved.setPhoneNumber(athlete.getPhoneNumber());
@@ -92,7 +105,9 @@ public class EditorAthleteController extends EditorController {
 
         		athlete = saved;
             }
-            
+
+			Person savedPerson = personService.save(person);
+			athlete.setPerson(savedPerson);
             athlete = personService.save(athlete);          
             
             return new Redirect("/editor/athlete/edit/" + athlete.getId() + "/");
@@ -137,6 +152,7 @@ public class EditorAthleteController extends EditorController {
         	athlete = new Athlete();
         } else {
         	athlete = personService.findById(new Athlete(id));
+			athlete.getPerson().setPassword(null);
         	
     		model.put("athleteImage", FileDataSource.getImage(projectConfiguration, athlete, ImageFormat.ATHLETE_MIDDLE));
         }
@@ -146,7 +162,19 @@ public class EditorAthleteController extends EditorController {
     }
     
     private boolean validate(BindingResult result, Athlete athlete) {
-    	if(StringUtils.isBlank(athlete.getFirstName())) {
+		Person person = athlete.getPerson();
+		if (person == null || StringUtils.isBlank(person.getLogin())) {
+			result.rejectValue("person.login", "field.required", FIELD_REQUIRED);
+		} else {
+			Person saved = personService.findByLogin(person);
+			if(saved != null && person.getId() != saved.getId()) {
+				result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
+			}
+		}
+		if (athlete.getId() == 0 && StringUtils.isBlank(person.getPassword())) {
+			result.rejectValue("person.password", "field.required", FIELD_REQUIRED);
+		}
+    	if (StringUtils.isBlank(athlete.getFirstName())) {
     		result.rejectValue("firstName", "field.required", FIELD_REQUIRED);
     	}
     	

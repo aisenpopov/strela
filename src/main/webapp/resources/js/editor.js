@@ -116,6 +116,27 @@
 			}
 		});
 	},
+
+	initGymList: function() {
+		var area = $(".sys-gyms");
+
+		C.initRemoveable(area.find(".sys-item"));
+	},
+
+	initGymPage: function() {
+		var area = $(".gym-editor");
+
+		C.initAutocomplete($("input[name*=city]"), { type : 'city', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=team]"), { type : 'team', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=instructors]"), {
+			multiple : true,
+			type : 'athlete',
+			formatResult: E.formatResultCategory,
+			params: {
+				instructor: true
+			}
+		});
+	},
 	
 	initPersonList: function() {
 		var area = $(".sys-persons");
@@ -145,7 +166,7 @@
 			}]
 		});
 		
-		C.initAutocomplete($("input[name*=person]"), {
+		C.initAutocomplete($("input[name=person]"), {
 			type: 'person', 
 			formatResult: E.formatResultCategory, 
 			params: {

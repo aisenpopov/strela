@@ -148,12 +148,41 @@
                                             	<form:input class="form-control" type="text" path="registrationRegion"/>
                                             </label>
                                         </section>
+									</fieldset>
+
+									<header role="heading">
+										<h2>Пользователь</h2>
+									</header>
+									<fieldset>
+										<form:hidden path="person.id"/>
 										<section>
-                                            <label class="label">Пользователь</label>
-                                            <label class="input">
-                                            	<form:input class="form-control" type="text" path="person"/>
-                                            </label>
-                                        </section>
+											<label class="label">Логин <span>*</span></label>
+											<label class="input">
+												<form:input type="text" path="person.login" class="form-control"/>
+												<form:errors class="help-block error" path="person.login"/>
+											</label>
+										</section>
+										<section>
+											<label class="label">Новый пароль</label>
+											<label class="input">
+												<form:input type="text" path="person.password" class="form-control"/>
+												<form:errors class="help-block error" path="person.password"/>
+											</label>
+										</section>
+										<section>
+											<label class="checkbox">
+												<form:checkbox path="person.admin"/>
+												<i></i>
+												Админ
+											</label>
+										</section>
+										<section>
+											<label class="checkbox">
+												<form:checkbox path="person.disabled"/>
+												<i></i>
+												Заблокировать
+											</label>
+										</section>
 									</fieldset>
 									
 									<header role="heading">

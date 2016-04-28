@@ -4,19 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import ru.strela.model.Article;
-import ru.strela.model.ArticleImage;
-import ru.strela.model.ArticleVideo;
-import ru.strela.model.City;
-import ru.strela.model.Country;
-import ru.strela.model.RegistrationRegion;
-import ru.strela.model.Settings;
-import ru.strela.model.Team;
-import ru.strela.model.filter.ArticleFilter;
-import ru.strela.model.filter.BaseFilter;
-import ru.strela.model.filter.CityFilter;
-import ru.strela.model.filter.CountryFilter;
-import ru.strela.model.filter.TeamFilter;
+import ru.strela.model.*;
+import ru.strela.model.filter.*;
 
 public interface ApplicationService {
 	
@@ -99,6 +88,17 @@ public interface ApplicationService {
     Page<Team> findTeams(TeamFilter filter, int pageNumber, int pageSize);
     
     List<Team> findTeams(TeamFilter filter);
+
+
+    Gym save(Gym gym);
+
+    void remove(Gym gym);
+
+    Gym findById(Gym gym);
+
+    Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize);
+
+    List<Gym> findGyms(GymFilter filter);
 	
 	
 //	MainImage save(MainImage mainImage);
