@@ -1,0 +1,1 @@
+INSERT INTO gym (id, name, address, city_id, team_id) VALUES (nextval('gym_id_seq'), 'Шаболовка', 'Люсиновская 62к1', 2, 1);
