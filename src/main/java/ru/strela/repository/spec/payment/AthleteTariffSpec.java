@@ -20,9 +20,13 @@ public class AthleteTariffSpec {
                 List<Predicate> predicates = new ArrayList<Predicate>();
               	query.distinct(true);
               	
-                if(StringUtils.isNotBlank(filter.getQuery())) {
+                if (StringUtils.isNotBlank(filter.getQuery())) {
                     predicates.add(builder.like(builder.lower(root.get("name").as(String.class)),
                             "%" + filter.getQuery().toLowerCase() + "%"));
+                }
+
+                if (filter.getAthlete() != null) {
+                    predicates.add(builder.equal(root.get("athlete").get("id"), filter.getAthlete().getId()));
                 }
                 
                 return builder.and(predicates.toArray(new Predicate[0]));

@@ -209,6 +209,72 @@
 			type: 'team',
 			formatResult: E.formatResultCategory
 		});
+
+
+		function showAthleteTariffModal(athleteTariffId) {
+			var editPanel = area.find(".sys-edit-athlete-tariff");
+
+			function init() {
+				C.initAutocomplete(editPanel.find("input[name=tariff]"), {type: "tariff", formatResult: E.formatResultCategory});
+				C.initAutocomplete(editPanel.find("input[name=coupon]"), {type: "coupon", formatResult: E.formatResultCategory});
+			}
+
+			function show() {
+				init();
+
+				editPanel.find(".sys-save").off("click").on("click", function() {
+					var form = editPanel.find("form");
+
+					Util.postOnAjaxUrl("save", form.serialize(), function() {
+						if(!editPanel.find(".error").length) {
+							editPanel.modal("hide");
+							initAthleteTariffList();
+						} else {
+							init();
+						}
+					});
+
+					return false;
+				});
+
+				editPanel.modal("show");
+			}
+
+			Util.postOnAjax({action: "refresh-athlete-tariff-form", athleteTariffId: athleteTariffId}, function() {
+				show();
+			});
+		}
+
+		function initAthleteTariffList() {
+			area.find(".sys-add-block").off("click").on("click", function() {
+				showAthleteTariffModal();
+
+				return false;
+			});
+			area.find(".sys-edit-block").off("click").on("click", function() {
+				showAthleteTariffModal($(this).closest(".sys-item").attr("data-athlete-tariff-id"));
+
+				return false;
+			});
+			area.find(".sys-remove-block").off("click").on("click", function() {
+				var item = $(this).closest(".sys-item");
+
+				$.SmartMessageBox({
+					title : "Удаление",
+					content : "Вы действительно хотите удалить тариф атлета?",
+					buttons : '[Нет][Да]'
+				}, function(ButtonPressed) {
+					if (ButtonPressed === "Да") {
+						Util.postOnAjax({action: "remove-athlete-tariff", athleteTariffId: item.attr("data-athlete-tariff-id")}, function () {
+							initAthleteTariffList();
+						});
+					}
+				});
+
+				return false;
+			});
+		}
+		initAthleteTariffList();
 	},
 	
 	initRegistrationRegionList: function() {
@@ -339,12 +405,12 @@
 					imagePanel.find("input[type=file]").change();
 				};
 				if(area.find(".crop-image-panel").length) {
-					Util.postOnAjax({action: "refrash-crop-image", type: type}, function() {
+					Util.postOnAjax({action: "refresh-crop-image", type: type}, function() {
 						clear();
 					});
 				}
 				if(area.find(".list-images").length) {
-					Util.postOnAjax({action: "refrash-image", type: type}, function() {
+					Util.postOnAjax({action: "refresh-image", type: type}, function() {
 						clear();
 						initListImages();
 					});

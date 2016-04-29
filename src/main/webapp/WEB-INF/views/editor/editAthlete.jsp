@@ -238,6 +238,45 @@
 										    </label>
 										</section>
 									</fieldset>
+									<c:if test="${athlete.id != 0}">
+										<header role="heading">
+											<h2>Тарифы</h2>
+										</header>
+										<fieldset>
+											<section>
+												<t:ajaxUpdate id="athleteTariffList">
+													<table class="table table-bordered">
+														<thead>
+															<tr>
+																<th class="col-lg-2">Тариф<span>*</span></th>
+																<th class="col-lg-2">Купон</th>
+																<th class="col-lg-1"><i class="glyphicon glyphicon-cog"></i></th>
+															</tr>
+														</thead>
+														<tbody>
+															<c:forEach items="${athleteTariffs}" var="item">
+																<tr class="sys-item" data-athlete-tariff-id="${item.id}">
+																	<td>${item.tariff.name}</td>
+																	<td>${not empty item.coupon ? item.coupon.name : ''}</td>
+																	<td>
+																		<a href="#" class="sys-edit-block" title="Редактировать">
+																			<i class="glyphicon glyphicon-edit"></i>
+																		</a>
+																		<a href="#" class="sys-remove-block" title="Удалить">
+																			<i class="glyphicon glyphicon-remove"></i>
+																		</a>
+																	</td>
+																</tr>
+															</c:forEach>
+														</tbody>
+													</table>
+												</t:ajaxUpdate>
+											</section>
+											<section>
+												<a href="#" class="sys-add-block"><i class="glyphicon glyphicon-plus"></i>Добавить</a>
+											</section>
+										</fieldset>
+									</c:if>
 									<fieldset>
 										<section>
                                             <label class="label">Комментарий</label>
@@ -267,7 +306,7 @@
 							</header>
 							<div role="content">
 								<div class="widget-body no-padding">
-									<jsp:include page="panel/upload_image_panel.jsp">
+									<jsp:include page="panel/uploadImagePanel.jsp">
 								        <jsp:param name="type" value="ATHLETE_MIDDLE"/>
 								        <jsp:param name="entityId" value="${athlete.id}"/>
 								        <jsp:param name="image" value="${athleteImage}"/>
@@ -278,6 +317,8 @@
 						</div>
 					</div>
 				</div>
+
+				<jsp:include page="panel/athleteTariffModal.jsp"/>
             </c:if>
         </div>
     </jsp:body>

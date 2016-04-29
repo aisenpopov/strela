@@ -13,6 +13,8 @@ import ru.strela.editor.menu.EditorMenuBar;
 import ru.strela.editor.menu.MenuItem;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
+import ru.strela.model.payment.Coupon;
+import ru.strela.model.payment.Tariff;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PaymentService;
 import ru.strela.service.PersonServer;
@@ -115,6 +117,18 @@ public abstract class EditorController extends AjaxUpdater {
 				} else {
 					setValue(applicationService.findById(new Gym(TextUtils.getIntValue(text))));
 				}
+			} else if ("tariff".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					setValue(paymentService.findById(new Tariff(TextUtils.getIntValue(text))));
+				}
+			} else if ("coupon".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					setValue(paymentService.findById(new Coupon(TextUtils.getIntValue(text))));
+				}
 			}
 		}
 
@@ -162,6 +176,16 @@ public abstract class EditorController extends AjaxUpdater {
 				if(gym != null) {
 					return String.valueOf(gym.getId());
 				}
+			} else if ("tariff".equals(fieldName)) {
+				Tariff tariff = (Tariff)getValue();
+				if(tariff != null) {
+					return String.valueOf(tariff.getId());
+				}
+			} else if ("coupon".equals(fieldName)) {
+				Coupon coupon = (Coupon)getValue();
+				if(coupon != null) {
+					return String.valueOf(coupon.getId());
+				}
 			}
 			
 			return null;
@@ -183,6 +207,8 @@ public abstract class EditorController extends AjaxUpdater {
 		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
 		binder.registerCustomEditor(List.class, "instructors", new CustomEditorSupport("athletes"));
 		binder.registerCustomEditor(Gym.class, "gym", new CustomEditorSupport("gym"));
+		binder.registerCustomEditor(Coupon.class, "coupon", new CustomEditorSupport("coupon"));
+		binder.registerCustomEditor(Tariff.class, "tariff", new CustomEditorSupport("tariff"));
     }
     
     @ModelAttribute("menu")

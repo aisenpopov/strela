@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.*;
+import ru.strela.model.filter.payment.CouponFilter;
+import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.payment.Coupon;
+import ru.strela.model.payment.Tariff;
 import ru.strela.service.ApplicationService;
+import ru.strela.service.PaymentService;
 import ru.strela.service.PersonService;
 
 import java.util.ArrayList;
@@ -66,6 +71,9 @@ public class AutocompleteController {
     
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private PaymentService paymentService;
     
     @RequestMapping(value = "/country/find", method = RequestMethod.POST)
     @ResponseBody
@@ -273,6 +281,64 @@ public class AutocompleteController {
             if(registrationRegion == null) continue;
 
             result.add(new ResponseItem(registrationRegion.getId(), registrationRegion.getName()));
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/tariff/find", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> findTariff(@RequestParam(value = "q", required = false) String q) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+        TariffFilter filter = new TariffFilter();
+        filter.setQuery(q);
+        for(Tariff tariff : paymentService.findTariffs(filter)) {
+            result.add(new ResponseItem(tariff.getId(), tariff.getName()));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/tariff/get", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> getTariff(@RequestParam(value = "ids[]") Integer[] ids) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+
+        for(Integer id : ids) {
+            if(id == null) continue;
+
+            Tariff tariff = paymentService.findById(new Tariff(id));
+            if(tariff == null) continue;
+
+            result.add(new ResponseItem(tariff.getId(), tariff.getName()));
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/coupon/find", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> findCoupon(@RequestParam(value = "q", required = false) String q) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+        CouponFilter filter = new CouponFilter();
+        filter.setQuery(q);
+        for(Coupon coupon : paymentService.findCoupons(filter)) {
+            result.add(new ResponseItem(coupon.getId(), coupon.getName()));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/coupon/get", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> getCoupon(@RequestParam(value = "ids[]") Integer[] ids) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+
+        for(Integer id : ids) {
+            if(id == null) continue;
+
+            Coupon coupon = paymentService.findById(new Coupon(id));
+            if(coupon == null) continue;
+
+            result.add(new ResponseItem(coupon.getId(), coupon.getName()));
         }
 
         return result;

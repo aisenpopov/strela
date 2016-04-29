@@ -1,23 +1,25 @@
 package ru.strela.service.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.PersonFilter;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.payment.AthleteTariff;
 import ru.strela.repository.AthleteRepository;
 import ru.strela.repository.auth.PersonRepository;
 import ru.strela.repository.spec.AthleteSpec;
 import ru.strela.repository.spec.PersonSpec;
+import ru.strela.service.PaymentService;
 import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,6 +30,9 @@ public class PersonServiceImpl implements PersonService {
     
     @Autowired
     private AthleteRepository athleteRepository;
+
+    @Autowired
+    private PaymentService paymentService;
     
     @Override
     public Person save(Person person) {
@@ -96,6 +101,12 @@ public class PersonServiceImpl implements PersonService {
     
     @Override
 	public void remove(Athlete athlete) {
+        AthleteTariffFilter filter = new AthleteTariffFilter();
+        filter.setAthlete(athlete);
+        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter)) {
+            paymentService.remove(athleteTariff);
+        }
+
     	athleteRepository.delete(athlete);
 	}
 

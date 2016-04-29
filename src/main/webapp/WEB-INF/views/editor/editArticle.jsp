@@ -80,7 +80,7 @@
 								</header>
 								<div role="content">
 									<div class="widget-body no-padding">
-										<jsp:include page="panel/upload_image_panel.jsp">
+										<jsp:include page="panel/uploadImagePanel.jsp">
 									        <jsp:param name="type" value="ARTICLE_PREVIEW"/>
 									        <jsp:param name="entityId" value="${article.id}"/>
 									        <jsp:param name="image" value="${articleImage}"/>
@@ -113,7 +113,7 @@
 										<div class="superbox-float"></div>
 									</div>
 										
-									<jsp:include page="panel/upload_image_panel.jsp">
+									<jsp:include page="panel/uploadImagePanel.jsp">
 										<jsp:param name="type" value="ARTICLE_CONTENT"/>
 									    <jsp:param name="entityId" value="${article.id}"/>
 									    <jsp:param name="crop" value="false"/>

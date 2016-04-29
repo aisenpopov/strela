@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.filter.payment.CouponFilter;
 import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.payment.AthleteTariff;
 import ru.strela.model.payment.Coupon;
 import ru.strela.model.payment.Tariff;
+import ru.strela.repository.payment.AthleteTariffRepository;
 import ru.strela.repository.payment.CouponRepository;
 import ru.strela.repository.payment.TariffRepository;
+import ru.strela.repository.spec.payment.AthleteTariffSpec;
 import ru.strela.repository.spec.payment.CouponSpec;
 import ru.strela.repository.spec.payment.TariffSpec;
 import ru.strela.service.PaymentService;
@@ -29,6 +33,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private CouponRepository couponRepository;
+
+    @Autowired
+    private AthleteTariffRepository athleteTariffRepository;
 
     @Override
     public Tariff save(Tariff tariff) {
@@ -78,7 +85,32 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Coupon> findCoupons(CouponFilter filter) {
-        return couponRepository.findAll(CouponSpec.filter(filter));
+        return couponRepository.findAll(CouponSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 
+
+    @Override
+    public AthleteTariff save(AthleteTariff athleteTariff) {
+        return athleteTariffRepository.save(athleteTariff);
+    }
+
+    @Override
+    public void remove(AthleteTariff athleteTariff) {
+        athleteTariffRepository.delete(athleteTariff);
+    }
+
+    @Override
+    public AthleteTariff findById(AthleteTariff athleteTariff) {
+        return athleteTariffRepository.findOne(athleteTariff.getId());
+    }
+
+    @Override
+    public Page<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, int pageNumber, int pageSize) {
+        return athleteTariffRepository.findAll(AthleteTariffSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+    }
+
+    @Override
+    public List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter) {
+        return athleteTariffRepository.findAll(AthleteTariffSpec.filter(filter), PageRequestBuilder.getSort(filter));
+    }
 }

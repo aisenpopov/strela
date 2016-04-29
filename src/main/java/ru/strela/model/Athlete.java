@@ -1,22 +1,11 @@
 package ru.strela.model;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.StringUtils;
-
+import org.hibernate.Hibernate;
 import ru.strela.model.auth.Person;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "athlete", indexes = {
@@ -335,4 +324,22 @@ public class Athlete extends BaseEntity implements HasImage {
 		return builder.toString();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+		if (!super.equals(o)) return false;
+
+		Athlete athlete = (Athlete) o;
+
+		return id != athlete.getId();
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + id;
+		return result;
+	}
 }
