@@ -149,6 +149,16 @@
 
 		C.initAutocomplete($("input[name*=gym]"), { type : 'gym', formatResult: E.formatResultCategory});
 	},
+
+	initCouponList: function() {
+		var area = $(".sys-coupons");
+
+		C.initRemoveable(area.find(".sys-item"));
+	},
+
+	initCouponPage: function() {
+		var area = $(".coupon-editor");
+	},
 	
 	initPersonList: function() {
 		var area = $(".sys-persons");

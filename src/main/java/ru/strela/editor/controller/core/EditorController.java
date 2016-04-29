@@ -14,6 +14,7 @@ import ru.strela.editor.menu.MenuItem;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
 import ru.strela.service.ApplicationService;
+import ru.strela.service.PaymentService;
 import ru.strela.service.PersonServer;
 import ru.strela.service.PersonService;
 import ru.strela.util.AutocompleteHelper;
@@ -40,6 +41,9 @@ public abstract class EditorController extends AjaxUpdater {
 	
 	@Autowired
 	protected PersonService personService;
+
+	@Autowired
+	protected PaymentService paymentService;
 	
     @Autowired
     protected ProjectConfiguration projectConfiguration;

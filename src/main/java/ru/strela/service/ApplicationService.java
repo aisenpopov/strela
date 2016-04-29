@@ -100,17 +100,6 @@ public interface ApplicationService {
     List<Gym> findGyms(GymFilter filter);
 
 
-    Tariff save(Tariff tariff);
-
-    void remove(Tariff tariff);
-
-    Tariff findById(Tariff tariff);
-
-    Page<Tariff> findTariffs(TariffFilter filter, int pageNumber, int pageSize);
-
-    List<Tariff> findTariffs(TariffFilter filter);
-	
-	
 //	MainImage save(MainImage mainImage);
 //
 //	void remove(MainImage mainImage);

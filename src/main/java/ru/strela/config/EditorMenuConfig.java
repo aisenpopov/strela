@@ -68,6 +68,11 @@ public class EditorMenuConfig {
 			tariff.setCaption("Тарифы");
 			tariff.setHref("tariff");
 			payment.addItem(tariff);
+
+			MenuItem coupon = new MenuItem();
+			coupon.setCaption("Купоны");
+			coupon.setHref("coupon");
+			payment.addItem(coupon);
 		}
 		
 		MenuItem news = new MenuItem();

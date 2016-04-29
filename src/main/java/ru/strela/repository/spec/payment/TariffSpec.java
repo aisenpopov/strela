@@ -1,9 +1,9 @@
-package ru.strela.repository.spec;
+package ru.strela.repository.spec.payment;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
-import ru.strela.model.Tariff;
-import ru.strela.model.filter.TariffFilter;
+import ru.strela.model.payment.Tariff;
+import ru.strela.model.filter.payment.TariffFilter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

@@ -1,4 +1,7 @@
-package ru.strela.model;
+package ru.strela.model.payment;
+
+import ru.strela.model.BaseEntity;
+import ru.strela.model.Gym;
 
 import javax.persistence.*;
 import java.util.Date;
