@@ -137,6 +137,18 @@
 			}
 		});
 	},
+
+	initTariffList: function() {
+		var area = $(".sys-tariffs");
+
+		C.initRemoveable(area.find(".sys-item"));
+	},
+
+	initTariffPage: function() {
+		var area = $(".tariff-editor");
+
+		C.initAutocomplete($("input[name*=gym]"), { type : 'gym', formatResult: E.formatResultCategory});
+	},
 	
 	initPersonList: function() {
 		var area = $(".sys-persons");

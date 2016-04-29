@@ -56,6 +56,19 @@ public class EditorMenuConfig {
 			city.setHref("city");
 			directory.addItem(city);
 		}
+
+		MenuItem payment = new MenuItem();
+		payment.setCaption("Платежи");
+		payment.setIcon("fa-money");
+		payment.setHref("#");
+		menuBar.addItem(payment);
+
+		{
+			MenuItem tariff = new MenuItem();
+			tariff.setCaption("Тарифы");
+			tariff.setHref("tariff");
+			payment.addItem(tariff);
+		}
 		
 		MenuItem news = new MenuItem();
 		news.setCaption("Новости");

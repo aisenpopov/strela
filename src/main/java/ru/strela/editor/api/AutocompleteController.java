@@ -1,24 +1,23 @@
 package ru.strela.editor.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.*;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/autocomplete")
-public class AutoсompleteController {
+public class AutocompleteController {
 	
 	public static class ResponseItem {
 		
@@ -150,6 +149,35 @@ public class AutoсompleteController {
             if(team == null) continue;
 
             result.add(new ResponseItem(team.getId(), team.getName()));
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/gym/find", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> findGym(@RequestParam(value = "q", required = false) String q) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+        GymFilter filter = new GymFilter();
+        filter.setQuery(q);
+        for(Gym gym : applicationService.findGyms(filter)) {
+            result.add(new ResponseItem(gym.getId(), gym.getName()));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/gym/get", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> getGym(@RequestParam(value = "ids[]") Integer[] ids) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+
+        for(Integer id : ids) {
+            if(id == null) continue;
+
+            Gym gym = applicationService.findById(new Gym(id));
+            if(gym == null) continue;
+
+            result.add(new ResponseItem(gym.getId(), gym.getName()));
         }
 
         return result;

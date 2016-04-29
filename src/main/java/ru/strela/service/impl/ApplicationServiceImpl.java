@@ -48,6 +48,9 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Autowired
 	private GymRepository gymRepository;
+
+	@Autowired
+	private TariffRepository tariffRepository;
 	
 //	@Autowired
 //	private GalleryImageRepository galleryImageRepository;
@@ -285,6 +288,30 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 
+	@Override
+	public Tariff save(Tariff tariff) {
+		return tariffRepository.save(tariff);
+	}
+
+	@Override
+	public void remove(Tariff tariff) {
+		tariffRepository.delete(tariff);
+	}
+
+	@Override
+	public Tariff findById(Tariff tariff) {
+		return tariffRepository.findOne(tariff.getId());
+	}
+
+	@Override
+	public Page<Tariff> findTariffs(TariffFilter filter, int pageNumber, int pageSize) {
+		return tariffRepository.findAll(TariffSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+	}
+
+	@Override
+	public List<Tariff> findTariffs(TariffFilter filter) {
+		return tariffRepository.findAll(TariffSpec.filter(filter), PageRequestBuilder.getSort(filter));
+	}
 
 	@Override
     public Settings save(Settings settings) {

@@ -1,11 +1,10 @@
 package ru.strela.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
-
 import ru.strela.model.*;
 import ru.strela.model.filter.*;
+
+import java.util.List;
 
 public interface ApplicationService {
 	
@@ -99,6 +98,17 @@ public interface ApplicationService {
     Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize);
 
     List<Gym> findGyms(GymFilter filter);
+
+
+    Tariff save(Tariff tariff);
+
+    void remove(Tariff tariff);
+
+    Tariff findById(Tariff tariff);
+
+    Page<Tariff> findTariffs(TariffFilter filter, int pageNumber, int pageSize);
+
+    List<Tariff> findTariffs(TariffFilter filter);
 	
 	
 //	MainImage save(MainImage mainImage);

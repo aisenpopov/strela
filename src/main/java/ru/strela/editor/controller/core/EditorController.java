@@ -58,31 +58,31 @@ public abstract class EditorController extends AjaxUpdater {
 		
 		@Override
 		public void setAsText(String text) throws IllegalArgumentException {
-			if("country".equals(fieldName)) {
+			if ("country".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
 					setValue(applicationService.findById(new Country(TextUtils.getIntValue(text))));
 				}
-			} else if("person".equals(fieldName)) {
+			} else if ("person".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
 					setValue(personService.findById(new Person(TextUtils.getIntValue(text))));
 				}
-			} else if("registrationRegion".equals(fieldName)) {
+			} else if ("registrationRegion".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
 					setValue(applicationService.findById(new RegistrationRegion(TextUtils.getIntValue(text))));
 				}
-			} else if("city".equals(fieldName)) {
+			} else if ("city".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
 					setValue(applicationService.findById(new City(TextUtils.getIntValue(text))));
 				}
-			} else if("athlete".equals(fieldName)) {
+			} else if ("athlete".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
@@ -105,47 +105,58 @@ public abstract class EditorController extends AjaxUpdater {
 				} else {
 					setValue(applicationService.findById(new Team(TextUtils.getIntValue(text))));
 				}
+			} else if ("gym".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					setValue(applicationService.findById(new Gym(TextUtils.getIntValue(text))));
+				}
 			}
 		}
 
 		@Override
 		public String getAsText() {
-			if("country".equals(fieldName)) {
+			if ("country".equals(fieldName)) {
 				Country country = (Country)getValue();
 				if(country != null) {
 					return String.valueOf(country.getId());
 				}
-			} else if("person".equals(fieldName)) {
+			} else if ("person".equals(fieldName)) {
 				Person person = (Person)getValue();
 				if(person != null) {
 					return String.valueOf(person.getId());
 				}
-			} else if("registrationRegion".equals(fieldName)) {
+			} else if ("registrationRegion".equals(fieldName)) {
 				RegistrationRegion registrationRegion = (RegistrationRegion)getValue();
 				if(registrationRegion != null) {
 					return String.valueOf(registrationRegion.getId());
 				}
-			} else if("city".equals(fieldName)) {
+			} else if ("city".equals(fieldName)) {
 				City city = (City)getValue();
 				if(city != null) {
 					return String.valueOf(city.getId());
 				}
-			} else if("athlete".equals(fieldName)) {
+			} else if ("athlete".equals(fieldName)) {
 				Athlete athlete = (Athlete)getValue();
 				if(athlete != null) {
 					return String.valueOf(athlete.getId());
 				}
-			} else if("athletes".equals(fieldName)) {
+			} else if ("athletes".equals(fieldName)) {
 				AutocompleteHelper autocompleteHelper = new AutocompleteHelper();
 				for(Athlete athlete : (List<Athlete>)getValue()) {
 					autocompleteHelper.addValue(athlete.getId());
 				}
 				return autocompleteHelper.getValue();
 
-			} else if("team".equals(fieldName)) {
+			} else if ("team".equals(fieldName)) {
 				Team team = (Team)getValue();
 				if(team != null) {
 					return String.valueOf(team.getId());
+				}
+			} else if ("gym".equals(fieldName)) {
+				Gym gym = (Gym)getValue();
+				if(gym != null) {
+					return String.valueOf(gym.getId());
 				}
 			}
 			
@@ -167,6 +178,7 @@ public abstract class EditorController extends AjaxUpdater {
 		binder.registerCustomEditor(Team.class, "team", new CustomEditorSupport("team"));
 		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
 		binder.registerCustomEditor(List.class, "instructors", new CustomEditorSupport("athletes"));
+		binder.registerCustomEditor(Gym.class, "gym", new CustomEditorSupport("gym"));
     }
     
     @ModelAttribute("menu")
