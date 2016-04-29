@@ -1,11 +1,10 @@
 package ru.strela.model;
 
+import org.apache.commons.lang.StringUtils;
+import ru.strela.util.TranslitHelper;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-
-import org.apache.commons.lang.StringUtils;
-
-import ru.strela.util.TranslitHelper;
 
 @MappedSuperclass
 public abstract class BaseEntitySeo extends BaseEntityNamed {
@@ -14,6 +13,7 @@ public abstract class BaseEntitySeo extends BaseEntityNamed {
     private String htmlTitle;
 	private String metaDescription;
 	private String metaKeywords;
+	protected boolean visible;
 		
 	@Column(nullable = false)
 	public String getPath() {
@@ -51,6 +51,15 @@ public abstract class BaseEntitySeo extends BaseEntityNamed {
 	
 	public void setMetaDescription(String metaDescription) {
 		this.metaDescription = metaDescription;
+	}
+
+	@Column(columnDefinition="BOOLEAN DEFAULT FALSE")
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 	
 }

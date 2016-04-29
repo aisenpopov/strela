@@ -12,7 +12,10 @@
                 <div class="col-sm-12 col-md-12 col-lg-10">
                     <h1 class="page-title txt-color-blueDark">
                         <i class="fa fa-pencil-square-o fa-fw fa"></i>${athlete.id > 0 ? athlete.displayName : 'Новый атлет'}
-                        <a href="/editor/${activeMenu.href}/" class="btn btn-default right-header-button" role="button">Список</a>
+						<button class="btn btn-primary right-header-button sys-save-top">
+							<i class="fa fa-save"></i> Сохранить
+						</button>
+                        <a href="/editor/${activeMenu.href}/" class="btn btn-default right-header-button margin-right-5" role="button">Список</a>
                         <a href="/editor/${activeMenu.href}/edit/" class="btn btn-info right-header-button margin-right-5" role="button">Добавить</a>
                     </h1>
                 </div>

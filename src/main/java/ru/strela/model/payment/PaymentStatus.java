@@ -1,4 +1,4 @@
-package ru.strela.model;
+package ru.strela.model.payment;
 
 /**
  * Created by Aisen on 28.04.2016.

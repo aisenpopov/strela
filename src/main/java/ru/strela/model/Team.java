@@ -1,21 +1,14 @@
 package ru.strela.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="team", indexes = {
 		@Index(name = "team_city", columnList="city_id"),
 		@Index(name = "team_chief_instructor", columnList="chief_instructor_id")
 })
-public class Team extends BaseEntity {
+public class Team extends BaseEntityNamed {
 
-	private String name;
 	private City city;
 	private Athlete chiefInstructor;
 	
@@ -23,15 +16,6 @@ public class Team extends BaseEntity {
 	
 	public Team(int id) {
 		this.id = id;
-	}
-
-	@Column(nullable=false)
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@ManyToOne(targetEntity=City.class, fetch=FetchType.LAZY)

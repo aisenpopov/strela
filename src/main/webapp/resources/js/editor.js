@@ -180,6 +180,12 @@
 	initAthletePage: function() {
 		var area = $(".athlete-editor");
 		
+		var topSaveButton = area.find(".sys-save-top");
+		topSaveButton.off("click").on("click", function () {
+			area.find("form#athlete").submit();
+			return false;
+		});
+		
 		E.initImagePanel(area.find(".athlete-image"), {
 			imagesCrop: [{
 				container: ".image",	

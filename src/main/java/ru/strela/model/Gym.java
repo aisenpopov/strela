@@ -16,9 +16,8 @@ import java.util.List;
         @Index(name = "gym_city", columnList="city_id")
 })
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
-public class Gym extends BaseEntity {
+public class Gym extends BaseEntityNamed {
 
-    private String name;
     private String address;
     private Team team;
     private City city;
@@ -28,14 +27,6 @@ public class Gym extends BaseEntity {
 
     public Gym(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @ManyToOne(targetEntity=Team.class, fetch=FetchType.LAZY)

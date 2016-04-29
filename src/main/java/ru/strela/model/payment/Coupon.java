@@ -1,6 +1,6 @@
 package ru.strela.model.payment;
 
-import ru.strela.model.BaseEntity;
+import ru.strela.model.BaseEntityNamed;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +14,8 @@ import java.util.Date;
 @Entity
 @Table(name = "coupon")
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
-public class Coupon extends BaseEntity {
+public class Coupon extends BaseEntityNamed {
 
-    private String name;
     private Double discountPercent;
     private Date expiration;
 
@@ -25,14 +24,6 @@ public class Coupon extends BaseEntity {
 
     public Coupon(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Column(name = "discount_percent")
