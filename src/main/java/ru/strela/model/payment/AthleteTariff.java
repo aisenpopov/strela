@@ -59,4 +59,22 @@ public class AthleteTariff extends BaseEntity {
     public void setCoupon(Coupon coupon) {
         this.coupon = coupon;
     }
+
+    @Transient
+    public String getDisplayName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (athlete != null) {
+            stringBuilder.append(athlete.getDisplayName());
+        }
+        if (tariff != null) {
+            if (stringBuilder.length() > 0) stringBuilder.append(" - ");
+            stringBuilder.append(tariff.getName());
+        }
+        if (coupon != null) {
+            if (stringBuilder.length() > 0) stringBuilder.append(" - ");
+            stringBuilder.append(coupon.getName());
+        }
+
+        return stringBuilder.toString();
+    }
 }

@@ -18,6 +18,34 @@ public class EditorMenuConfig {
 		main.setIcon("fa-image");
 		main.setHref("#");
 		menuBar.addItem(main);
+
+		MenuItem payment = new MenuItem();
+		payment.setCaption("Оплата");
+		payment.setIcon("fa-money");
+		payment.setHref("#");
+		menuBar.addItem(payment);
+
+		{
+			MenuItem pay = new MenuItem();
+			pay.setCaption("Платежи");
+			pay.setHref("payment");
+			payment.addItem(pay);
+
+			MenuItem paymentStatus = new MenuItem();
+			paymentStatus.setCaption("Даты истечения");
+			paymentStatus.setHref("payed_status");
+			payment.addItem(paymentStatus);
+			
+			MenuItem tariff = new MenuItem();
+			tariff.setCaption("Тарифы");
+			tariff.setHref("tariff");
+			payment.addItem(tariff);
+
+			MenuItem coupon = new MenuItem();
+			coupon.setCaption("Купоны");
+			coupon.setHref("coupon");
+			payment.addItem(coupon);
+		}
 		
 		MenuItem directory = new MenuItem();
 		directory.setCaption("Справочники");
@@ -57,24 +85,6 @@ public class EditorMenuConfig {
 			directory.addItem(city);
 		}
 
-		MenuItem payment = new MenuItem();
-		payment.setCaption("Платежи");
-		payment.setIcon("fa-money");
-		payment.setHref("#");
-		menuBar.addItem(payment);
-
-		{
-			MenuItem tariff = new MenuItem();
-			tariff.setCaption("Тарифы");
-			tariff.setHref("tariff");
-			payment.addItem(tariff);
-
-			MenuItem coupon = new MenuItem();
-			coupon.setCaption("Купоны");
-			coupon.setHref("coupon");
-			payment.addItem(coupon);
-		}
-		
 		MenuItem news = new MenuItem();
 		news.setCaption("Новости");
 		news.setIcon("fa-newspaper-o");

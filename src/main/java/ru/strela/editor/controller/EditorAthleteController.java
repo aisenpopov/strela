@@ -15,6 +15,7 @@ import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.payment.AthleteTariff;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
@@ -53,7 +54,7 @@ public class EditorAthleteController extends EditorController {
 
     @RequestMapping(value = {"/edit/{id}", "/edit"}, method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Map<String, String> pathVariables) {
-    	return getModel(TextUtils.getIntValue(pathVariables.get("id")), null);
+    	return getModel(TextUtils.getIntValue(pathVariables.get("id")), null, null);
     }
     
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
@@ -114,7 +115,7 @@ public class EditorAthleteController extends EditorController {
             return new Redirect("/editor/athlete/edit/" + athlete.getId() + "/");
         }
 
-        return new ModelAndView("editor/editAthlete");
+        return getModel(athlete.getId(), false, null);
     }
 
 	@RequestMapping(value={"/edit/{idd}/ajax/save/"}, method=RequestMethod.POST)
@@ -138,11 +139,11 @@ public class EditorAthleteController extends EditorController {
 			ajaxUpdate(req, res, "athleteTariffList");
 			ajaxUpdate(req, res, "athleteTariffForm");
 
-			return getModel(athleteId, null);
+			return getModel(athleteId, null, null);
 		} else {
 			ajaxUpdate(req, res, "athleteTariffForm");
 
-			return getModel(athleteId, athleteTariff);
+			return getModel(athleteId, null, athleteTariff);
 		}
 	}
     
@@ -153,10 +154,26 @@ public class EditorAthleteController extends EditorController {
         try {
         	personService.remove(new Athlete(id));
         } catch(Exception e) {
-            response.setStatus("error");
+            response.setErrorStatus();
         }
         return response;
     }
+
+	@RequestMapping(value = "/edit/{id}/check_remove", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse checkRemoveAthleteTariff(@PathVariable("id") int id,
+												 @RequestParam(value = "athleteTariffId") int athleteTariffId) {
+		JsonResponse response = new JsonResponse();
+		AthleteTariff athleteTariff = paymentService.findById(new AthleteTariff(athleteTariffId));
+		if (athleteTariff != null) {
+			PaymentFilter filter = new PaymentFilter();
+			filter.setAthleteTariff(athleteTariff);
+			if (!paymentService.findPayments(filter).isEmpty()) {
+				response.setErrorStatus();
+			}
+		}
+		return response;
+	}
     
     @RequestMapping(value="/edit/{id}/ajax/", method=RequestMethod.POST)
 	public ModelAndView onAjax(HttpServletRequest req, 
@@ -175,7 +192,7 @@ public class EditorAthleteController extends EditorController {
 
 				ajaxUpdate(req, res, "athleteTariffForm");
 
-				return getModel(id, paymentService.findById(new AthleteTariff(athleteTariffId)));
+				return getModel(id, null, paymentService.findById(new AthleteTariff(athleteTariffId)));
 			} else if ("remove-athlete-tariff".equals(action)) {
 				int athleteTariffId = TextUtils.getIntValue(req.getParameter("athleteTariffId"));
 				AthleteTariff athleteTariff = paymentService.findById(new AthleteTariff(athleteTariffId));
@@ -183,17 +200,17 @@ public class EditorAthleteController extends EditorController {
 
 				ajaxUpdate(req, res, "athleteTariffList");
 
-				return getModel(id, null);
+				return getModel(id, null, null);
 			}
 		}
 
-		return getModel(id, null);
+		return getModel(id, null, null);
 	}
     
-    private ModelAndView getModel(int id, AthleteTariff athleteTariff) {
+    private ModelAndView getModel(int id, Boolean insertAthlete, AthleteTariff athleteTariff) {
         ModelBuilder model = new ModelBuilder("editor/editAthlete");
         Athlete athlete;
-        
+
         if(id == 0) {
         	athlete = new Athlete();
         } else {
@@ -213,7 +230,9 @@ public class EditorAthleteController extends EditorController {
 			filter.addOrder(new Order("id", OrderDirection.Asc));
 			model.put("athleteTariffs", paymentService.findAthleteTariffs(filter));
         }
-        model.put("athlete", athlete);
+		if (insertAthlete == null || insertAthlete) {
+        	model.put("athlete", athlete);
+		}
 
 		return model;
     }

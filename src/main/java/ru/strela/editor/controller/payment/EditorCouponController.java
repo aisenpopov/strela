@@ -100,6 +100,8 @@ public class EditorCouponController extends EditorController {
             result.rejectValue("discountPercent", "field.required", FIELD_REQUIRED);
         } else if (coupon.getDiscountPercent() < 0.0d) {
             result.rejectValue("discountPercent", "field.required", "Значение должно быть больше нуля");
+        } else if (coupon.getDiscountPercent() >= 100.0d) {
+            result.rejectValue("discountPercent", "field.required", "Значение должно быть меньше 100%");
         }
 
         return !result.hasErrors();

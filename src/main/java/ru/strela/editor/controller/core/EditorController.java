@@ -13,6 +13,7 @@ import ru.strela.editor.menu.EditorMenuBar;
 import ru.strela.editor.menu.MenuItem;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
+import ru.strela.model.payment.AthleteTariff;
 import ru.strela.model.payment.Coupon;
 import ru.strela.model.payment.Tariff;
 import ru.strela.service.ApplicationService;
@@ -129,6 +130,12 @@ public abstract class EditorController extends AjaxUpdater {
 				} else {
 					setValue(paymentService.findById(new Coupon(TextUtils.getIntValue(text))));
 				}
+			} else if ("athleteTariff".equals(fieldName)) {
+				if(StringUtils.isBlank(text)) {
+					setValue(null);
+				} else {
+					setValue(paymentService.findById(new AthleteTariff(TextUtils.getIntValue(text))));
+				}
 			}
 		}
 
@@ -186,6 +193,11 @@ public abstract class EditorController extends AjaxUpdater {
 				if(coupon != null) {
 					return String.valueOf(coupon.getId());
 				}
+			} else if ("athleteTariff".equals(fieldName)) {
+				AthleteTariff athleteTariff = (AthleteTariff)getValue();
+				if(athleteTariff != null) {
+					return String.valueOf(athleteTariff.getId());
+				}
 			}
 			
 			return null;
@@ -200,15 +212,18 @@ public abstract class EditorController extends AjaxUpdater {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
         binder.registerCustomEditor(Country.class, "country", new CustomEditorSupport("country"));
         binder.registerCustomEditor(Person.class, "person", new CustomEditorSupport("person"));
+		binder.registerCustomEditor(Person.class, "operator", new CustomEditorSupport("person"));
         binder.registerCustomEditor(City.class, "city", new CustomEditorSupport("city"));
         binder.registerCustomEditor(Athlete.class, "athlete", new CustomEditorSupport("athlete"));
         binder.registerCustomEditor(Athlete.class, "chiefInstructor", new CustomEditorSupport("athlete"));
+		binder.registerCustomEditor(Athlete.class, "athleteTariff.athlete", new CustomEditorSupport("athlete"));
 		binder.registerCustomEditor(Team.class, "team", new CustomEditorSupport("team"));
 		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
 		binder.registerCustomEditor(List.class, "instructors", new CustomEditorSupport("athletes"));
 		binder.registerCustomEditor(Gym.class, "gym", new CustomEditorSupport("gym"));
 		binder.registerCustomEditor(Coupon.class, "coupon", new CustomEditorSupport("coupon"));
 		binder.registerCustomEditor(Tariff.class, "tariff", new CustomEditorSupport("tariff"));
+		binder.registerCustomEditor(AthleteTariff.class, "athleteTariff", new CustomEditorSupport("athleteTariff"));
     }
     
     @ModelAttribute("menu")

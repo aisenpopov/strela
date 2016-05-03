@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.*;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.filter.payment.CouponFilter;
 import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.payment.AthleteTariff;
 import ru.strela.model.payment.Coupon;
 import ru.strela.model.payment.Tariff;
 import ru.strela.service.ApplicationService;
@@ -233,7 +235,7 @@ public class AutocompleteController {
         AthleteFilter filter = new AthleteFilter();
         filter.setQuery(q);
         filter.setInstructor(instructor);
-        for(Athlete athlete : personService.findAthletes(filter)) {
+        for(Athlete athlete : personService.findAthletes(filter, 0, 30)) {
         	result.add(new ResponseItem(athlete.getId(), athlete.getDisplayName()));
         }
         
@@ -339,6 +341,39 @@ public class AutocompleteController {
             if(coupon == null) continue;
 
             result.add(new ResponseItem(coupon.getId(), coupon.getName()));
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/athleteTariff/find", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> findAthleteTariff(@RequestParam(value = "q", required = false) String q,
+                                                @RequestParam(value = "athleteId", required = false) Integer athleteId) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+        AthleteTariffFilter filter = new AthleteTariffFilter();
+        filter.setQuery(q);
+        if (athleteId != null) {
+            filter.setAthlete(new Athlete(athleteId));
+        }
+        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter)) {
+            result.add(new ResponseItem(athleteTariff.getId(), athleteTariff.getDisplayName()));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/athleteTariff/get", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResponseItem> getAthleteTariff(@RequestParam(value = "ids[]") Integer[] ids) {
+        List<ResponseItem> result = new ArrayList<ResponseItem>();
+
+        for(Integer id : ids) {
+            if(id == null) continue;
+
+            AthleteTariff athleteTariff = paymentService.findById(new AthleteTariff(id));
+            if(athleteTariff == null) continue;
+
+            result.add(new ResponseItem(athleteTariff.getId(), athleteTariff.getDisplayName()));
         }
 
         return result;

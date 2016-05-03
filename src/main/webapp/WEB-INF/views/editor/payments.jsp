@@ -1,12 +1,12 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include.jsp" %>
 
-<te:page title="Команды">
+<te:page title="Платежи">
 	<jsp:attribute name="initScript">
-		E.initTeamList();
+		E.initPaymentList();
 	</jsp:attribute>
     <jsp:body>
-        <div class="list-area sys-teams">
+        <div class="list-area sys-payments">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-title txt-color-blueDark">
@@ -20,7 +20,7 @@
 				<div class="col-lg-12">
 					<div class="jarviswidget jarviswidget-color-blueDark">
 						<header role="heading">
-							<h2>Команды</h2>
+							<h2>Платежи</h2>
 						</header>
 						<div role="content">
 							<div class="widget-body">
@@ -44,9 +44,12 @@
 											<thead>
 												<tr>
 													<th>ID</th>
-													<th>Название</th>
-													<th>Город</th>
-													<th>Инструктор</th>
+													<th>Атлет</th>
+													<th>Тариф</th>
+													<th>Купон</th>
+													<th>Сумма</th>
+													<th>Оператор</th>
+													<th>Дата</th>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
 												</tr>
 											</thead>
@@ -54,10 +57,13 @@
 												<c:forEach var="item" items="${page.content}" varStatus="loop">
 													<tr class="sys-item" iid="${item.id}">
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.city.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.chiefInstructor.displayName}</a></td>
-																
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.athleteTariff.athlete.displayName}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.athleteTariff.tariff.name}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${not empty item.athleteTariff ? item.athleteTariff.coupon.name : ''}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.amount}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.operator.login}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatFull(item.date)}</a></td>
+
 												        <td>
 												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
 												        		<i class="glyphicon glyphicon-remove"></i>

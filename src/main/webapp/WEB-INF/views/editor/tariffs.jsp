@@ -46,7 +46,7 @@
 													<th>ID</th>
 													<th>Название</th>
 													<th>Зал</th>
-													<th>Разовая</th>
+													<%--<th>Разовая</th>--%>
 													<th>Месяц</th>
 													<th>Квартал</th>
 													<th>Полгода</th>
@@ -61,7 +61,7 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.name}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.gym.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceOnce}</a></td>
+														<%--<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceOnce}</a></td>--%>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceMonth}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceQuarter}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceHalfYear}</a></td>

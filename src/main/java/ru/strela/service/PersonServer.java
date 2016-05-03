@@ -7,7 +7,7 @@ import ru.strela.model.auth.Person;
 
 public interface PersonServer extends UserDetailsService{
 
-	Person getCurrentUser();
+	Person getCurrentPerson();
 	
 }
 

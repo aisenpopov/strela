@@ -72,7 +72,7 @@
 				container: ".image",	
 				cropWidth: width,
                 cropHeight: height
-			}],
+			}]
 		});
 	},
 	
@@ -85,7 +85,7 @@
 	initCityPage: function() {
 		var area = $(".city-editor");
 		
-		C.initAutocomplete($("input[name*=country]"), { type : 'country', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=country]"), { type : 'country'});
 	},
 	
 	initCountryList: function() {
@@ -107,14 +107,92 @@
 	initTeamPage: function() {
 		var area = $(".team-editor");
 		
-		C.initAutocomplete($("input[name*=city]"), { type : 'city', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=city]"), { type : 'city'});
 		C.initAutocomplete($("input[name*=chiefInstructor]"), {
 			type: 'athlete',
-			formatResult: E.formatResultCategory,
 			params: {
 				instructor: true
 			}
 		});
+	},
+
+	initPaymentList: function() {
+		var area = $(".sys-payments");
+
+		C.initRemoveable(area.find(".sys-item"), {
+			title: "Вы уверены что хотите удалить платеж? Дата истечения атлета будет пересчитана."
+		});
+	},
+
+	initPaymentPage: function() {
+		var area = $(".payment-editor"),
+			athleteForm = area.find("form#payment"),
+			inputAthlete = athleteForm.find("input[name='athleteTariff.athlete']"),
+			inputAthleteError = athleteForm.find("span[name='athleteTariff.athlete']"),
+			inputAthleteTariff = athleteForm.find("input[name=athleteTariff]"),
+			inputAmount = athleteForm.find("input[name=amount]"),
+			editAthleteTariffPanel = area.find(".sys-edit-athlete-tariff");
+
+		var inputAthleteTariffVal = inputAthleteTariff.val(),
+			inputAmountVal = inputAmount.val();
+
+		editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
+		C.initAutocomplete(inputAthlete, {
+			type: 'athlete'
+		});
+		inputAthlete.on("change", function () {
+			console.log("inputAthlete changed");
+			inputAthleteTariff.select2('data', null);
+			editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
+			inputAthleteError.addClass("hidden");
+		});
+		C.initAutocomplete(inputAthleteTariff, {
+			type: 'athleteTariff',
+			params: function() {
+				return {
+					athleteId: inputAthlete.val()
+				};
+			}
+		});
+		area.find(".sys-add-athlete-tariff").off("click").on("click", function() {
+			if (!editAthleteTariffPanel.find("input[name=athlete]").val()) {
+				inputAthleteError.removeClass("hidden");
+			} else {
+				E.showAthleteTariffModal(area, null, null);
+			}
+
+			return false;
+		});
+		athleteForm.find("button[type='submit']").off("click").on("click", function () {
+			if (athleteForm.find("input[name='id']").val() > 0
+				&& (inputAthleteTariff.val() != inputAthleteTariffVal || inputAmount.val() != inputAmountVal)) {
+				$.SmartMessageBox({
+					title : "Перепроведение",
+					content : "Вы действительно хотите изменить платеж? Дата истечения атлета будет пересчитана.",
+					buttons : '[Нет][Да]'
+				}, function(ButtonPressed) {
+					if (ButtonPressed === "Да") {
+						athleteForm.submit();
+					}
+				});
+			} else {
+				athleteForm.submit();
+			}
+			return false;
+		});
+	},
+
+	initPaymentStatusList: function() {
+		var area = $(".sys-payment-statuses");
+
+		// C.initRemoveable(area.find(".sys-item"));
+	},
+
+	initPaymentStatusPage: function() {
+		var area = $(".payment-status-editor");
+
+		C.initAutocomplete($("input[name*=athlete]"), { type : 'athlete'});
+		C.initAutocomplete($("input[name*=gym]"), { type: 'gym'});
 	},
 
 	initGymList: function() {
@@ -126,12 +204,11 @@
 	initGymPage: function() {
 		var area = $(".gym-editor");
 
-		C.initAutocomplete($("input[name*=city]"), { type : 'city', formatResult: E.formatResultCategory});
-		C.initAutocomplete($("input[name*=team]"), { type : 'team', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=city]"), { type : 'city'});
+		C.initAutocomplete($("input[name*=team]"), { type : 'team'});
 		C.initAutocomplete($("input[name*=instructors]"), {
 			multiple : true,
 			type : 'athlete',
-			formatResult: E.formatResultCategory,
 			params: {
 				instructor: true
 			}
@@ -147,7 +224,7 @@
 	initTariffPage: function() {
 		var area = $(".tariff-editor");
 
-		C.initAutocomplete($("input[name*=gym]"), { type : 'gym', formatResult: E.formatResultCategory});
+		C.initAutocomplete($("input[name*=gym]"), { type : 'gym'});
 	},
 
 	initCouponList: function() {
@@ -196,63 +273,25 @@
 		
 		C.initAutocomplete($("input[name=person]"), {
 			type: 'person', 
-			formatResult: E.formatResultCategory, 
 			params: {
 				hasNotAthlete: true
 			}
 		});
 		C.initAutocomplete($("input[name*=registrationRegion]"), {
-			type: 'registration_region', 
-			formatResult: E.formatResultCategory
+			type: 'registration_region'
 		});
 		C.initAutocomplete($("input[name*=team]"), {
-			type: 'team',
-			formatResult: E.formatResultCategory
+			type: 'team'
 		});
-
-
-		function showAthleteTariffModal(athleteTariffId) {
-			var editPanel = area.find(".sys-edit-athlete-tariff");
-
-			function init() {
-				C.initAutocomplete(editPanel.find("input[name=tariff]"), {type: "tariff", formatResult: E.formatResultCategory});
-				C.initAutocomplete(editPanel.find("input[name=coupon]"), {type: "coupon", formatResult: E.formatResultCategory});
-			}
-
-			function show() {
-				init();
-
-				editPanel.find(".sys-save").off("click").on("click", function() {
-					var form = editPanel.find("form");
-
-					Util.postOnAjaxUrl("save", form.serialize(), function() {
-						if(!editPanel.find(".error").length) {
-							editPanel.modal("hide");
-							initAthleteTariffList();
-						} else {
-							init();
-						}
-					});
-
-					return false;
-				});
-
-				editPanel.modal("show");
-			}
-
-			Util.postOnAjax({action: "refresh-athlete-tariff-form", athleteTariffId: athleteTariffId}, function() {
-				show();
-			});
-		}
 
 		function initAthleteTariffList() {
 			area.find(".sys-add-block").off("click").on("click", function() {
-				showAthleteTariffModal();
+				E.showAthleteTariffModal(area, null, initAthleteTariffList);
 
 				return false;
 			});
 			area.find(".sys-edit-block").off("click").on("click", function() {
-				showAthleteTariffModal($(this).closest(".sys-item").attr("data-athlete-tariff-id"));
+				E.showAthleteTariffModal(area, $(this).closest(".sys-item").attr("data-athlete-tariff-id"), initAthleteTariffList);
 
 				return false;
 			});
@@ -265,8 +304,21 @@
 					buttons : '[Нет][Да]'
 				}, function(ButtonPressed) {
 					if (ButtonPressed === "Да") {
-						Util.postOnAjax({action: "remove-athlete-tariff", athleteTariffId: item.attr("data-athlete-tariff-id")}, function () {
-							initAthleteTariffList();
+						var athleteTariffId = item.attr("data-athlete-tariff-id");
+						Util._postUrl("check_remove", {athleteTariffId: athleteTariffId}, function(data) {
+							if (data.status === "success") {
+								Util.postOnAjax({action: "remove-athlete-tariff", athleteTariffId: athleteTariffId}, function () {
+									initAthleteTariffList();
+								});
+							} else {
+								setTimeout(function() {
+									$.SmartMessageBox({
+										title : "Ошибка",
+										content : "Невозможно удалить тариф атлета, т.к имеются платежи по данному тарифу.",
+										buttons : '[Закрыть]'
+									});
+								}, 500);
+							}
 						});
 					}
 				});
@@ -275,6 +327,46 @@
 			});
 		}
 		initAthleteTariffList();
+	},
+
+	showAthleteTariffModal: function(area, athleteTariffId, onSave) {
+		var editPanel = area.find(".sys-edit-athlete-tariff");
+
+		function init() {
+			C.initAutocomplete(editPanel.find("input[name=tariff]"), {type: "tariff"});
+			C.initAutocomplete(editPanel.find("input[name=coupon]"), {type: "coupon"});
+		}
+
+		function show() {
+			init();
+
+			editPanel.find(".sys-save").off("click").on("click", function() {
+				var form = editPanel.find("form");
+
+				Util.postOnAjaxUrl("save", form.serialize(), function() {
+					if(!editPanel.find(".error").length) {
+						editPanel.modal("hide");
+						if (onSave && typeof(onSave) === 'function') {
+							onSave();
+						}
+					} else {
+						init();
+					}
+				});
+
+				return false;
+			});
+
+			editPanel.modal("show");
+		}
+
+		if (athleteTariffId) {
+			Util.postOnAjax({action: "refresh-athlete-tariff-form", athleteTariffId: athleteTariffId}, function() {
+				show();
+			});
+		} else {
+			show();
+		}
 	},
 	
 	initRegistrationRegionList: function() {
@@ -302,7 +394,7 @@
 				cropWidth: 0,
 				cropHeight: 0,
 				maxWidth: 0,
-				maxHeight: 0,
+				maxHeight: 0
 			}],
 			isMultiple: true,
 			notNeedCrop: true
@@ -343,18 +435,6 @@
     		var params = Util.serialize($(this).parents("form"));
     		Util.postOnAjax(params + "&action=save-videos");
     	});
-	},
-	
-	formatResultCategory: function(object) {
-		var level = object.value;
-		var text = object.text;
-		if (level < 1) {
-			return "<b>" + text + "</b>";
-		} else if (level < 2) {
-			return "<ins style='padding-left: 30px;'>" + text + "</ins>";
-		} else {
-			return "<div style='padding-left: 60px;'>" + text + "</div>";
-		}
 	},
 	
 	initImagePanel: function(area, params) {
@@ -419,7 +499,7 @@
 		}
 		
 		var cropImage = function(srcImage, fileName) {
-			var eventsArr = new Array();
+			var eventsArr = [];
 			$.each(imagesCrop, function(i, imageCrop) {
 				var containerSelector = imageCrop.container ? imageCrop.container : ".image";
 				
@@ -452,11 +532,11 @@
 					args["y" + (i > 0 ? i + 1 : "")] = cropData.y;
 					args["width" + (i > 0 ? i + 1 : "")] = cropData.width;
 					args["height" + (i > 0 ? i + 1 : "")] = cropData.height;
-				})
+				});
 				$(document).oneTime(100, function(){
 		    		Util.showLoadPanel();
 				});
-				Util._postBaseUrl("/editor/upload_image/save", args, function(response) {
+				Util._postBaseUrl("/editor/upload_image/save", args, function() {
 					Util.closeLoadPanel();
 					refrash();
 		        });
@@ -465,7 +545,7 @@
 			});
 		};
 		
-		var datas = new Array();
+		var datas = [];
 		imagePanel.find('#upload').fileupload({
 			url: '/editor/upload_image/',
 			acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
@@ -486,7 +566,7 @@
 	        	doneCallback(data);
 	        },
 	        change: function (e, data) {
-	        	var names = new Array();
+	        	var names = [];
 	            $.each(data.files, function (index, file) {
 	            	names[names.length] = file.name;
 	            });

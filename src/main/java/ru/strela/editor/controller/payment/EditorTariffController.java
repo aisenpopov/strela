@@ -104,6 +104,18 @@ public class EditorTariffController extends EditorController {
         if (tariff.getGym() == null) {
             result.rejectValue("gym", "field.required", FIELD_REQUIRED);
         }
+        if (tariff.getPriceYear() == null) {
+            result.rejectValue("priceYear", "field.required", FIELD_REQUIRED);
+        }
+        if (tariff.getPriceHalfYear() == null) {
+            result.rejectValue("priceHalfYear", "field.required", FIELD_REQUIRED);
+        }
+        if (tariff.getPriceQuarter() == null) {
+            result.rejectValue("priceQuarter", "field.required", FIELD_REQUIRED);
+        }
+        if (tariff.getPriceMonth() == null) {
+            result.rejectValue("priceMonth", "field.required", FIELD_REQUIRED);
+        }
 
         return !result.hasErrors();
     }

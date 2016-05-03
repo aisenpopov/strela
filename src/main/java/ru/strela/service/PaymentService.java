@@ -1,12 +1,8 @@
 package ru.strela.service;
 
 import org.springframework.data.domain.Page;
-import ru.strela.model.filter.payment.AthleteTariffFilter;
-import ru.strela.model.filter.payment.CouponFilter;
-import ru.strela.model.filter.payment.TariffFilter;
-import ru.strela.model.payment.AthleteTariff;
-import ru.strela.model.payment.Coupon;
-import ru.strela.model.payment.Tariff;
+import ru.strela.model.filter.payment.*;
+import ru.strela.model.payment.*;
 
 import java.util.List;
 
@@ -46,5 +42,27 @@ public interface PaymentService {
     Page<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, int pageNumber, int pageSize);
 
     List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter);
+
+
+    Payment save(Payment payment);
+
+    void remove(Payment payment);
+
+    Payment findById(Payment payment);
+
+    Page<Payment> findPayments(PaymentFilter filter, int pageNumber, int pageSize);
+
+    List<Payment> findPayments(PaymentFilter filter);
+
+
+    PaymentStatus save(PaymentStatus paymentStatus);
+
+    void remove(PaymentStatus paymentStatus);
+
+    PaymentStatus findById(PaymentStatus paymentStatus);
+
+    Page<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, int pageNumber, int pageSize);
+
+    List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter);
 
 }

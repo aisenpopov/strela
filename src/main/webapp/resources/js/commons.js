@@ -11,7 +11,7 @@ var C = {
         }
 		
 		if(!settings) settings = {};
-		if(!settings.preview) settings.preview = {}
+		if(!settings.preview) settings.preview = {};
 		if(!settings.maxWidth) settings.maxWidth = 200;
 		if(!settings.maxHeight) settings.maxHeight = 299;
 		//if(!settings.cropWidth) settings.cropWidth = 80;
@@ -30,7 +30,7 @@ var C = {
 	        var scaleY = cropData.scaleY;
 	        var x = ((cropData.coords.x * scaleX) | 0);
 	        var y = ((cropData.coords.y * scaleY) | 0);
-	        var width = Math.min(((cropData.coords.w * scaleX) | 0), cropData.oldWidth - x)
+	        var width = Math.min(((cropData.coords.w * scaleX) | 0), cropData.oldWidth - x);
 	        var height = Math.min(((cropData.coords.h * scaleY) | 0), cropData.oldHeight - y);
 	        return {"x": x,
 	            	"y": y,
@@ -42,8 +42,7 @@ var C = {
 			if(area) {
 				panel = area;
 			}
-			var url = urlImage ? urlImage : scale_image.find("img").attr("src");
-	        
+
 	        Util.showLoadPanel();
 	        var args = getCropData();
 	        if(params) {
@@ -154,7 +153,7 @@ var C = {
 	    
 	    var hasEditImage = function() {
 	    	return editImage;
-	    }
+	    };
 	    
 	    return {onSave: onSave, 
 	    		onChange: onChange, 
@@ -166,17 +165,18 @@ var C = {
 	},
 	
 	getPlayerCode: function(urlVideo, width, height) {
-		var htmlPlayer;
+		var htmlPlayer,
+			videoId;
 		if(urlVideo.match(/youtube\.com\/watch/)) {
-			var videoId = urlVideo.match(/watch\?v=([^&]*)/)[1];
+			videoId = urlVideo.match(/watch\?v=([^&]*)/)[1];
 			htmlPlayer = '<iframe width="' + width + '" height="' + height + '" src="http://www.youtube.com/embed/' + videoId + '?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>';
 		} else if(urlVideo.match(/vimeo.com/)) {
-			var videoId = urlVideo.match(/vimeo.com\/([^\/]*)/)[1];
+			videoId = urlVideo.match(/vimeo.com\/([^\/]*)/)[1];
 			htmlPlayer = '<iframe src="http://player.vimeo.com/video/' + videoId + '?autoplay=1" width="' + width + '" height="' + height + '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 		} else {
-			var htmlPlayer = '<embed width="' + width + '" height="' + height + '" flashvars="file=' + urlVideo + '&backcolor=000000' + 
+			htmlPlayer = '<embed width="' + width + '" height="' + height + '" flashvars="file=' + urlVideo + '&backcolor=000000' +
 				'&frontcolor=FFFFFF&lightcolor=990000&screencolor=000000' + 
-				'&icons=false&controlbar=over&autostart=true" allowfullscreen="true" allowscriptaccess="always"' +
+				'&icons=false&controlbar=over&autostart=true" allowfullscreen="true" allowscriptaccess="always" ' +
 				'quality="high" bgcolor="7" src="/swf/player.swf" type="application/x-shockwave-flash"/>';
 		}
 		return $(htmlPlayer);
@@ -184,7 +184,7 @@ var C = {
 	
 	getAudioPlayerCode: function(urlAudio, width, height) {
 		var htmlPlayer = '<embed width="' + width + '" height="' + height + '" flashvars="file=' + urlAudio + '&autostart=true" ' +
-			'allowfullscreen="true" allowscriptaccess="always"' +
+			'allowfullscreen="true" allowscriptaccess="always" ' +
 			'quality="high" bgcolor="7" src="/swf/player_sound.swf" type="application/x-shockwave-flash"/>';
 		return $(htmlPlayer);
 	},
@@ -218,7 +218,7 @@ var C = {
         elements.each(function() {
 	        var el = $(this);
 	
-	        el.on("click", ".sys-remove", function(e){
+	        el.on("click", ".sys-remove", function() {
 	            $.SmartMessageBox({
 	                title : settings.title,
 	                content : settings.content,
@@ -305,7 +305,7 @@ var C = {
         }, options);
 
         var properties = {
-            multiple: settings.multiple ? true : false,
+            multiple: !!settings.multiple,
             allowClear: true,
             placeholder: " ",
             formatSearching: function () { return "Загрузка..."; },
@@ -335,7 +335,7 @@ var C = {
                 if(val.length > 0) {
                     if(settings.idText) {
                         var values = val.split(",");
-                        var data = new Array();
+                        var data = [];
                         $.each(values, function(i, v) {
                             if($.trim(v) != "") {
                                 data.push({id: v, text: v});
@@ -367,9 +367,7 @@ var C = {
             }
         };
 
-        if(settings.formatResult) {
-            properties["formatResult"] = settings.formatResult;
-        }
+		properties["formatResult"] = settings.formatResult || C.formatResultCategory;
         if(settings.formatSelection) {
             properties["formatSelection"] = settings.formatSelection;
         }
@@ -389,7 +387,19 @@ var C = {
         elements.each(function() {
             $(this).select2(properties);
         });
-    }
-}
+    },
+
+	formatResultCategory: function(object) {
+		var level = object.value;
+		var text = object.text;
+		if (level < 1) {
+			return "<b>" + text + "</b>";
+		} else if (level < 2) {
+			return "<ins style='padding-left: 30px;'>" + text + "</ins>";
+		} else {
+			return "<div style='padding-left: 60px;'>" + text + "</div>";
+		}
+	}
+};
 $(C.init());
 

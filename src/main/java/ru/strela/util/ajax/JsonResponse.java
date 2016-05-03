@@ -20,6 +20,14 @@ public class JsonResponse {
     	this.status = status;
     }
 
+	public void setErrorStatus() {
+		this.status = ERROR;
+	}
+
+	public void setSuccessStatus() {
+		this.status = SUCCESS;
+	}
+
     public String getRedirect() {
     	return redirect;
     }

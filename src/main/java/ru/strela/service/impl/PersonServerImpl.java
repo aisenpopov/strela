@@ -29,7 +29,7 @@ public class PersonServerImpl implements PersonServer {
 	}
 	
 	@Override
-	public Person getCurrentUser() {
+	public Person getCurrentPerson() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if((auth instanceof UsernamePasswordAuthenticationToken || auth instanceof RememberMeAuthenticationToken) 
 															    && auth.isAuthenticated()) {

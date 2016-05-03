@@ -27,7 +27,7 @@ var Util = {
         	url += "/";
         }
         
-        var i = url.indexOf('?');
+        i = url.indexOf('?');
         if (i > 0) {
         	url = url.substring(0, i) + "ajax/" + url.substring(i, url.length - 1);
         } else {

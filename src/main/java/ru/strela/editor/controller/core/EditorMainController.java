@@ -12,7 +12,7 @@ public class EditorMainController extends EditorController {
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String getMainPage() {
-		Person person = personServer.getCurrentUser();
+		Person person = personServer.getCurrentPerson();
 		if(person == null || !person.isAdmin()) {
 			return "redirect:/editor/login";
 		}
