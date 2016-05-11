@@ -104,17 +104,30 @@ public class EditorTariffController extends EditorController {
         if (tariff.getGym() == null) {
             result.rejectValue("gym", "field.required", FIELD_REQUIRED);
         }
-        if (tariff.getPriceYear() == null) {
-            result.rejectValue("priceYear", "field.required", FIELD_REQUIRED);
+        String message = "Значение должно быть больше нуля";
+        Double priceYear = tariff.getPriceYear();
+        if (priceYear != null && priceYear <= 0.0d) {
+            result.rejectValue("priceYear", "field.required", message);
         }
-        if (tariff.getPriceHalfYear() == null) {
-            result.rejectValue("priceHalfYear", "field.required", FIELD_REQUIRED);
+        Double priceHalfYear = tariff.getPriceHalfYear();
+        if (priceHalfYear != null && priceHalfYear <= 0.0d) {
+            result.rejectValue("priceHalfYear", "field.required", message);
         }
-        if (tariff.getPriceQuarter() == null) {
-            result.rejectValue("priceQuarter", "field.required", FIELD_REQUIRED);
+        Double priceQuarter = tariff.getPriceQuarter();
+        if (priceQuarter != null && priceQuarter <= 0.0d) {
+            result.rejectValue("priceQuarter", "field.required", message);
         }
-        if (tariff.getPriceMonth() == null) {
-            result.rejectValue("priceMonth", "field.required", FIELD_REQUIRED);
+        Double priceMonth = tariff.getPriceMonth();
+        if (priceMonth != null && priceMonth <= 0.0d) {
+            result.rejectValue("priceMonth", "field.required", message);
+        }
+        if (priceYear == null && tariff.getPriceHalfYear() == null
+                && tariff.getPriceQuarter() == null && tariff.getPriceMonth() == null) {
+            message = "Заполните хотя бы одно поле";
+            result.rejectValue("priceYear", "field.required", message);
+            result.rejectValue("priceHalfYear", "field.required", message);
+            result.rejectValue("priceQuarter", "field.required", message);
+            result.rejectValue("priceMonth", "field.required", message);
         }
 
         return !result.hasErrors();

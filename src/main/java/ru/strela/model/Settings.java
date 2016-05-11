@@ -10,6 +10,7 @@ import javax.persistence.Table;
 public class Settings extends BaseEntity {
 
 	private String email;
+	private Integer accountDay;
 
     public Settings() {
     }
@@ -24,6 +25,13 @@ public class Settings extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}	
-	
+	}
+
+	public Integer getAccountDay() {
+		return accountDay;
+	}
+
+	public void setAccountDay(Integer accountDay) {
+		this.accountDay = accountDay;
+	}
 }

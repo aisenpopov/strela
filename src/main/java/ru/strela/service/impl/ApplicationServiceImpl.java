@@ -21,7 +21,9 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ApplicationServiceImpl implements ApplicationService, InitializingBean{
+public class ApplicationServiceImpl implements ApplicationService, InitializingBean {
+
+	private static final int DEFAULT_ACCOUNT_DAY = 25;
 	
 	@Autowired
     private ArticleRepository articleRepository;
@@ -310,6 +312,7 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 		List<Settings> list = settingsRepository.findAll();
         if(list.isEmpty()) {
         	Settings settings = new Settings();
+			settings.setAccountDay(DEFAULT_ACCOUNT_DAY);
         	save(settings);
         }        
         

@@ -34,7 +34,14 @@
 												<form:input class="form-control" type="text" path="email"/>
 												<form:errors class="help-block error" path="email"/>
 											</label>
-										</section>	
+										</section>
+                                        <section>
+                                            <label class="label">Расчетный день месяца <span>*</span></label>
+                                            <label class="input">
+                                                <form:input class="form-control" type="text" path="accountDay"/>
+                                                <form:errors class="help-block error" path="accountDay"/>
+                                            </label>
+                                        </section>
 									</fieldset>
                                     <footer>
                                         <button class="btn btn-primary" type="submit" name="save">

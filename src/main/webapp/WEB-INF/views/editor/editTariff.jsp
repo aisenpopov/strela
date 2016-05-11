@@ -58,28 +58,28 @@
                                             </label>
                                         </section>--%>
                                         <section>
-                                            <label class="label">Цена за месяц<span>*</span></label>
+                                            <label class="label">Цена за месяц</label>
                                             <label class="input">
                                                 <form:input class="form-control" type="text" path="priceMonth"/>
                                                 <form:errors class="help-block error" path="priceMonth"/>
                                             </label>
                                         </section>
                                         <section>
-                                            <label class="label">Цена за квартал<span>*</span></label>
+                                            <label class="label">Цена за квартал</label>
                                             <label class="input">
                                                 <form:input class="form-control" type="text" path="priceQuarter"/>
                                                 <form:errors class="help-block error" path="priceQuarter"/>
                                             </label>
                                         </section>
                                         <section>
-                                            <label class="label">Цена за полгода<span>*</span></label>
+                                            <label class="label">Цена за полгода</label>
                                             <label class="input">
                                                 <form:input class="form-control" type="text" path="priceHalfYear"/>
                                                 <form:errors class="help-block error" path="priceHalfYear"/>
                                             </label>
                                         </section>
                                         <section>
-                                            <label class="label">Цена за год<span>*</span></label>
+                                            <label class="label">Цена за год</label>
                                             <label class="input">
                                                 <form:input class="form-control" type="text" path="priceYear"/>
                                                 <form:errors class="help-block error" path="priceYear"/>

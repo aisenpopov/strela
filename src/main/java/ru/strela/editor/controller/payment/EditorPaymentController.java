@@ -38,7 +38,7 @@ public class EditorPaymentController extends EditorController {
         if(filter == null) {
             filter = new PaymentFilter();
         }
-        filter.addOrder(new Order("date", OrderDirection.Desc));
+        filter.addOrder(new Order("id", OrderDirection.Desc));
         Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
         model.put("page", page);
 
