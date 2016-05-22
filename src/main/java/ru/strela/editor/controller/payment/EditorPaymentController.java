@@ -131,7 +131,7 @@ public class EditorPaymentController extends EditorController {
                 Person currentPerson = personServer.getCurrentPerson();
                 payment.setOperator(currentPerson);
 
-                if (currentPerson != null) {
+                if (currentPerson != null && !currentPerson.isRoot()) {
                     Athlete athlete = personService.findByPerson(currentPerson);
                     if (athlete != null) {
                         if (athlete.getTeam() != null) {

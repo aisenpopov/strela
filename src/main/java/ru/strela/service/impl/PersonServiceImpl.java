@@ -43,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void updateFilter(BaseFilter filter) {
         Person currentPerson = personServer.getCurrentPerson();
-        if (currentPerson != null) {
+        if (currentPerson != null && !currentPerson.isRoot()) {
             Athlete athlete = findByPerson(currentPerson);
             if (athlete != null && athlete.getTeam() != null) {
                 PermissionFilter permissionFilter = new PermissionFilter();
