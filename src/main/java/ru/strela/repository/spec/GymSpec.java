@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import ru.strela.model.Gym;
 import ru.strela.model.filter.GymFilter;
+import ru.strela.model.filter.PermissionFilter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,9 +21,18 @@ public class GymSpec {
                 List<Predicate> predicates = new ArrayList<Predicate>();
               	query.distinct(true);
               	
-                if(StringUtils.isNotBlank(filter.getQuery())) {
+                if (StringUtils.isNotBlank(filter.getQuery())) {
                     predicates.add(builder.like(builder.lower(root.get("name").as(String.class)),
                             "%" + filter.getQuery().toLowerCase() + "%"));
+                }
+
+                if (filter.getTeam() != null) {
+                    predicates.add(builder.equal(root.get("team").get("id"), filter.getTeam().getId()));
+                }
+
+                PermissionFilter permissionFilter = filter.getPermissionFilter();
+                if (permissionFilter != null && permissionFilter.getTeam() != null) {
+                    predicates.add(builder.equal(root.get("team").get("id"), permissionFilter.getTeam().getId()));
                 }
                 
                 return builder.and(predicates.toArray(new Predicate[0]));

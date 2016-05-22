@@ -1,29 +1,20 @@
 package ru.strela.util.ajax;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Source;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.WriteListener;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Source;
-
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
 
 public class AjaxUpdateFilter implements Filter {
     
@@ -67,13 +58,11 @@ public class AjaxUpdateFilter implements Filter {
 
 		@Override
 		public boolean isReady() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public void setWriteListener(WriteListener arg0) {
-			// TODO Auto-generated method stub
 		}
     }
 	
@@ -110,12 +99,10 @@ public class AjaxUpdateFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 	
 }

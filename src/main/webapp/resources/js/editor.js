@@ -128,44 +128,49 @@
 		var area = $(".payment-editor"),
 			athleteForm = area.find("form#payment"),
 			inputAthlete = athleteForm.find("input[name='athleteTariff.athlete']"),
-			inputAthleteError = athleteForm.find("span[name='athleteTariff.athlete']"),
-			inputAthleteTariff = athleteForm.find("input[name=athleteTariff]"),
-			inputAmount = athleteForm.find("input[name=amount]"),
-			editAthleteTariffPanel = area.find(".sys-edit-athlete-tariff");
+			inputGym = athleteForm.find("input[name='athleteTariff.tariff.gym']"),
+			// inputAthleteError = athleteForm.find("span[name='athleteTariff.athlete']"),
+			// inputAthleteTariff = athleteForm.find("input[name=athleteTariff]"),
+			inputAmount = athleteForm.find("input[name=amount]");
+			// editAthleteTariffPanel = area.find(".sys-edit-athlete-tariff");
 
-		var inputAthleteTariffVal = inputAthleteTariff.val(),
+		var inputGymVal = inputGym.val(),
 			inputAmountVal = inputAmount.val();
 
-		editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
+		// TODO remove after check
+		// editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
 		C.initAutocomplete(inputAthlete, {
 			type: 'athlete'
 		});
-		inputAthlete.on("change", function () {
-			console.log("inputAthlete changed");
-			inputAthleteTariff.select2('data', null);
-			editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
-			inputAthleteError.addClass("hidden");
+		C.initAutocomplete(inputGym, {
+			type: 'gym'
 		});
-		C.initAutocomplete(inputAthleteTariff, {
-			type: 'athleteTariff',
-			params: function() {
-				return {
-					athleteId: inputAthlete.val()
-				};
-			}
-		});
-		area.find(".sys-add-athlete-tariff").off("click").on("click", function() {
-			if (!editAthleteTariffPanel.find("input[name=athlete]").val()) {
-				inputAthleteError.removeClass("hidden");
-			} else {
-				E.showAthleteTariffModal(area, null, null);
-			}
-
-			return false;
-		});
+		// inputAthlete.on("change", function () {
+		// 	console.log("inputAthlete changed");
+		// 	inputAthleteTariff.select2('data', null);
+		// 	editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
+		// 	inputAthleteError.addClass("hidden");
+		// });
+		// C.initAutocomplete(inputAthleteTariff, {
+		// 	type: 'athleteTariff',
+		// 	params: function() {
+		// 		return {
+		// 			athleteId: inputAthlete.val()
+		// 		};
+		// 	}
+		// });
+		// area.find(".sys-add-athlete-tariff").off("click").on("click", function() {
+		// 	if (!editAthleteTariffPanel.find("input[name=athlete]").val()) {
+		// 		inputAthleteError.removeClass("hidden");
+		// 	} else {
+		// 		E.showAthleteTariffModal(area, null, null);
+		// 	}
+        //
+		// 	return false;
+		// });
 		athleteForm.find("button[type='submit']").off("click").on("click", function () {
 			if (athleteForm.find("input[name='id']").val() > 0
-				&& (inputAthleteTariff.val() != inputAthleteTariffVal || inputAmount.val() != inputAmountVal)) {
+				&& (inputGym.val() != inputGymVal || inputAmount.val() != inputAmountVal)) {
 				$.SmartMessageBox({
 					title : "Перепроведение",
 					content : "Вы действительно хотите изменить платеж? Дата истечения атлета будет пересчитана.",

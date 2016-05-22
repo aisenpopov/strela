@@ -2,10 +2,14 @@ package ru.strela.model;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import ru.strela.model.auth.Person;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "athlete", indexes = {
@@ -61,6 +65,8 @@ public class Athlete extends BaseEntity implements HasImage {
 	private Integer image;
 	private Integer certificate;
 	private String comment;
+
+	private List<Gym> gyms;
 	
 	public Athlete() {}
 	
@@ -304,6 +310,22 @@ public class Athlete extends BaseEntity implements HasImage {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	@ManyToMany(targetEntity = Gym.class)
+	@LazyCollection(value = LazyCollectionOption.TRUE)
+	@JoinTable(name = "gym_athlete",
+			joinColumns = @JoinColumn(name = "athlete_id"),
+			inverseJoinColumns = @JoinColumn(name = "gym_id"))
+	public List<Gym> getGyms() {
+		if (gyms == null) {
+			this.gyms = new ArrayList<Gym>();
+		}
+		return gyms;
+	}
+
+	public void setGyms(List<Gym> gyms) {
+		this.gyms = gyms;
 	}
 
 	@Transient

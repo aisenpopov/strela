@@ -63,7 +63,7 @@ public class Gym extends BaseEntityNamed {
             joinColumns = @JoinColumn(name = "gym_id"),
             inverseJoinColumns = @JoinColumn(name = "athlete_id"))
     public List<Athlete> getInstructors() {
-        if(instructors == null) {
+        if (instructors == null) {
             this.instructors = new ArrayList<Athlete>();
         }
         return instructors;

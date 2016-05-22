@@ -26,6 +26,7 @@ import ru.strela.util.image.ImageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -67,6 +68,7 @@ public class EditorAthleteController extends EditorController {
 
 				existPerson.setLogin(person.getLogin());
 				existPerson.setAdmin(person.isAdmin());
+				existPerson.setRoot(person.isRoot());
 				existPerson.setDisabled(person.isDisabled());
 
 				person = existPerson;
@@ -228,7 +230,7 @@ public class EditorAthleteController extends EditorController {
 			AthleteTariffFilter filter = new AthleteTariffFilter();
 			filter.setAthlete(athlete);
 			filter.addOrder(new Order("id", OrderDirection.Asc));
-			model.put("athleteTariffs", paymentService.findAthleteTariffs(filter));
+			model.put("athleteTariffs", paymentService.findAthleteTariffs(filter, true));
         }
 		if (insertAthlete == null || insertAthlete) {
         	model.put("athlete", athlete);
@@ -263,6 +265,14 @@ public class EditorAthleteController extends EditorController {
 		}
 		if (athleteTariff.getTariff() == null) {
 			result.rejectValue("tariff", "field.required", FIELD_REQUIRED);
+		} else if(athleteTariff.getAthlete() != null) {
+			AthleteTariffFilter filter = new AthleteTariffFilter();
+			filter.setAthlete(athleteTariff.getAthlete());
+			filter.setTariff(athleteTariff.getTariff());
+			List<AthleteTariff> athleteTariffs = paymentService.findAthleteTariffs(filter, true);
+			if (!athleteTariffs.isEmpty() && athleteTariffs.get(0).getId() != athleteTariff.getId()) {
+				result.rejectValue("tariff", "field.required", "Для данного пользователя уже создан такой тариф");
+			}
 		}
 
 		return !result.hasErrors();

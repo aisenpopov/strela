@@ -13,6 +13,7 @@ import ru.strela.repository.payment.*;
 import ru.strela.repository.spec.payment.*;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PaymentService;
+import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
 
 import java.util.Calendar;
@@ -25,6 +26,9 @@ import java.util.List;
 @Service
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private TariffRepository tariffRepository;
@@ -61,11 +65,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Page<Tariff> findTariffs(TariffFilter filter, int pageNumber, int pageSize) {
+        personService.updateFilter(filter);
         return tariffRepository.findAll(TariffSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
     }
 
     @Override
-    public List<Tariff> findTariffs(TariffFilter filter) {
+    public List<Tariff> findTariffs(TariffFilter filter, boolean checkPermissions) {
+        if (checkPermissions) {
+            personService.updateFilter(filter);
+        }
         return tariffRepository.findAll(TariffSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 
@@ -113,12 +121,44 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Page<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, int pageNumber, int pageSize) {
+        personService.updateFilter(filter);
         return athleteTariffRepository.findAll(AthleteTariffSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
     }
 
     @Override
-    public List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter) {
+    public List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, boolean checkPermissions) {
+        if (checkPermissions) {
+            personService.updateFilter(filter);
+        }
         return athleteTariffRepository.findAll(AthleteTariffSpec.filter(filter), PageRequestBuilder.getSort(filter));
+    }
+
+    @Override
+    public AthleteTariff getOrCreateAthleteTariff(Athlete athlete, Gym gym) {
+        Tariff tariff = null;
+        TariffFilter tariffFilter = new TariffFilter();
+        tariffFilter.setGym(gym);
+        List<Tariff> tariffs = findTariffs(tariffFilter, false);
+        if (tariffs.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        tariff = tariffs.get(0);
+
+        AthleteTariffFilter filter = new AthleteTariffFilter();
+        filter.setAthlete(athlete);
+        filter.setTariff(tariff);
+
+        List<AthleteTariff> athleteTariffs = findAthleteTariffs(filter, false);
+        if (!athleteTariffs.isEmpty()) {
+            return athleteTariffs.get(0);
+        }
+
+        AthleteTariff athleteTariff = new AthleteTariff();
+        athleteTariff.setAthlete(athlete);
+        athleteTariff.setTariff(tariff);
+        athleteTariff = save(athleteTariff);
+
+        return athleteTariff;
     }
 
 
@@ -262,11 +302,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Page<Payment> findPayments(PaymentFilter filter, int pageNumber, int pageSize) {
+        personService.updateFilter(filter);
         return paymentRepository.findAll(PaymentSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
     }
 
     @Override
     public List<Payment> findPayments(PaymentFilter filter) {
+        personService.updateFilter(filter);
         return paymentRepository.findAll(PaymentSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 
@@ -288,11 +330,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Page<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, int pageNumber, int pageSize) {
+        personService.updateFilter(filter);
         return paymentStatusRepository.findAll(PaymentStatusSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
     }
 
     @Override
     public List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter) {
+        personService.updateFilter(filter);
         return paymentStatusRepository.findAll(PaymentStatusSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 }

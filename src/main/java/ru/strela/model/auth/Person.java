@@ -1,8 +1,10 @@
 package ru.strela.model.auth;
 
-import javax.persistence.*;
-
 import ru.strela.model.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "person")
@@ -13,6 +15,7 @@ public class Person extends BaseEntity {
 	private String password;
 	private boolean disabled;
 	private boolean admin;
+	private boolean root;
 
     public Person() {}
 
@@ -57,4 +60,12 @@ public class Person extends BaseEntity {
 		this.admin = admin;
 	}
 
+	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+	public boolean isRoot() {
+		return root;
+	}
+
+	public void setRoot(boolean root) {
+		this.root = root;
+	}
 }

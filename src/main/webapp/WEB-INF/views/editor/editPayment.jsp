@@ -42,6 +42,13 @@
                                            </label>
                                         </section>
                                         <section>
+                                            <label class="label">Зал <span>*</span></label>
+                                            <label class="input">
+                                                <form:input class="form-control" type="text" path="athleteTariff.tariff.gym"/>
+                                                <form:errors class="help-block error" path="athleteTariff.tariff.gym"/>
+                                            </label>
+                                        </section>
+                                        <%--<section>
                                             <label class="label">Тариф атлета <span>*</span></label>
                                             <label class="input">
                                                 <form:input class="form-control" type="text" path="athleteTariff"/>
@@ -50,7 +57,7 @@
                                         </section>
                                         <section>
                                             <a href="#" class="sys-add-athlete-tariff"><i class="glyphicon glyphicon-plus"></i>Добавить</a>
-                                        </section>
+                                        </section>--%>
 										<section>
                                             <label class="label">Сумма <span>*</span></label>
                                             <label class="input">
@@ -70,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <jsp:include page="panel/athleteTariffModal.jsp"/>
+            <%--<jsp:include page="panel/athleteTariffModal.jsp"/>--%>
         </div>
     </jsp:body>
 </te:page>

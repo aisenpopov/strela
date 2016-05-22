@@ -1,10 +1,6 @@
 package ru.strela.config;
 
-import java.beans.PropertyVetoException;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +12,15 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
+import ru.strela.editor.menu.EditorMenuBuilder;
 import ru.strela.util.image.Converter;
 import ru.strela.util.image.ConverterImpl;
 import ru.strela.util.image.UploadImageHelper;
 import ru.strela.util.image.UploadImageHelperImpl;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(value={"ru.strela.service.impl"})
@@ -127,6 +125,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
    	public Converter converter() {
    		return new ConverterImpl();
    	}
+
+    @Bean
+    public EditorMenuBuilder editorMenuBuilder() {
+        return new EditorMenuBuilder();
+    }
     
 }
 

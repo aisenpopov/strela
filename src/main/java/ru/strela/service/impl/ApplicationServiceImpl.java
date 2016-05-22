@@ -9,9 +9,9 @@ import ru.strela.config.ProjectConfiguration;
 import ru.strela.model.*;
 import ru.strela.model.filter.*;
 import ru.strela.repository.*;
-import ru.strela.repository.payment.TariffRepository;
 import ru.strela.repository.spec.*;
 import ru.strela.service.ApplicationService;
+import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
 import ru.strela.util.image.ImageDir;
 import ru.strela.util.image.ImageFormat;
@@ -24,6 +24,9 @@ import java.util.List;
 public class ApplicationServiceImpl implements ApplicationService, InitializingBean {
 
 	private static final int DEFAULT_ACCOUNT_DAY = 25;
+
+	@Autowired
+	private PersonService personService;
 	
 	@Autowired
     private ArticleRepository articleRepository;
@@ -52,9 +55,6 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	@Autowired
 	private GymRepository gymRepository;
 
-	@Autowired
-	private TariffRepository tariffRepository;
-	
 //	@Autowired
 //	private GalleryImageRepository galleryImageRepository;
 //	
@@ -67,7 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Autowired
 	private ProjectConfiguration projectConfiguration;
-	
+
 	@Override
     public Article save(Article article) {
         return articleRepository.save(article);
@@ -257,11 +257,13 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Override
 	public Page<Team> findTeams(TeamFilter filter, int pageNumber, int pageSize) {
+		personService.updateFilter(filter);
 		return teamRepository.findAll(TeamSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
 	}
 
 	@Override
 	public List<Team> findTeams(TeamFilter filter) {
+		personService.updateFilter(filter);
 		return teamRepository.findAll(TeamSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 
@@ -283,11 +285,13 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Override
 	public Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize) {
+		personService.updateFilter(filter);
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
 	}
 
 	@Override
 	public List<Gym> findGyms(GymFilter filter) {
+		personService.updateFilter(filter);
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 

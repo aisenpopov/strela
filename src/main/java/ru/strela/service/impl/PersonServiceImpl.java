@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
+import ru.strela.model.filter.BaseFilter;
+import ru.strela.model.filter.PermissionFilter;
 import ru.strela.model.filter.PersonFilter;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.payment.AthleteTariff;
@@ -16,6 +18,7 @@ import ru.strela.repository.auth.PersonRepository;
 import ru.strela.repository.spec.AthleteSpec;
 import ru.strela.repository.spec.PersonSpec;
 import ru.strela.service.PaymentService;
+import ru.strela.service.PersonServer;
 import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
 
@@ -33,6 +36,22 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private PersonServer personServer;
+
+    @Override
+    public void updateFilter(BaseFilter filter) {
+        Person currentPerson = personServer.getCurrentPerson();
+        if (currentPerson != null) {
+            Athlete athlete = findByPerson(currentPerson);
+            if (athlete != null && athlete.getTeam() != null) {
+                PermissionFilter permissionFilter = new PermissionFilter();
+                permissionFilter.setTeam(athlete.getTeam());
+                filter.setPermissionFilter(permissionFilter);
+            }
+        }
+    }
     
     @Override
     public Person save(Person person) {
@@ -103,7 +122,7 @@ public class PersonServiceImpl implements PersonService {
 	public void remove(Athlete athlete) {
         AthleteTariffFilter filter = new AthleteTariffFilter();
         filter.setAthlete(athlete);
-        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter)) {
+        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, false)) {
             paymentService.remove(athleteTariff);
         }
 
@@ -122,11 +141,13 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Page<Athlete> findAthletes(AthleteFilter filter, int pageNumber, int pageSize) {
+        updateFilter(filter);
 		return athleteRepository.findAll(AthleteSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
 	}
 
 	@Override
 	public List<Athlete> findAthletes(AthleteFilter filter) {
+        updateFilter(filter);
 		return athleteRepository.findAll(AthleteSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
     

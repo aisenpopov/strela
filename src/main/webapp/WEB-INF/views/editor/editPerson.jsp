@@ -51,6 +51,13 @@
 												Админ
 											</label>
 										</section>
+                                        <section>
+                                            <label class="checkbox">
+                                                <form:checkbox path="root"/>
+                                                <i></i>
+                                                Root
+                                            </label>
+                                        </section>
 										<section>
 											<label class="checkbox">
 												<form:checkbox path="disabled"/>

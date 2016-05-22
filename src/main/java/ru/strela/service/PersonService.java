@@ -1,15 +1,18 @@
 package ru.strela.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
-
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
+import ru.strela.model.filter.BaseFilter;
 import ru.strela.model.filter.PersonFilter;
 
+import java.util.List;
+
 public interface PersonService {
+
+    void updateFilter(BaseFilter filter);
+
 
     Person save(Person person);
     

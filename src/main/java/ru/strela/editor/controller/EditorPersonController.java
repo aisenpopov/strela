@@ -1,21 +1,13 @@
 package ru.strela.editor.controller;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.Order;
@@ -25,6 +17,8 @@ import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/editor/person")
@@ -64,6 +58,7 @@ public class EditorPersonController extends EditorController {
             	
     			saved.setLogin(person.getLogin());
     			saved.setAdmin(person.isAdmin());
+                saved.setRoot(person.isRoot());
     			saved.setDisabled(person.isDisabled());
     			if(StringUtils.isNotBlank(person.getPassword())) {
     				saved.setPassword(passwordEncoder.encode(person.getPassword()));

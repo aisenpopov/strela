@@ -16,6 +16,7 @@ import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -103,27 +104,33 @@ public class EditorTariffController extends EditorController {
     	}
         if (tariff.getGym() == null) {
             result.rejectValue("gym", "field.required", FIELD_REQUIRED);
+        } else {
+            TariffFilter filter = new TariffFilter();
+            filter.setGym(tariff.getGym());
+            List<Tariff> tariffs = paymentService.findTariffs(filter, true);
+            if (!tariffs.isEmpty() && tariffs.get(0).getId() != tariff.getId()) {
+                result.rejectValue("gym", "field.required", "Для данного зала уже имеется тариф");
+            }
         }
-        String message = "Значение должно быть больше нуля";
         Double priceYear = tariff.getPriceYear();
         if (priceYear != null && priceYear <= 0.0d) {
-            result.rejectValue("priceYear", "field.required", message);
+            result.rejectValue("priceYear", "field.required", POSITIVE_NUMBER);
         }
         Double priceHalfYear = tariff.getPriceHalfYear();
         if (priceHalfYear != null && priceHalfYear <= 0.0d) {
-            result.rejectValue("priceHalfYear", "field.required", message);
+            result.rejectValue("priceHalfYear", "field.required", POSITIVE_NUMBER);
         }
         Double priceQuarter = tariff.getPriceQuarter();
         if (priceQuarter != null && priceQuarter <= 0.0d) {
-            result.rejectValue("priceQuarter", "field.required", message);
+            result.rejectValue("priceQuarter", "field.required", POSITIVE_NUMBER);
         }
         Double priceMonth = tariff.getPriceMonth();
         if (priceMonth != null && priceMonth <= 0.0d) {
-            result.rejectValue("priceMonth", "field.required", message);
+            result.rejectValue("priceMonth", "field.required", POSITIVE_NUMBER);
         }
         if (priceYear == null && tariff.getPriceHalfYear() == null
                 && tariff.getPriceQuarter() == null && tariff.getPriceMonth() == null) {
-            message = "Заполните хотя бы одно поле";
+            String message = "Заполните хотя бы одно поле";
             result.rejectValue("priceYear", "field.required", message);
             result.rejectValue("priceHalfYear", "field.required", message);
             result.rejectValue("priceQuarter", "field.required", message);

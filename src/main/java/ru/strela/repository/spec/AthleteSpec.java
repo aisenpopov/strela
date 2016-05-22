@@ -4,12 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import ru.strela.model.Athlete;
 import ru.strela.model.filter.AthleteFilter;
+import ru.strela.model.filter.PermissionFilter;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AthleteSpec {
+public class AthleteSpec extends Spec {
     public static Specification<Athlete> filter(final AthleteFilter filter) {
         return new Specification<Athlete>() {
 
@@ -21,19 +22,15 @@ public class AthleteSpec {
                     Expression<String> lastName = root.get("lastName").as(String.class);
                     Expression<String> middleName = root.get("middleName").as(String.class);
 
-                    Expression<String> displayNameFull = builder.concat(lastName, " ");
-                    displayNameFull = builder.concat(displayNameFull, firstName);
-                    displayNameFull = builder.concat(displayNameFull, " ");
-                    displayNameFull = builder.concat(displayNameFull, middleName);
-
-                    Expression<String> displayName = builder.concat(lastName, " ");
-                    displayName = builder.concat(displayName, firstName);
-
-                    predicates.add(builder.or(builder.and(builder.like(builder.lower(displayNameFull), "%" + filter.getQuery().toLowerCase() + "%"), builder.isNotNull(middleName)),
-                                              builder.and(builder.like(builder.lower(displayName), "%" + filter.getQuery().toLowerCase() + "%"), builder.isNull(middleName))));
+                    fillDisplayNamePredicates(builder, predicates, filter, firstName, lastName, middleName);
                 }
                 if (filter.getInstructor() != null) {
                     predicates.add(builder.equal(root.get("instructor"), filter.getInstructor()));
+                }
+
+                PermissionFilter permissionFilter = filter.getPermissionFilter();
+                if (permissionFilter != null && permissionFilter.getTeam() != null) {
+                    predicates.add(builder.equal(root.get("team").get("id"), permissionFilter.getTeam().getId()));
                 }
 
                 return builder.and(predicates.toArray(new Predicate[0]));

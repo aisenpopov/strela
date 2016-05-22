@@ -1,13 +1,5 @@
 package ru.strela.config;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -15,8 +7,10 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
-
 import ru.strela.util.ajax.AjaxUpdateFilter;
+
+import javax.servlet.*;
+import java.util.EnumSet;
 
 public class WebApp implements WebApplicationInitializer {
 
@@ -31,8 +25,7 @@ public class WebApp implements WebApplicationInitializer {
 	    rootContext.register(ApplicationConfig.class);
 	    rootContext.register(WebApplicationConfig.class);
 	    rootContext.register(SecurityConfig.class);
-	    rootContext.register(EditorMenuConfig.class);
-	
+
 	    ServletRegistration.Dynamic dispatcher = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(rootContext));
 	    dispatcher.setLoadOnStartup(1);
 	    dispatcher.setAsyncSupported(true);

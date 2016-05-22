@@ -294,7 +294,7 @@ public class AutocompleteController {
         List<ResponseItem> result = new ArrayList<ResponseItem>();
         TariffFilter filter = new TariffFilter();
         filter.setQuery(q);
-        for(Tariff tariff : paymentService.findTariffs(filter)) {
+        for(Tariff tariff : paymentService.findTariffs(filter, true)) {
             result.add(new ResponseItem(tariff.getId(), tariff.getName()));
         }
         return result;
@@ -356,7 +356,7 @@ public class AutocompleteController {
         if (athleteId != null) {
             filter.setAthlete(new Athlete(athleteId));
         }
-        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter)) {
+        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, true)) {
             result.add(new ResponseItem(athleteTariff.getId(), athleteTariff.getDisplayName()));
         }
         return result;

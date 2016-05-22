@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.strela.config.ProjectConfiguration;
-import ru.strela.editor.menu.EditorMenuBar;
+import ru.strela.editor.menu.EditorMenuBuilder;
 import ru.strela.editor.menu.MenuItem;
 import ru.strela.model.*;
 import ru.strela.model.auth.Person;
@@ -35,6 +35,8 @@ import java.util.List;
 public abstract class EditorController extends AjaxUpdater {
 	
 	protected static final String FIELD_REQUIRED = "Необходимо заполнить поле";
+
+	protected static final String POSITIVE_NUMBER = "Значение должно быть больше нуля";
 	
 	@Autowired
 	protected ApplicationService applicationService; 
@@ -52,7 +54,7 @@ public abstract class EditorController extends AjaxUpdater {
     protected ProjectConfiguration projectConfiguration;
 	
 	@Autowired
-	private EditorMenuBar editorMenuBar;
+	private EditorMenuBuilder editorMenuBuilder;
 	
 	protected class CustomEditorSupport extends PropertyEditorSupport {
 		
@@ -221,32 +223,47 @@ public abstract class EditorController extends AjaxUpdater {
 		binder.registerCustomEditor(RegistrationRegion.class, "registrationRegion", new CustomEditorSupport("registrationRegion"));
 		binder.registerCustomEditor(List.class, "instructors", new CustomEditorSupport("athletes"));
 		binder.registerCustomEditor(Gym.class, "gym", new CustomEditorSupport("gym"));
+		binder.registerCustomEditor(Gym.class, "athleteTariff.tariff.gym", new CustomEditorSupport("gym"));
 		binder.registerCustomEditor(Coupon.class, "coupon", new CustomEditorSupport("coupon"));
 		binder.registerCustomEditor(Tariff.class, "tariff", new CustomEditorSupport("tariff"));
 		binder.registerCustomEditor(AthleteTariff.class, "athleteTariff", new CustomEditorSupport("athleteTariff"));
     }
+
+	@ModelAttribute("root")
+	public boolean root() {
+		Person currentPerson = getCurrentPerson();
+		return currentPerson != null ? currentPerson.isRoot() : false;
+	}
     
     @ModelAttribute("menu")
     public List<MenuItem> menu() {
-        return editorMenuBar.getItems();
+		Person currentPerson = getCurrentPerson();
+        return currentPerson != null ? editorMenuBuilder.build(currentPerson.isRoot()).getItems() : null;
     }
+
+	private Person getCurrentPerson() {
+		return personServer.getCurrentPerson();
+	}
 
     @ModelAttribute("activeMenu")
     public MenuItem activeMenu() {
-    	String currenHref = currentHref();
-    	for(MenuItem item : editorMenuBar.getItems()) {
-    		if(currenHref.contains(item.getHref())) {
-    			return item;
-    		}
-    		for(MenuItem subItem : item.getItems()) {
-    			if(currenHref.contains(subItem.getHref())) {
-        			return subItem;
-        		}
-    		}
-    	}
+    	String currentHref = currentHref();
+		List<MenuItem> menuItems = menu();
+		if (menuItems != null) {
+			for(MenuItem item : menuItems) {
+				if(currentHref.contains(item.getHref())) {
+					return item;
+				}
+				for(MenuItem subItem : item.getItems()) {
+					if(currentHref.contains(subItem.getHref())) {
+						return subItem;
+					}
+				}
+			}
+		}
     	return null;
     }
-    
+
     @ModelAttribute("currentHref")
     public String currentHref() {
     	return ((ServletRequestAttributes)RequestContextHolder

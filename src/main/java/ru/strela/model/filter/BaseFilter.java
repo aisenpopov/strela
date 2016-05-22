@@ -5,6 +5,7 @@ public class BaseFilter extends OrderFilter {
 
 	private String query;
 	private Boolean visible;
+	private PermissionFilter permissionFilter;
 	
 	public String getQuery() {
 		return query;
@@ -21,5 +22,12 @@ public class BaseFilter extends OrderFilter {
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
 	}
-    
+
+	public PermissionFilter getPermissionFilter() {
+		return permissionFilter;
+	}
+
+	public void setPermissionFilter(PermissionFilter permissionFilter) {
+		this.permissionFilter = permissionFilter;
+	}
 }

@@ -3,9 +3,9 @@ package ru.strela.model.filter;
 import ru.strela.model.Team;
 
 /**
- * Created by Aisen on 28.04.2016.
+ * Created by Aisen on 22.05.2016.
  */
-public class GymFilter extends BaseFilter {
+public class PermissionFilter {
 
     private Team team;
 

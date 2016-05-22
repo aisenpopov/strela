@@ -1,6 +1,8 @@
 package ru.strela.service;
 
 import org.springframework.data.domain.Page;
+import ru.strela.model.Athlete;
+import ru.strela.model.Gym;
 import ru.strela.model.filter.payment.*;
 import ru.strela.model.payment.*;
 
@@ -19,7 +21,7 @@ public interface PaymentService {
 
     Page<Tariff> findTariffs(TariffFilter filter, int pageNumber, int pageSize);
 
-    List<Tariff> findTariffs(TariffFilter filter);
+    List<Tariff> findTariffs(TariffFilter filter, boolean checkPermissions);
 
 
     Coupon save(Coupon coupon);
@@ -41,7 +43,9 @@ public interface PaymentService {
 
     Page<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, int pageNumber, int pageSize);
 
-    List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter);
+    List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, boolean checkPermissions);
+
+    AthleteTariff getOrCreateAthleteTariff(Athlete athlete, Gym gym);
 
 
     Payment save(Payment payment);

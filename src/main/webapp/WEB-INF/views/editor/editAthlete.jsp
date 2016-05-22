@@ -158,6 +158,10 @@
 									</header>
 									<fieldset>
 										<form:hidden path="person.id"/>
+										<c:if test="${!root}">
+											<form:hidden path="person.root"/>
+											<form:hidden path="person.admin"/>
+										</c:if>
 										<section>
 											<label class="label">Логин <span>*</span></label>
 											<label class="input">
@@ -172,13 +176,22 @@
 												<form:errors class="help-block error" path="person.password"/>
 											</label>
 										</section>
-										<section>
-											<label class="checkbox">
-												<form:checkbox path="person.admin"/>
-												<i></i>
-												Админ
-											</label>
-										</section>
+										<c:if test="${root}">
+											<section>
+												<label class="checkbox">
+													<form:checkbox path="person.admin"/>
+													<i></i>
+													Админ
+												</label>
+											</section>
+											<section>
+												<label class="checkbox">
+													<form:checkbox path="person.root"/>
+													<i></i>
+													Root
+												</label>
+											</section>
+										</c:if>
 										<section>
 											<label class="checkbox">
 												<form:checkbox path="person.disabled"/>
