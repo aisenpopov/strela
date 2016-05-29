@@ -249,6 +249,9 @@ public class EditorAthleteController extends EditorController {
 				result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
 			}
 		}
+		if (person.isAdmin() && !person.isRoot() && athlete.getTeam() == null) {
+			result.rejectValue("team", "field.required", "Для админа необходимо выбрать команду");
+		}
 		if (athlete.getId() == 0 && StringUtils.isBlank(person.getPassword())) {
 			result.rejectValue("person.password", "field.required", FIELD_REQUIRED);
 		}

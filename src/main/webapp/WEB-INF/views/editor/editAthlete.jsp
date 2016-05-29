@@ -143,6 +143,7 @@
 											<label class="label">Команда</label>
 											<label class="input">
 												<form:input class="form-control" type="text" path="team"/>
+												<form:errors class="help-block error" path="team"/>
 											</label>
 										</section>
 										<section>
