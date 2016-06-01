@@ -22,7 +22,7 @@ public class PersonServerImpl implements PersonServer {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Person person = personService.findByLogin(new Person(username.toLowerCase()));
+		Person person = personService.findByLogin(new Person(username.trim()));
 
         if(person == null) throw new UsernameNotFoundException("User " + username + " not found");
         return new AuthPerson(person);
