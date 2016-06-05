@@ -105,7 +105,7 @@ public class UploadImageHelperImpl implements UploadImageHelper {
 				files.add(tmpFile);
 				if(!converter.convertHW(inFile, tmpFile, 
 						format.getWidthVertical(), format.getHeightVertical(),
-						format.getWidthHorizontal(), format.getHeightHorizonal(), format.isSquare(), format.isHightQuality(), format.isGray()) ){
+						format.getWidthHorizontal(), format.getHeightHorizontal(), format.isSquare(), format.isHightQuality(), format.isGray()) ){
 					isConverte = false;
 					break;
 				}

@@ -1,21 +1,6 @@
 package ru.strela.editor.controller.core;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.media.jai.JAI;
-import javax.media.jai.RenderedOp;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.sun.media.jai.codec.SeekableStream;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
@@ -27,30 +12,25 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import ru.strela.config.ProjectConfiguration;
-import ru.strela.model.Article;
-import ru.strela.model.ArticleImage;
-import ru.strela.model.Athlete;
-import ru.strela.model.HasImage;
+import ru.strela.model.*;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonService;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
-import ru.strela.util.image.Converter;
-import ru.strela.util.image.ImageDir;
-import ru.strela.util.image.ImageFormat;
-import ru.strela.util.image.ImageInfo;
-import ru.strela.util.image.UploadImageHelper;
+import ru.strela.util.image.*;
 
-import com.sun.media.jai.codec.SeekableStream;
+import javax.imageio.ImageIO;
+import javax.media.jai.JAI;
+import javax.media.jai.RenderedOp;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -158,8 +138,8 @@ public class EditorImageController implements InitializingBean {
 				return response;
 			}
 			for(byte[] image : imagesList) {
-				if(dir == ImageDir.ARTICLE_CONTENT) {
-					uploadArticleContentImage(req, image);
+				if(dir == ImageDir.NEWS_CONTENT) {
+					uploadArticleContentImage(req, image, dir);
 				}
 			}
 		}
@@ -188,10 +168,12 @@ public class EditorImageController implements InitializingBean {
 			return response;
 		}
 		for(byte[] image : imagesList) {
-			if(dir == ImageDir.ARTICLE_PREVIEW) {
+			if (dir == ImageDir.NEWS_PREVIEW) {
 				uploadArticlePreviewImage(req, image, dir);
-			} else if(dir == ImageDir.ATHLETE_MIDDLE) {
+			} else if (dir == ImageDir.ATHLETE_MIDDLE) {
 				uploadAthleteMiddleImage(req, image, dir);
+			} else if (dir == ImageDir.BANNER_IMAGE) {
+				uploadBannerImage(req, image, dir);
 			}
 		}
 		response.setStatus("success");
@@ -208,12 +190,14 @@ public class EditorImageController implements InitializingBean {
 			return;
 		}
 		
-		if(dir == ImageDir.ARTICLE_CONTENT) {
+		if(dir == ImageDir.NEWS_CONTENT) {
 			removeArticleContentImage(id);
-		} else if(dir == ImageDir.ARTICLE_PREVIEW) {
+		} else if (dir == ImageDir.NEWS_PREVIEW) {
 			removeArticlePreviewImage(id, dir);
-		} else if(dir == ImageDir.ATHLETE_MIDDLE) {
+		} else if (dir == ImageDir.ATHLETE_MIDDLE) {
 			removeAthleteMiddleImage(id, dir);
+		} else if (dir == ImageDir.BANNER_IMAGE) {
+			removeBannerImage(id, dir);
 		}
 	}
 	
@@ -232,14 +216,14 @@ public class EditorImageController implements InitializingBean {
 		return item;
 	}
 	
-	private void uploadArticleContentImage(HttpServletRequest req, byte[] image) {
+	private void uploadArticleContentImage(HttpServletRequest req, byte[] image, ImageDir dir) {
 		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
 		Article article = applicationService.findById(new Article(id));
 		if(article != null) {
 			ArticleImage ai = new ArticleImage();
 			ai.setArticle(article);
 			ArticleImage articleImage = applicationService.save(ai);
-			uploadImageHelper.uploadImage(ImageDir.ARTICLE_CONTENT, ImageFormat.getImageFormats(ImageDir.ARTICLE_CONTENT), image, articleImage.getId());
+			uploadImageHelper.uploadImage(dir, ImageFormat.getImageFormats(dir), image, articleImage.getId());
 		}
 	}
 	
@@ -284,6 +268,27 @@ public class EditorImageController implements InitializingBean {
 				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), athlete.getId());
 				athlete.setImage(null);
 				personService.save(athlete);
+			}
+		}
+	}
+
+	private void uploadBannerImage(HttpServletRequest req, byte[] image, ImageDir imageDir) {
+		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
+
+		BannerImage bannerImage = applicationService.findById(new BannerImage(id));
+		if(bannerImage != null) {
+			bannerImage = uploadImage(bannerImage, imageDir, req, image);
+			applicationService.save(bannerImage);
+		}
+	}
+
+	private void removeBannerImage(Integer id, ImageDir imageDir) {
+		if(id != null) {
+			BannerImage bannerImage = applicationService.findById(new BannerImage(id));
+			if(bannerImage != null) {
+				bannerImage.setImage(null);
+				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), bannerImage.getId());
+				applicationService.save(bannerImage);
 			}
 		}
 	}

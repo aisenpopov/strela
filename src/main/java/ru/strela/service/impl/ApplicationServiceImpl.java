@@ -58,9 +58,9 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 //	@Autowired
 //	private GalleryImageRepository galleryImageRepository;
 //	
-//	@Autowired
-//	private MainImageRepository mainImageRepository;
-//	
+	@Autowired
+	private BannerImageRepository bannerImageRepository;
+
 
 	@Autowired
 	private UploadImageHelper uploadImageHelper;
@@ -79,7 +79,8 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
     		remove(articleImage);
     	}
 
-    	uploadImageHelper.removeImage(ImageDir.ARTICLE_PREVIEW, ImageFormat.getImageFormats(ImageDir.ARTICLE_PREVIEW), article.getId());
+		ImageDir dir = article.getType() == Article.Type.news ? ImageDir.NEWS_PREVIEW : ImageDir.STATIC_PAGE_PREVIEW;
+    	uploadImageHelper.removeImage(dir, ImageFormat.getImageFormats(dir), article.getId());
         articleRepository.delete(article);
     }
 
@@ -111,7 +112,8 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Override
 	public void remove(ArticleImage articleImage) {
-		uploadImageHelper.removeImage(ImageDir.ARTICLE_CONTENT, ImageFormat.getImageFormats(ImageDir.ARTICLE_CONTENT), articleImage.getId());
+		ImageDir dir = articleImage.getArticle().getType() == Article.Type.news ? ImageDir.NEWS_CONTENT : ImageDir.STATIC_PAGE_CONTENT;
+		uploadImageHelper.removeImage(dir, ImageFormat.getImageFormats(dir), articleImage.getId());
 		articleImageRepository.delete(articleImage);
 	}
 
@@ -293,6 +295,68 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	public List<Gym> findGyms(GymFilter filter) {
 		personService.updateFilter(filter);
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.getSort(filter));
+	}
+
+
+	@Override
+	public BannerImage save(BannerImage bannerImage) {
+		return bannerImageRepository.save(bannerImage);
+	}
+
+	@Override
+	public void remove(BannerImage bannerImage) {
+		uploadImageHelper.removeImage(ImageDir.BANNER_IMAGE, ImageFormat.getImageFormats(ImageDir.BANNER_IMAGE), bannerImage.getId());
+
+		bannerImageRepository.delete(bannerImage);
+	}
+
+	@Override
+	public BannerImage findById(BannerImage bannerImage) {
+		return bannerImageRepository.findOne(bannerImage.getId());
+	}
+
+	@Override
+	public BannerImage findOneBannerImage(BannerImageFilter filter) {
+		return bannerImageRepository.findOne(BannerImageSpec.filter(filter));
+	}
+
+	@Override
+	public Page<BannerImage> findBannerImages(BannerImageFilter filter, int pageNumber, int pageSize) {
+		return bannerImageRepository.findAll(BannerImageSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+	}
+
+	@Override
+	public List<BannerImage> findBannerImages(BannerImageFilter filter) {
+		return bannerImageRepository.findAll(BannerImageSpec.filter(filter), PageRequestBuilder.getSort(filter));
+	}
+
+	@Override
+	public void sortBannerImage(BannerImage.Type type, BannerImage bannerImage, boolean isUp) {
+		BannerImageFilter filter = new BannerImageFilter();
+		filter.setType(type);
+		filter.addOrder(new Order("position", OrderDirection.Asc));
+		List<BannerImage> bannerImages = findBannerImages(filter);
+
+		for(int i = 0; i < bannerImages.size(); i++) {
+			BannerImage pi = bannerImages.get(i);
+			if(pi.getId() == bannerImage.getId()) {
+				if(isUp && i > 0) {
+					BannerImage prev = bannerImages.get(i - 1);
+					bannerImages.set(i - 1, pi);
+					bannerImages.set(i, prev);
+				} else if( i + 1 < bannerImages.size() ) {
+					BannerImage next = bannerImages.get(i + 1);
+					bannerImages.set(i + 1, pi);
+					bannerImages.set(i, next);
+				}
+				break;
+			}
+		}
+
+		int i = 0;
+		for(BannerImage pi : bannerImages) {
+			pi.setPosition(i++);
+		}
 	}
 
 

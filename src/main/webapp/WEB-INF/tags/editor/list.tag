@@ -25,10 +25,6 @@
 	</div>
 </div>
 
-<c:if test="${isCategorized}">
-	<jsp:include page="../../views/editor/panel/category_panel.jsp"/>
-</c:if>
-
 <div class="row ${isCategorized ? 'categorized' : ''}">
 	<div class="col-lg-12">
 		<div class="jarviswidget jarviswidget-color-blueDark">

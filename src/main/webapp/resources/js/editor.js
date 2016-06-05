@@ -46,28 +46,26 @@
 		});
     },
     
-	initMainImageList: function() {
-		var area = $(".sys-main_images");
+	initBannerImageList: function() {
+		var area = $(".sys-banner-images");
 
 		C.initSortable(area);		
 		C.initRemoveable(area.find(".sys-item"));
 	},
 	
-	initMainImagePage: function() {
-		var area = $(".main-image-editor");
+	initBannerImagePage: function() {
+		var area = $(".banner-image-editor");
 
-    	var type = area.find(".main-image input[name=type]").val();
+    	var type = area.find(".banner-image input[name=type]").val();
     	var width = 0;
     	var height = 0;
-    	if(type == "MAIN_IMAGE_SLIDER") {
-    		width = 1100;
-    		height = 450;
-    	} else if(type == "MAIN_IMAGE_PHOTO") {
-    		width = 550;
-    		height = 550;
+    	if (type == "BANNER_IMAGE") {
+    		width = 940;
+    		height = 479;
+    	} else {
     	}
     	
-		E.initImagePanel(area.find(".main-image"), {
+		E.initImagePanel(area.find(".banner-image"), {
 			imagesCrop: [{
 				container: ".image",	
 				cropWidth: width,
@@ -405,27 +403,11 @@
 			notNeedCrop: true
 		});
 		
-    	E.initImagePanel(area.find(".article-image"), {
+    	E.initImagePanel(area.find(".news-preview"), {
 			imagesCrop: [{
 				container: ".image",	
-				cropWidth: 510,
-                cropHeight: 400
-			}]
-		});
-    	
-    	E.initImagePanel(area.find(".article-small-image"), {
-			imagesCrop: [{
-				container: ".image",	
-				cropWidth: 283,
-                cropHeight: 400
-			}]
-		});
-    	
-    	E.initImagePanel(area.find(".article-inner-preview-image"), {
-			imagesCrop: [{
-				container: ".image",	
-				cropWidth: 1920,
-                cropHeight: 380
+				cropWidth: 260,
+                cropHeight: 171
 			}]
 		});
     	
@@ -452,7 +434,7 @@
 			cropWidth : 0,
 			cropHeight : 0
 		});
-		var refrash; 
+		var refresh;
 		if(params) {
 			if(params.imagesCrop) {
 				imagesCrop = params.imagesCrop;
@@ -463,8 +445,8 @@
 			if(params.notNeedCrop) {
 				notNeedCrop = params.notNeedCrop;
 			}
-			if(params.refrash) {
-				refrash = params.refrash;
+			if(params.refresh) {
+				refresh = params.refresh;
 			}
 		}
 		
@@ -480,8 +462,8 @@
 		}; 
 		initListImages();
 		
-		if(!refrash) {
-			refrash = function() {
+		if(!refresh) {
+			refresh = function() {
 				var clear = function() {
 					imagePanel.find("input[name=imageUrl]").val("");
 					imagePanel.find("input[type=file]").val("");
@@ -519,8 +501,8 @@
 				
 				eventsArr[eventsArr.length] = C.initEditImage(imagePanel, {
 					preview: [],
-					maxWidth: imageCrop.maxWidth ? imageCrop.maxWidth : 300,
-					maxHeight: imageCrop.maxHeight ? imageCrop.maxHeight : 300,
+					maxWidth: imageCrop.maxWidth ? imageCrop.maxWidth : 250,
+					maxHeight: imageCrop.maxHeight ? imageCrop.maxHeight : 250,
 					cropWidth: imageCrop.cropWidth,
 					cropHeight: imageCrop.cropHeight,
 					cropImageClass: containerSelector,
@@ -543,7 +525,7 @@
 				});
 				Util._postBaseUrl("/editor/upload_image/save", args, function() {
 					Util.closeLoadPanel();
-					refrash();
+					refresh();
 		        });
 				
 				return false;
@@ -599,7 +581,7 @@
 	        	return;
 	        }
 	        if(notNeedCrop) {
-	        	refrash();
+	        	refresh();
 	        } else {
 	        	cropImage(response.data.path, response.data.fileName);
 	        }
@@ -646,7 +628,7 @@
 				if(isMultiple) {
 					Util.reloadCurrentPage();
 				} else {
-					refrash();
+					refresh();
 				}
 			});
 			return false;

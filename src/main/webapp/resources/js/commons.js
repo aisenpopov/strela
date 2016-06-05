@@ -164,24 +164,6 @@ var C = {
 	    		};
 	},
 	
-	getPlayerCode: function(urlVideo, width, height) {
-		var htmlPlayer,
-			videoId;
-		if(urlVideo.match(/youtube\.com\/watch/)) {
-			videoId = urlVideo.match(/watch\?v=([^&]*)/)[1];
-			htmlPlayer = '<iframe width="' + width + '" height="' + height + '" src="http://www.youtube.com/embed/' + videoId + '?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>';
-		} else if(urlVideo.match(/vimeo.com/)) {
-			videoId = urlVideo.match(/vimeo.com\/([^\/]*)/)[1];
-			htmlPlayer = '<iframe src="http://player.vimeo.com/video/' + videoId + '?autoplay=1" width="' + width + '" height="' + height + '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
-		} else {
-			htmlPlayer = '<embed width="' + width + '" height="' + height + '" flashvars="file=' + urlVideo + '&backcolor=000000' +
-				'&frontcolor=FFFFFF&lightcolor=990000&screencolor=000000' + 
-				'&icons=false&controlbar=over&autostart=true" allowfullscreen="true" allowscriptaccess="always" ' +
-				'quality="high" bgcolor="7" src="/swf/player.swf" type="application/x-shockwave-flash"/>';
-		}
-		return $(htmlPlayer);
-	},
-	
 	getAudioPlayerCode: function(urlAudio, width, height) {
 		var htmlPlayer = '<embed width="' + width + '" height="' + height + '" flashvars="file=' + urlAudio + '&autostart=true" ' +
 			'allowfullscreen="true" allowscriptaccess="always" ' +

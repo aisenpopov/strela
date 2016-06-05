@@ -100,19 +100,19 @@ public interface ApplicationService {
     List<Gym> findGyms(GymFilter filter);
 
 
-//	MainImage save(MainImage mainImage);
-//
-//	void remove(MainImage mainImage);
-//
-//	MainImage findById(MainImage mainImage);
-//
-//	MainImage findOneMainImage(MainImageFilter filter);
-//
-//	Page<MainImage> findMainImages(MainImageFilter filter, int pageNumber, int pageSize);
-//
-//	List<MainImage> findMainImages(MainImageFilter filter);
-//
-//	void sortMainImage(Type type, final MainImage mainImage, final boolean isUp);
+	BannerImage save(BannerImage bannerImage);
+
+	void remove(BannerImage bannerImage);
+
+	BannerImage findById(BannerImage bannerImage);
+
+	BannerImage findOneBannerImage(BannerImageFilter filter);
+
+	Page<BannerImage> findBannerImages(BannerImageFilter filter, int pageNumber, int pageSize);
+
+	List<BannerImage> findBannerImages(BannerImageFilter filter);
+
+	void sortBannerImage(BannerImage.Type type, final BannerImage bannerImage, final boolean isUp);
 	
 	Settings save(Settings settings);
 	

@@ -1,0 +1,6 @@
+var S = {
+
+    initBase: function() {
+    }
+    
+};

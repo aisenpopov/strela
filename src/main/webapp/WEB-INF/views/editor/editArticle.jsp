@@ -72,7 +72,7 @@
             
             <c:if test="${article.id != 0}">
             	<c:if test="${article.type == 'news'}">
-	            	<div class="row image-panel article-image">
+	            	<div class="row image-panel news-preview">
 						<div class="col-sm-12 col-md-12 col-lg-6">
 							<div class="jarviswidget jarviswidget-color-blueDark">
 								<header role="heading">
@@ -81,7 +81,7 @@
 								<div role="content">
 									<div class="widget-body no-padding">
 										<jsp:include page="panel/uploadImagePanel.jsp">
-									        <jsp:param name="type" value="ARTICLE_PREVIEW"/>
+									        <jsp:param name="type" value="NEWS_PREVIEW"/>
 									        <jsp:param name="entityId" value="${article.id}"/>
 									        <jsp:param name="image" value="${articleImage}"/>
 									        <jsp:param name="isMultiple" value="false"/>
@@ -114,7 +114,7 @@
 									</div>
 										
 									<jsp:include page="panel/uploadImagePanel.jsp">
-										<jsp:param name="type" value="ARTICLE_CONTENT"/>
+										<jsp:param name="type" value="${article.type == 'news' ? 'NEWS_CONTENT' : 'STATIC_PAGE_CONTENT'}"/>
 									    <jsp:param name="entityId" value="${article.id}"/>
 									    <jsp:param name="crop" value="false"/>
 									    <jsp:param name="isMultiple" value="true"/>
@@ -125,7 +125,7 @@
 					</div>
 				</div>	
 				
-				<div class="row">
+				<%--<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-6">
 						<div class="jarviswidget jarviswidget-color-blueDark">
 							<header role="heading">
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 					</div>
-				</div>		
+				</div>		--%>
             </c:if>
         </div>
     </jsp:body>

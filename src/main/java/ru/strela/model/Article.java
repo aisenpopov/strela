@@ -1,15 +1,10 @@
 package ru.strela.model;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import ru.strela.util.DateUtils;
+import ru.strela.util.image.ImageFormat;
+
+import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -20,7 +15,7 @@ public class Article extends BaseEntitySeo implements HasImage {
 	public enum Type {
 		news("Новость"),
 		static_page("Статическая страница");
-					
+
 		private String title;
 
 		private Type(String title) {
@@ -29,6 +24,17 @@ public class Article extends BaseEntitySeo implements HasImage {
 			
 		public String getTitle() {
 			return title;
+		}
+
+		public ImageFormat getImageFormat(boolean isPreview) {
+			ImageFormat imageFormat = null;
+			if (this == Type.news) {
+				imageFormat = isPreview ? ImageFormat.NEWS_PREVIEW : ImageFormat.NEWS_CONTENT;
+			} else if (this == Type.static_page) {
+				imageFormat = isPreview ? ImageFormat.STATIC_PAGE_PREVIEW : ImageFormat.STATIC_PAGE_CONTENT;
+			}
+
+			return imageFormat;
 		}
 	}
 	

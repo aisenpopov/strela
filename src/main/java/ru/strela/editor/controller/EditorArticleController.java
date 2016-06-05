@@ -20,7 +20,6 @@ import ru.strela.util.TextUtils;
 import ru.strela.util.TranslitHelper;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.image.FileDataSource;
-import ru.strela.util.image.ImageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -130,7 +129,6 @@ public class EditorArticleController extends EditorController {
 			ajaxUpdate(req, res, "image-list");
 		} else if ("refresh-crop-image".equals(action) && id != 0) {
 			ajaxUpdate(req, res, "cropImagePanel");
-			ajaxUpdate(req, res, "cropImagePanelSmall");
 			ajaxUpdate(req, res, "cropImagePanel" + req.getParameter("type"));
 		} else if("save-videos".equals(action) && id != 0) {
 			Article article = applicationService.findById(new Article(id));
@@ -175,9 +173,9 @@ public class EditorArticleController extends EditorController {
     		for(ArticleImage articleImage : applicationService.getArticleImages(article)) {
     			ModelBuilder image = model.createCollection("images");
     			image.put("id", articleImage.getId());
-    			image.put("image", FileDataSource.getImage(projectConfiguration, articleImage, ImageFormat.ARTICLE_CONTENT));
+    			image.put("image", FileDataSource.getImage(projectConfiguration, articleImage, article.getType().getImageFormat(false)));
     		}	
-    		model.put("articleImage", FileDataSource.getImage(projectConfiguration, article, ImageFormat.ARTICLE_PREVIEW));
+    		model.put("articleImage", FileDataSource.getImage(projectConfiguration, article, article.getType().getImageFormat(true)));
     	    model.put("videos", applicationService.getArticleVideos(article));
         }
         model.put("article", article);

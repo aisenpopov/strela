@@ -44,7 +44,7 @@
 			
 			<section>
 				<label class="label">Файл</label>
-				<label class="input input-file" for="file">
+				<label class="input input-file" for="upload">
 					<div class="button">
 						<c:choose>
 							<c:when test="${isMultiple}">
