@@ -5,7 +5,6 @@ public enum ImageDir {
 	NEWS_PREVIEW("news_preview"),
 	NEWS_CONTENT("news_content"),
 
-	STATIC_PAGE_PREVIEW("static_page_preview"),
 	STATIC_PAGE_CONTENT("static_page_content"),
 
 	BANNER_IMAGE("banner_image"),

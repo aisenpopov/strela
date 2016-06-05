@@ -31,7 +31,7 @@ public class Article extends BaseEntitySeo implements HasImage {
 			if (this == Type.news) {
 				imageFormat = isPreview ? ImageFormat.NEWS_PREVIEW : ImageFormat.NEWS_CONTENT;
 			} else if (this == Type.static_page) {
-				imageFormat = isPreview ? ImageFormat.STATIC_PAGE_PREVIEW : ImageFormat.STATIC_PAGE_CONTENT;
+				imageFormat = ImageFormat.STATIC_PAGE_CONTENT;
 			}
 
 			return imageFormat;

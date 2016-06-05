@@ -9,7 +9,6 @@ public enum ImageFormat {
 	NEWS_PREVIEW("np", 260, 171, 260, 171, false, false, false),
 	NEWS_CONTENT("nc", 617, 0, 617, 0, false, false, false),
 
-	STATIC_PAGE_PREVIEW("spp", 260, 171, 260, 171, false, false, false),
 	STATIC_PAGE_CONTENT("spc", 617, 0, 617, 0, false, false, false),
 
 	BANNER_IMAGE("bi", 940, 479, 940, 479, false, false, false),
@@ -87,8 +86,6 @@ public enum ImageFormat {
 			formats = new ImageFormat[]{NEWS_PREVIEW};
 		} else if (dir == ImageDir.NEWS_CONTENT){
 			formats = new ImageFormat[]{NEWS_CONTENT};
-		} else if (dir == ImageDir.STATIC_PAGE_PREVIEW){
-			formats = new ImageFormat[]{STATIC_PAGE_PREVIEW};
 		} else if (dir == ImageDir.STATIC_PAGE_CONTENT){
 			formats = new ImageFormat[]{STATIC_PAGE_CONTENT};
 		} else if (dir == ImageDir.BANNER_IMAGE) {

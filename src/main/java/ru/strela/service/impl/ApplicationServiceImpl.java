@@ -79,8 +79,9 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
     		remove(articleImage);
     	}
 
-		ImageDir dir = article.getType() == Article.Type.news ? ImageDir.NEWS_PREVIEW : ImageDir.STATIC_PAGE_PREVIEW;
-    	uploadImageHelper.removeImage(dir, ImageFormat.getImageFormats(dir), article.getId());
+		if (article.getType() == Article.Type.news) {
+    		uploadImageHelper.removeImage(ImageDir.NEWS_PREVIEW, ImageFormat.getImageFormats(ImageDir.NEWS_PREVIEW), article.getId());
+		}
         articleRepository.delete(article);
     }
 
