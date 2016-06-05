@@ -332,7 +332,7 @@ public class EditorImageController implements InitializingBean {
         		return baos.toByteArray();
 			}
 		} catch (Exception e) {
-			LOGGER.error("Dont upload image by url: " + url, e);
+			LOGGER.error("Don't upload image by url: " + url, e);
 		}
 		return null;
 	}

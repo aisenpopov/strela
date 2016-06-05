@@ -30,13 +30,13 @@
                             <a href="/">Главная</a>
                         </li>
                         <li>
-                            <a href="/gyms/">Залы</a>
+                            <a href="#">Залы</a>
                         </li>
                         <li>
-                            <a href="/news/">Новости</a>
+                            <a href="#">Новости</a>
                         </li>
                         <li>
-                            <a href="/contacts/">Контакты</a>
+                            <a href="#">Контакты</a>
                         </li>
                     </ul>
                     <!-- END RD Navbar Nav -->
