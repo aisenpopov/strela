@@ -58,7 +58,7 @@
         </nav>
     </div>
     <!-- END RD Navbar -->
-    <c:if test="${showBanner}">
+    <c:if test="${not empty showBanner && showBanner}">
         <div class="container md-well well--inset-2">
             <!-- Owl Carousel -->
             <div class="owl-carousel"
