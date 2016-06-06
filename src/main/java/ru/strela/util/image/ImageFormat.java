@@ -7,9 +7,9 @@ public enum ImageFormat {
 	ORIGINAL("o", 0, 0, 0, 0, false, true, false),
 	
 	NEWS_PREVIEW("np", 260, 171, 260, 171, false, false, false),
-	NEWS_CONTENT("nc", 940, 0, 940, 0, false, false, false),
+	NEWS_CONTENT("nc", 1170, 0, 1170, 0, false, false, false),
 
-	STATIC_PAGE_CONTENT("spc", 940, 0, 940, 0, false, false, false),
+	STATIC_PAGE_CONTENT("spc", 1170, 0, 1170, 0, false, false, false),
 
 	BANNER_IMAGE("bi", 940, 479, 940, 479, false, false, false),
 

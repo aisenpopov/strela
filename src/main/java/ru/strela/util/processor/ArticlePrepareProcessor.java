@@ -25,9 +25,9 @@ public class ArticlePrepareProcessor extends AbstractProcessor {
 		List<ArticleImage> articleImages = applicationService.getArticleImages(article);
 		for (ArticleImage articleImage : articleImages) {
 			StringBuilder html = new StringBuilder();
-			html.append("<div>")
+			html.append("<div class='article-image'>")
 					.append("<img src=\"").append(FileDataSource.getImage(projectConfiguration, articleImage, article.getType().getImageFormat(false))).append("\"/>")
-					.append("</div>");
+				.append("</div>");
 			text = text.replace("#[image=" + articleImage.getId() + "]", html.toString());
 			
 			html.delete(0, html.length());
