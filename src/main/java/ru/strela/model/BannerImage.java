@@ -9,7 +9,8 @@ public class BannerImage extends BaseEntitySortable implements HasImage {
 	
 	public enum Type {
 		
-		slider("Слайдер");
+		photo("Фотография"),
+		advert("Объявление");
 
 		private String title;
 
@@ -78,4 +79,15 @@ public class BannerImage extends BaseEntitySortable implements HasImage {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
+
+	@Transient
+	public String getPrintTypeTitle() {
+		return type != null ? type.getTitle() : null;
+	}
+
+	@Transient
+	public String getPrintVisible() {
+		return visible ? "Да" : "Нет";
+	}
+
 }

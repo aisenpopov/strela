@@ -1,7 +1,5 @@
 package ru.strela.editor.menu;
 
-import ru.strela.model.BannerImage;
-
 /**
  * Created by Aisen on 22.05.2016.
  */
@@ -17,12 +15,10 @@ public class EditorMenuBuilder {
             main.setHref("#");
             menuBar.addItem(main);
 
-            for(BannerImage.Type type : BannerImage.Type.values()) {
-                MenuItem bannerImage = new MenuItem();
-                bannerImage.setCaption(type.getTitle());
-                bannerImage.setHref("banner_image/" + type.name());
-                main.addItem(bannerImage);
-            }
+            MenuItem bannerImage = new MenuItem();
+            bannerImage.setCaption("Слайдер");
+            bannerImage.setHref("banner_image");
+            main.addItem(bannerImage);
         }
 
         MenuItem payment = new MenuItem();

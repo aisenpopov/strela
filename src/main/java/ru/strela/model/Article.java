@@ -99,5 +99,5 @@ public class Article extends BaseEntitySeo implements HasImage {
 	public String getPrintPublish() {
 		return DateUtils.format(this.publish);
 	}
-	
+
 }

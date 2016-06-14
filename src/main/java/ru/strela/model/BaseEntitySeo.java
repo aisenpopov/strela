@@ -5,6 +5,7 @@ import ru.strela.util.TranslitHelper;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class BaseEntitySeo extends BaseEntityNamed {
@@ -60,6 +61,11 @@ public abstract class BaseEntitySeo extends BaseEntityNamed {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	@Transient
+	public String getPrintVisible() {
+		return visible ? "Да" : "Нет";
 	}
 	
 }

@@ -15,7 +15,7 @@
 
                     <!-- RD Navbar Brand -->
                     <div class="rd-navbar-brand">
-                        <a href="index.html" class="brand-name primary-color">
+                        <a href="/" class="brand-name primary-color">
                             <span class="text-bold">strela</span>
                         </a>
                     </div>
@@ -30,13 +30,13 @@
                             <a href="/">Главная</a>
                         </li>
                         <li>
-                            <a href="#">Залы</a>
+                            <a href="/gyms/">Залы</a>
                         </li>
                         <li>
                             <a href="#">Новости</a>
                         </li>
                         <li>
-                            <a href="#">Контакты</a>
+                            <a href="/contacts/">Контакты</a>
                         </li>
                     </ul>
                     <!-- END RD Navbar Nav -->
@@ -68,9 +68,18 @@
                 <c:forEach items="${bannerImageList}" var="item">
                     <div class="owl-item">
                         <!--News Post-->
+                        <c:if test="${item.bannerImage.type == 'advert'}">
+                            <a href="/${item.bannerImage.link}/">
+                        </c:if>
                         <article class="news-post text-center">
                             <img height="596" width="1170" src="${item.image}" alt="">
+                            <c:if test="${item.bannerImage.type == 'advert'}">
+                                <h4 class="advert-header">${item.bannerImage.name}</h4>
+                            </c:if>
                         </article>
+                        <c:if test="${item.bannerImage.type == 'advert'}">
+                            </a>
+                        </c:if>
                     </div>
                 </c:forEach>
             </div>

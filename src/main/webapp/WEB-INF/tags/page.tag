@@ -22,6 +22,7 @@
 	<link rel="icon" href="/resources/favicon.ico" type="/favicon.ico"/>
 	<link href='//fonts.googleapis.com/css?family=Ubuntu:300%7CRoboto+Condensed:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/resources/css/style.css">
+	<link rel="stylesheet" href="/resources/css/fix.css">
 
 	<!--[if lt IE 10]>
 	<script src="/resources/js/html5shiv.min.js"></script>

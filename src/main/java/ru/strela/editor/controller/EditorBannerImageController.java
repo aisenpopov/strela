@@ -23,48 +23,45 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/editor/banner_image/{typeName}")
+@RequestMapping("/editor/banner_image")
 public class EditorBannerImageController extends EditorController {
 
     @RequestMapping(value = {"/", "/ajax"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView list(HttpServletRequest req, HttpServletResponse res, @PathVariable Map<String, String> pathVariables,
+    public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
                              @RequestParam(value = "id", required = false) Integer id,
                              @ModelAttribute("filter") BannerImageFilter filter) {
-    	BannerImage.Type type = BannerImage.Type.valueOf(pathVariables.get("typeName"));
         String action = req.getParameter("action");
         
         if (id != null) {
         	if("sort-down".equals(action)) {
     			BannerImage bannerImage = applicationService.findById(new BannerImage(id));
-    			applicationService.sortBannerImage(type, bannerImage, false);
+    			applicationService.sortBannerImage(bannerImage, false);
     		} else if("sort-up".equals(action)) {
                 BannerImage bannerImage = applicationService.findById(new BannerImage(id));
-    			applicationService.sortBannerImage(type, bannerImage, true);
+    			applicationService.sortBannerImage(bannerImage, true);
     		}
         	ajaxUpdate(req, res, "list");
         }
 
-        ModelAndView modelAndView = new ModelAndView("editor/bannerImages");
+        ModelBuilder model = new ModelBuilder("editor/bannerImages");
         if(filter == null) {        	
         	filter = new BannerImageFilter();
         }
-        filter.setType(type);
         filter.addOrder(new Order("position", OrderDirection.Asc));
         
         Page<BannerImage> page = applicationService.findBannerImages(filter, pageNumber - 1, pageSize);
-        modelAndView.addObject("page", page);
+        model.addObject("page", page);
+        model.addTableColumn("Тип", "printTypeTitle");
+        model.addTableColumn("Показывать", "printVisible");
 
-        return modelAndView;
+        return model;
     }
 
     @RequestMapping(value = {"/edit/{id}", "/edit"}, method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable Map<String, String> pathVariables) {
-    	ModelAndView modelAndView = getModel(TextUtils.getIntValue(pathVariables.get("id")),
-    											BannerImage.Type.getByName(pathVariables.get("typeName")));
-
-        return modelAndView;
+        return getModel(TextUtils.getIntValue(pathVariables.get("id")));
     }
 
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
@@ -81,7 +78,7 @@ public class EditorBannerImageController extends EditorController {
             }
             bannerImage = applicationService.save(bannerImage);
 
-            return new Redirect("/editor/banner_image/" + pathVariables.get("typeName") + "/edit/" + bannerImage.getId() + "/");
+            return new Redirect("/editor/banner_image/edit/" + bannerImage.getId() + "/");
         }
 
         return new ModelAndView("editor/editBannerImage");
@@ -113,21 +110,18 @@ public class EditorBannerImageController extends EditorController {
 			}
 		}
 
-		return getModel(id, BannerImage.Type.getByName(pathVariables.get("typeName")));
+		return getModel(id);
 	}
 
-    private ModelAndView getModel(int id, BannerImage.Type type) {
+    private ModelAndView getModel(int id) {
         ModelBuilder model = new ModelBuilder("editor/editBannerImage");
         BannerImage bannerImage;
 
         if (id == 0) {
         	bannerImage = new BannerImage();
-        	bannerImage.setType(type);
         } else {
         	bannerImage = applicationService.findById(new BannerImage(id));
-        	if (type == BannerImage.Type.slider) {
-        		model.put("image", FileDataSource.getImage(projectConfiguration, bannerImage, ImageFormat.BANNER_IMAGE));
-        	}
+        	model.put("image", FileDataSource.getImage(projectConfiguration, bannerImage, ImageFormat.BANNER_IMAGE));
         }
         model.put("bannerImage", bannerImage);
 
@@ -137,6 +131,9 @@ public class EditorBannerImageController extends EditorController {
     private boolean validate(BindingResult result, BannerImage bannerImage) {
         if (StringUtils.isBlank(bannerImage.getName())) {
             result.rejectValue("name", "field.required", FIELD_REQUIRED);
+        }
+        if (bannerImage.getType() == null) {
+            result.rejectValue("type", "field.required", FIELD_REQUIRED);
         }
 
         return !result.hasErrors();

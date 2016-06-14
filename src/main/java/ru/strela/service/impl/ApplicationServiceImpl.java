@@ -332,9 +332,8 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	}
 
 	@Override
-	public void sortBannerImage(BannerImage.Type type, BannerImage bannerImage, boolean isUp) {
+	public void sortBannerImage(BannerImage bannerImage, boolean isUp) {
 		BannerImageFilter filter = new BannerImageFilter();
-		filter.setType(type);
 		filter.addOrder(new Order("position", OrderDirection.Asc));
 		List<BannerImage> bannerImages = findBannerImages(filter);
 

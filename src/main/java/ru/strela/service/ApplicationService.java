@@ -112,7 +112,7 @@ public interface ApplicationService {
 
 	List<BannerImage> findBannerImages(BannerImageFilter filter);
 
-	void sortBannerImage(BannerImage.Type type, final BannerImage bannerImage, final boolean isUp);
+	void sortBannerImage(final BannerImage bannerImage, final boolean isUp);
 	
 	Settings save(Settings settings);
 	

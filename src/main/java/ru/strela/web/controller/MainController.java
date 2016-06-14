@@ -43,7 +43,6 @@ public class MainController extends BaseController {
 
         model.addObject("showBanner", true);
         BannerImageFilter bannerImageFilter = new BannerImageFilter();
-        bannerImageFilter.setType(BannerImage.Type.slider);
         bannerImageFilter.setVisible(true);
         bannerImageFilter.addOrder(new Order("position", OrderDirection.Asc));
         for (BannerImage bannerImage : applicationService.findBannerImages(bannerImageFilter)) {

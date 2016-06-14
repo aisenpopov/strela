@@ -28,12 +28,26 @@
                             <div class="widget-body no-padding">
                                 <form:form class="smart-form" commandName="bannerImage" role="form" method="post">
                                     <form:hidden path="id"/>
-                                    <form:hidden path="type"/>
 
                                     <fieldset>
 										<te:baseEntityNamed/>
-                                       	
-                                       	<c:if test="${bannerImage.type == 'slider'}">
+
+                                        <section>
+                                            <label class="label">Тип<span>*</span></label>
+                                            <div class="inline-group">
+                                                <label class="radio">
+                                                    <form:radiobutton path="type" value="photo" checked="true"/>
+                                                    <i></i>
+                                                    Фотография
+                                                </label>
+                                                <label class="radio">
+                                                    <form:radiobutton path="type" value="advert"/>
+                                                    <i></i>
+                                                    Объявление
+                                                </label>
+                                            </div>
+                                        </section>
+                                       	<c:if test="${bannerImage.type == 'advert'}">
 	                                       	<section>
 												<label class="label">Ссылка</label>
 	                                            <label class="input">
@@ -54,7 +68,7 @@
                 </div>
             </div>
             
-            <c:if test="${bannerImage.type == 'slider' && bannerImage.id != 0}">
+            <c:if test="${bannerImage.id != 0}">
             	<div class="row image-panel banner-image">
 					<div class="col-sm-12 col-md-12 col-lg-6">
 						<div class="jarviswidget jarviswidget-color-blueDark">
@@ -65,7 +79,7 @@
 								<div class="widget-body no-padding">
 									<k:ajaxUpdate id="bannerImagePanel">
 										<jsp:include page="panel/uploadImagePanel.jsp">
-									        <jsp:param name="type" value="${bannerImage.type == 'slider' ? 'BANNER_IMAGE' : ''}"/>
+									        <jsp:param name="type" value="BANNER_IMAGE"/>
 									        <jsp:param name="entityId" value="${bannerImage.id}"/>
 									        <jsp:param name="image" value="${image}"/>
 									        <jsp:param name="isMultiple" value="false"/>

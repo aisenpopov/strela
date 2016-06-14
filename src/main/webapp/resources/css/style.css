@@ -15991,18 +15991,3 @@ img.mfp-img {
 .divider + .copyright {
   margin-top: 20px;
 }
-
-
-/*
-CUSTOM
-*/
-.owl-item {
-  width: 100%;
-}
-
-.article-image {
-  text-align: center;
-}
-.article-image img {
-  width: auto;
-}

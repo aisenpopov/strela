@@ -1,0 +1,16 @@
+.owl-item {
+    width: 100%;
+}
+
+.article-image {
+    text-align: center;
+}
+.article-image img {
+    width: auto;
+}
+
+.advert-header {
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+}

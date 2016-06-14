@@ -50,6 +50,8 @@ public class EditorArticleController extends EditorController {
         } else {
         	model.put("title", "Статические страницы");
         }
+		model.addTableColumn("Путь", "path");
+		model.addTableColumn("Показывать", "printVisible");
         
         return model;
     }
