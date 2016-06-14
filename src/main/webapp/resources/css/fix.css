@@ -11,7 +11,8 @@
 
 .advert-header {
     position: absolute;
-    bottom: 50px;
-    right: 100px;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
     color: #fff;
 }
