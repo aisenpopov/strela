@@ -20,9 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(value={	"ru.strela.web.controller",
-						"ru.strela.web.api",
 						"ru.strela.editor.controller",
-						"ru.strela.auth.social",
 						"ru.strela.editor.api"})
 @EnableTransactionManagement
 public class WebApplicationConfig extends WebMvcConfigurerAdapter {

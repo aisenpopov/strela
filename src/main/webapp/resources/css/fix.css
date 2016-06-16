@@ -16,3 +16,12 @@
     text-align: center;
     color: #fff;
 }
+
+.error404 {
+    height: 100vh;
+    line-height: 100vh;
+}
+.error404 h1 {
+    display: inline-block;
+    vertical-align: middle;
+}

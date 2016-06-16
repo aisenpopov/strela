@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Aisen
-  Date: 27.04.2016
-  Time: 18:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" isELIgnored="false"%>
 <%@ include file="include.jsp"%>
 
@@ -24,7 +17,7 @@
                             <article class="news-post inset-1">
                                 <img height="222" width="337" src="${newsItem.image}" alt="">
                                 <time>${dateUtils:formatFull(newsItem.news.publish)}</time>
-                                <h5><a href="/news/${newsItem.news.path}">${newsItem.news.name}</a></h5>
+                                <h5><a href="/news/${newsItem.news.path}/">${newsItem.news.name}</a></h5>
 
                                 <p>${newsItem.news.shortText}</p>
                                 <a href="/news/${newsItem.news.path}" class="link">ПОДРОБНЕЕ</a>

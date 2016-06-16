@@ -10,6 +10,7 @@ import ru.strela.model.Article;
 import ru.strela.model.filter.ArticleFilter;
 import ru.strela.service.ApplicationService;
 import ru.strela.util.ModelBuilder;
+import ru.strela.util.ResourceNotFoundException;
 import ru.strela.util.processor.ArticlePrepareProcessor;
 import ru.strela.web.controller.core.BaseController;
 
@@ -23,7 +24,7 @@ public class NewsController extends BaseController {
     @Autowired
     private ApplicationService applicationService;
 
-    @RequestMapping(value = "/{path}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/{path}/", method = {RequestMethod.GET})
     public ModelAndView getNews(@PathVariable String path) {
         ModelBuilder model = new ModelBuilder("news");
 
@@ -38,6 +39,8 @@ public class NewsController extends BaseController {
             ArticlePrepareProcessor prepareProcessor = new ArticlePrepareProcessor(applicationService, projectConfiguration, news);
             String text = prepareProcessor.process(news.getText());
             model.addObject("text", text);
+        } else {
+            throw new ResourceNotFoundException();
         }
 
         return model;
