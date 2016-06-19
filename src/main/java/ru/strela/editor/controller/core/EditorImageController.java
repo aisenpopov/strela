@@ -137,9 +137,11 @@ public class EditorImageController implements InitializingBean {
 			if(dir == null) {
 				return response;
 			}
-			for(byte[] image : imagesList) {
-				if(dir == ImageDir.NEWS_CONTENT) {
+			for (byte[] image : imagesList) {
+				if (dir == ImageDir.NEWS_CONTENT) {
 					uploadArticleContentImage(req, image, dir);
+				} else if (dir == ImageDir.GYM_CONTENT){
+					uploadGymContentImage(req, image, dir);
 				}
 			}
 		}
@@ -174,6 +176,8 @@ public class EditorImageController implements InitializingBean {
 				uploadAthleteMiddleImage(req, image, dir);
 			} else if (dir == ImageDir.BANNER_IMAGE) {
 				uploadBannerImage(req, image, dir);
+			} else if (dir == ImageDir.GYM_PREVIEW) {
+				uploadGymPreviewImage(req, image, dir);
 			}
 		}
 		response.setStatus("success");
@@ -198,6 +202,10 @@ public class EditorImageController implements InitializingBean {
 			removeAthleteMiddleImage(id, dir);
 		} else if (dir == ImageDir.BANNER_IMAGE) {
 			removeBannerImage(id, dir);
+		} else if (dir == ImageDir.GYM_PREVIEW) {
+			removeGymPreviewImage(id, dir);
+		} else if (dir == ImageDir.GYM_CONTENT) {
+			removeGymContentImage(id);
 		}
 	}
 	
@@ -250,6 +258,45 @@ public class EditorImageController implements InitializingBean {
 				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), article.getId());
 				article.setImage(null);
 				applicationService.save(article);
+			}
+		}
+	}
+
+
+	private void uploadGymContentImage(HttpServletRequest req, byte[] image, ImageDir dir) {
+		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
+		Gym gym = applicationService.findById(new Gym(id));
+		if(gym != null) {
+			GymImage gi = new GymImage();
+			gi.setGym(gym);
+			GymImage gymImage = applicationService.save(gi);
+			uploadImageHelper.uploadImage(dir, ImageFormat.getImageFormats(dir), image, gymImage.getId());
+		}
+	}
+
+	private void removeGymContentImage(Integer id) {
+		if(id != null) {
+			GymImage gymImage = applicationService.findById(new GymImage(id));
+			if(gymImage != null) {
+				applicationService.remove(gymImage);
+			}
+		}
+	}
+
+	private void uploadGymPreviewImage(HttpServletRequest req, byte[] image, ImageDir imageDir) {
+		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
+		Gym gym = applicationService.findById(new Gym(id));
+		gym = uploadImage(gym, imageDir, req, image);
+		applicationService.save(gym);
+	}
+
+	private void removeGymPreviewImage(Integer id, ImageDir imageDir) {
+		if(id != null) {
+			Gym gym = applicationService.findById(new Gym(id));
+			if(gym != null) {
+				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), gym.getId());
+				gym.setImage(null);
+				applicationService.save(gym);
 			}
 		}
 	}

@@ -30,6 +30,10 @@ public class GymSpec {
                     predicates.add(builder.equal(root.get("team").get("id"), filter.getTeam().getId()));
                 }
 
+                if (filter.getCity() != null) {
+                    predicates.add(builder.equal(root.get("city").get("id"), filter.getCity().getId()));
+                }
+
                 PermissionFilter permissionFilter = filter.getPermissionFilter();
                 if (permissionFilter != null && permissionFilter.getTeam() != null) {
                     predicates.add(builder.equal(root.get("team").get("id"), permissionFilter.getTeam().getId()));

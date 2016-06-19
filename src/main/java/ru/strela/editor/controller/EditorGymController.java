@@ -15,7 +15,11 @@ import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.image.FileDataSource;
+import ru.strela.util.image.ImageFormat;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
@@ -67,6 +71,22 @@ public class EditorGymController extends EditorController {
 
         return new ModelAndView("editor/editGym");
     }
+
+    @RequestMapping(value="/edit/{id}/ajax/", method=RequestMethod.POST)
+    public ModelAndView onAjax(HttpServletRequest req,
+                               HttpServletResponse res,
+                               @PathVariable Map<String, String> pathVariables) {
+        String action = req.getParameter("action");
+
+        int id = TextUtils.getIntValue(pathVariables.get("id"));
+        if("refresh-image".equals(action) && id != 0) {
+            ajaxUpdate(req, res, "image-list");
+        } else if ("refresh-crop-image".equals(action) && id != 0) {
+            ajaxUpdate(req, res, "cropImagePanel");
+        }
+
+        return getModel(id);
+    }
     
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -88,6 +108,7 @@ public class EditorGymController extends EditorController {
         	gym = new Gym();
         } else {
         	gym = applicationService.findById(new Gym(id));
+            model.put("gymImage", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));
         }
         model.put("gym", gym);
              

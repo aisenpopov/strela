@@ -26,16 +26,23 @@
                 <div class="rd-navbar-nav-wrap">
                     <!-- RD Navbar Nav -->
                     <ul class="rd-navbar-nav">
-                        <li class="active">
+                        <li class="${currentHref == '/' ? 'active' : ''}">
                             <a href="/">Главная</a>
                         </li>
-                        <li>
-                            <a href="/gyms/">Залы</a>
+                        <li class="${(fn:contains(currentHref, 'gym') ? 'active' : '')}">
+                            <a href="/gym/">Залы</a>
+                            <ul class="rd-navbar-dropdown">
+                                <c:forEach items="${citiesHasGym}" var="city">
+                                    <li>
+                                        <a href="/gym/?cityId=${city.id}">${city.name}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
                         </li>
-                        <li>
+                        <li class="${(fn:contains(currentHref, 'news') ? 'active' : '')}">
                             <a href="#">Новости</a>
                         </li>
-                        <li>
+                        <li class="${(fn:contains(currentHref, 'contacts') ? 'active' : '')}">
                             <a href="/contacts/">Контакты</a>
                         </li>
                     </ul>

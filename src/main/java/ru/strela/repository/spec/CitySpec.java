@@ -1,18 +1,16 @@
 package ru.strela.repository.spec;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.jpa.domain.Specification;
+import ru.strela.model.City;
+import ru.strela.model.filter.CityFilter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.jpa.domain.Specification;
-
-import ru.strela.model.City;
-import ru.strela.model.filter.CityFilter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CitySpec {
     public static Specification<City> filter(final CityFilter filter) {
@@ -22,11 +20,11 @@ public class CitySpec {
                 List<Predicate> predicates = new ArrayList<Predicate>();
               	query.distinct(true);
               	
-                if(StringUtils.isNotBlank(filter.getQuery())) {
+                if (StringUtils.isNotBlank(filter.getQuery())) {
                     predicates.add(builder.like(builder.lower(root.get("name").as(String.class)),
                             "%" + filter.getQuery().toLowerCase() + "%"));
                 }
-                
+
                 return builder.and(predicates.toArray(new Predicate[0]));
             }
         };

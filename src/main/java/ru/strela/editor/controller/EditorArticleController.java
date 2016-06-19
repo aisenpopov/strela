@@ -131,7 +131,6 @@ public class EditorArticleController extends EditorController {
 			ajaxUpdate(req, res, "image-list");
 		} else if ("refresh-crop-image".equals(action) && id != 0) {
 			ajaxUpdate(req, res, "cropImagePanel");
-			ajaxUpdate(req, res, "cropImagePanel" + req.getParameter("type"));
 		} else if("save-videos".equals(action) && id != 0) {
 			Article article = applicationService.findById(new Article(id));
 			List<ArticleVideo> videos = applicationService.getArticleVideos(article);

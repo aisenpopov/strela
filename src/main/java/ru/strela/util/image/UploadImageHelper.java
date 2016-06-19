@@ -8,7 +8,7 @@ public interface UploadImageHelper {
 	
 	File uploadImage(ImageDir dir, String nameFile, String suffix, File file);
 	
-	void removeImage(ImageDir dir, ImageFormat[] formats, int objectId);
+	void removeImage(ImageDir dir, ImageFormat[] formats, Integer objectId);
 	
 	void removeImage(ImageDir dir, ImageFormat[] formats, String objectId);
 	

@@ -16,12 +16,14 @@ import java.util.List;
         @Index(name = "gym_city", columnList="city_id")
 })
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
-public class Gym extends BaseEntityNamed {
+public class Gym extends BaseEntityNamed implements HasImage {
 
     private String address;
     private Team team;
     private City city;
     private List<Athlete> instructors;
+
+    private Integer image;
 
     public Gym() {}
 
@@ -71,5 +73,13 @@ public class Gym extends BaseEntityNamed {
 
     public void setInstructors(List<Athlete> instructors) {
         this.instructors = instructors;
+    }
+
+    public Integer getImage() {
+        return image;
+    }
+
+    public void setImage(Integer image) {
+        this.image = image;
     }
 }

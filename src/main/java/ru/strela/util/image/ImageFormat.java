@@ -11,6 +11,9 @@ public enum ImageFormat {
 
 	STATIC_PAGE_CONTENT("spc", 1170, 0, 1170, 0, false, false, false),
 
+	GYM_PREVIEW("gp", 770, 507, 770, 507, false, false, false),
+	GYM_CONTENT("gc", 1170, 0, 1170, 0, false, false, false),
+
 	BANNER_IMAGE("bi", 940, 479, 940, 479, false, false, false),
 
 	ATHLETE_MIDDLE("ap", 300, 300, 300, 300, true, false, false);
@@ -81,15 +84,19 @@ public enum ImageFormat {
 	public static ImageFormat[] getImageFormats(ImageDir dir, boolean excludeOriginal) {
 		ImageFormat[] formats = new ImageFormat[]{};
 		if (dir == ImageDir.ATHLETE_MIDDLE) {
-			formats = new ImageFormat[]{ATHLETE_MIDDLE};
+			formats = new ImageFormat[] {ATHLETE_MIDDLE};
 		} else if (dir == ImageDir.NEWS_PREVIEW){
-			formats = new ImageFormat[]{NEWS_PREVIEW};
+			formats = new ImageFormat[] {NEWS_PREVIEW};
 		} else if (dir == ImageDir.NEWS_CONTENT){
-			formats = new ImageFormat[]{NEWS_CONTENT};
+			formats = new ImageFormat[] {NEWS_CONTENT};
 		} else if (dir == ImageDir.STATIC_PAGE_CONTENT){
-			formats = new ImageFormat[]{STATIC_PAGE_CONTENT};
+			formats = new ImageFormat[] {STATIC_PAGE_CONTENT};
 		} else if (dir == ImageDir.BANNER_IMAGE) {
-			formats = new ImageFormat[]{BANNER_IMAGE};
+			formats = new ImageFormat[] {BANNER_IMAGE};
+		} else if (dir == ImageDir.GYM_PREVIEW) {
+			formats = new ImageFormat[] {GYM_PREVIEW};
+		} else if (dir == ImageDir.GYM_CONTENT) {
+			formats = new ImageFormat[] {GYM_CONTENT};
 		}
 		
 		if(!excludeOriginal) {

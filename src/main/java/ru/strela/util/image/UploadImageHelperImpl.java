@@ -1,24 +1,21 @@
 package ru.strela.util.image;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.ImageIcon;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import ru.strela.config.ProjectConfiguration;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UploadImageHelperImpl implements UploadImageHelper {
@@ -150,8 +147,10 @@ public class UploadImageHelperImpl implements UploadImageHelper {
 	}
 	
 	@Override
-	public void removeImage(ImageDir dir, ImageFormat[] formats, int objectId) {
-		removeImage(dir, formats, String.valueOf(objectId));
+	public void removeImage(ImageDir dir, ImageFormat[] formats, Integer objectId) {
+		if (objectId != null) {
+			removeImage(dir, formats, String.valueOf(objectId));
+		}
 	}
 	
 	@Override

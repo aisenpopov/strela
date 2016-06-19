@@ -72,6 +72,60 @@
                     </div>
                 </div>
             </div>
+
+            <c:if test="${gym.id != 0}">
+                <div class="row image-panel gym-preview">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="jarviswidget jarviswidget-color-blueDark">
+                            <header role="heading">
+                                <h2>Изображение превью</h2>
+                            </header>
+                            <div role="content">
+                                <div class="widget-body no-padding">
+                                    <jsp:include page="panel/uploadImagePanel.jsp">
+                                        <jsp:param name="type" value="GYM_PREVIEW"/>
+                                        <jsp:param name="entityId" value="${gym.id}"/>
+                                        <jsp:param name="image" value="${gymImage}"/>
+                                        <jsp:param name="isMultiple" value="false"/>
+                                    </jsp:include>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%--<div class="row image-panel content-image">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="jarviswidget jarviswidget-color-blueDark">
+                            <header role="heading">
+                                <h2>Изображения для контента</h2>
+                            </header>
+                            <div role="content">
+                                <div class="widget-body">
+                                    <div class="superbox list-images">
+                                        <k:ajaxUpdate id="image-list">
+                                            <c:forEach items="${images}" var="image">
+                                                <div class="superbox-list block-image" iid="${image.id}">
+                                                    <img src="${image.image}" class="superbox-img" data-img="${image.image}" width="150"/>
+                                                    <div class="code">#[image=${image.id}]</div>
+                                                </div>
+                                            </c:forEach>
+                                        </k:ajaxUpdate>
+                                        <div class="superbox-float"></div>
+                                    </div>
+
+                                    <jsp:include page="panel/uploadImagePanel.jsp">
+                                        <jsp:param name="type" value="GYM_CONTENT"/>
+                                        <jsp:param name="entityId" value="${gym.id}"/>
+                                        <jsp:param name="crop" value="false"/>
+                                        <jsp:param name="isMultiple" value="true"/>
+                                    </jsp:include>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>--%>
+            </c:if>
         </div>
     </jsp:body>
 </te:page>

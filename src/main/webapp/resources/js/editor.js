@@ -216,6 +216,25 @@
 				instructor: true
 			}
 		});
+		E.initImagePanel(area.find(".content-image"), {
+			imagesCrop: [{
+				container: ".image",
+				cropWidth: 0,
+				cropHeight: 0,
+				maxWidth: 0,
+				maxHeight: 0
+			}],
+			isMultiple: true,
+			notNeedCrop: true
+		});
+
+		E.initImagePanel(area.find(".gym-preview"), {
+			imagesCrop: [{
+				container: ".image",
+				cropWidth: 770,
+				cropHeight: 507
+			}]
+		});
 	},
 
 	initTariffList: function() {

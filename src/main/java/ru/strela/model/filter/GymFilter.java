@@ -1,5 +1,6 @@
 package ru.strela.model.filter;
 
+import ru.strela.model.City;
 import ru.strela.model.Team;
 
 /**
@@ -8,6 +9,7 @@ import ru.strela.model.Team;
 public class GymFilter extends BaseFilter {
 
     private Team team;
+    private City city;
 
     public Team getTeam() {
         return team;
@@ -15,5 +17,13 @@ public class GymFilter extends BaseFilter {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

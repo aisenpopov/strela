@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.config.ProjectConfiguration;
 import ru.strela.model.BaseEntitySeo;
+import ru.strela.model.City;
 import ru.strela.model.Settings;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonServer;
@@ -15,6 +16,7 @@ import ru.strela.util.ajax.AjaxUpdater;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,7 +73,7 @@ public abstract class BaseController extends AjaxUpdater {
     }
 
     @ModelAttribute("currentHref")
-    protected String currentRoot(HttpServletRequest req, ModelAndView model) {
+    protected String currentHref(HttpServletRequest req) {
         StringBuilder buf = new StringBuilder();
         for (Map.Entry<String, String[]> entry : req.getParameterMap().entrySet()) {
             buf.append(buf.length() == 0 ? "?" : "&");
@@ -84,6 +86,11 @@ public abstract class BaseController extends AjaxUpdater {
     protected int year(HttpServletRequest request) {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.YEAR);
+    }
+
+    @ModelAttribute("citiesHasGym")
+    protected List<City> citiesHasGym(HttpServletRequest request) {
+        return applicationService.findHasGym();
     }
 
 }

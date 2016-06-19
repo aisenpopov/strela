@@ -2,10 +2,7 @@ package ru.strela.util.image;
 
 import org.apache.commons.lang.StringUtils;
 import ru.strela.config.ProjectConfiguration;
-import ru.strela.model.Article;
-import ru.strela.model.ArticleImage;
-import ru.strela.model.Athlete;
-import ru.strela.model.BannerImage;
+import ru.strela.model.*;
 
 public class FileDataSource {
 
@@ -60,6 +57,20 @@ public class FileDataSource {
 			if (ImageFormat.NEWS_CONTENT == format) {
 				return getImage(configuration, articleImage.getId(), ImageDir.NEWS_CONTENT, format, null);
 			}
+		}
+		return StringUtils.EMPTY;
+	}
+
+	public static String getImage(ProjectConfiguration projectConfiguration, Gym gym, ImageFormat format) {
+		if (gym != null && gym.getImage() != null) {
+			return getImage(projectConfiguration, gym.getId(), ImageDir.GYM_PREVIEW, format, gym.getImage());
+		}
+		return StringUtils.EMPTY;
+	}
+
+	public static String getImage(ProjectConfiguration projectConfiguration, GymImage gymImage, ImageFormat imageFormat) {
+		if (gymImage != null) {
+			return getImage(projectConfiguration, gymImage.getId(), ImageDir.GYM_CONTENT, imageFormat, null);
 		}
 		return StringUtils.EMPTY;
 	}

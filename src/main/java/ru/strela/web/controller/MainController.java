@@ -28,9 +28,9 @@ public class MainController extends BaseController {
         articleFilter.setVisible(true);
         articleFilter.addOrder(new Order("publish", OrderDirection.Desc));
         for (Article article : applicationService.findArticles(articleFilter, 0, 3)) {
-            ModelBuilder image = model.createCollection("newsList");
-            image.put("news", article);
-            image.put("image", FileDataSource.getImage(projectConfiguration, article, ImageFormat.NEWS_PREVIEW));
+            ModelBuilder newsItem = model.createCollection("newsList");
+            newsItem.put("news", article);
+            newsItem.put("image", FileDataSource.getImage(projectConfiguration, article, ImageFormat.NEWS_PREVIEW));
         }
 
         model.addObject("showBanner", true);

@@ -7,6 +7,9 @@ public enum ImageDir {
 
 	STATIC_PAGE_CONTENT("static_page_content"),
 
+	GYM_PREVIEW("gym_preview"),
+	GYM_CONTENT("gym_content"),
+
 	BANNER_IMAGE("banner_image"),
 	
 	ATHLETE_MIDDLE("athlete_middle");
