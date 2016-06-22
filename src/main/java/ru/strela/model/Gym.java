@@ -77,7 +77,7 @@ public class Gym extends BaseEntityNamed {
     }
 
     @OneToOne(targetEntity = Article.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id", nullable = false)
+    @JoinColumn(name = "article_id")
     public Article getArticle() {
         return article;
     }
