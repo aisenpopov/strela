@@ -102,15 +102,6 @@ public interface ApplicationService {
     List<Gym> findGyms(GymFilter filter);
 
 
-    void remove(GymImage gymImage);
-
-    GymImage save(GymImage gymImage);
-
-    List<GymImage> getGymImages(Gym gym);
-
-    GymImage findById(GymImage gymImage);
-
-
 	BannerImage save(BannerImage bannerImage);
 
 	void remove(BannerImage bannerImage);

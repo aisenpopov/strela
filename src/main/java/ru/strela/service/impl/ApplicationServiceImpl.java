@@ -55,9 +55,6 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	@Autowired
 	private GymRepository gymRepository;
 
-	@Autowired
-	private GymImageRepository gymImageRepository;
-
 //	@Autowired
 //	private GalleryImageRepository galleryImageRepository;
 //	
@@ -285,8 +282,8 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Override
 	public void remove(Gym gym) {
-		for (GymImage gymImage : getGymImages(gym)) {
-			remove(gymImage);
+		for (ArticleImage articleImage : getArticleImages(gym.getArticle())) {
+			remove(articleImage);
 		}
 
 		uploadImageHelper.removeImage(ImageDir.GYM_PREVIEW, ImageFormat.getImageFormats(ImageDir.GYM_PREVIEW), gym.getId());
@@ -309,28 +306,6 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	public List<Gym> findGyms(GymFilter filter) {
 		personService.updateFilter(filter);
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.getSort(filter));
-	}
-
-
-	@Override
-	public void remove(GymImage gymImage) {
-		uploadImageHelper.removeImage(ImageDir.GYM_CONTENT, ImageFormat.getImageFormats(ImageDir.GYM_CONTENT), gymImage.getId());
-		gymImageRepository.delete(gymImage);
-	}
-
-	@Override
-	public GymImage save(GymImage gymImage) {
-		return gymImageRepository.save(gymImage);
-	}
-
-	@Override
-	public List<GymImage> getGymImages(Gym gym) {
-		return gymImageRepository.findByGym(gym);
-	}
-
-	@Override
-	public GymImage findById(GymImage gymImage) {
-		return gymImageRepository.findOne(gymImage.getId());
 	}
 
 

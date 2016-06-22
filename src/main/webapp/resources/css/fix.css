@@ -25,3 +25,7 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.list > li a.active {
+    color: #888888;
+}

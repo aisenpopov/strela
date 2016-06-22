@@ -56,25 +56,21 @@ public class FileDataSource {
 		if (articleImage != null) {
 			if (ImageFormat.NEWS_CONTENT == format) {
 				return getImage(configuration, articleImage.getId(), ImageDir.NEWS_CONTENT, format, null);
+			} else if (ImageFormat.GYM_CONTENT == format) {
+				return getImage(configuration, articleImage.getId(), ImageDir.GYM_CONTENT, format, null);
 			}
+
 		}
 		return StringUtils.EMPTY;
 	}
 
 	public static String getImage(ProjectConfiguration projectConfiguration, Gym gym, ImageFormat format) {
-		if (gym != null && gym.getImage() != null) {
-			return getImage(projectConfiguration, gym.getId(), ImageDir.GYM_PREVIEW, format, gym.getImage());
+		if (gym != null && gym.getArticle() != null && gym.getArticle().getImage() != null) {
+			return getImage(projectConfiguration, gym.getArticle().getId(), ImageDir.GYM_PREVIEW, format, gym.getArticle().getImage());
 		}
 		return StringUtils.EMPTY;
 	}
 
-	public static String getImage(ProjectConfiguration projectConfiguration, GymImage gymImage, ImageFormat imageFormat) {
-		if (gymImage != null) {
-			return getImage(projectConfiguration, gymImage.getId(), ImageDir.GYM_CONTENT, imageFormat, null);
-		}
-		return StringUtils.EMPTY;
-	}
-	
 	private static String getImage(ProjectConfiguration configuration, int id, ImageDir imageDir, ImageFormat format, Integer image) {
 		String dir = configuration.getImageDir() + "/" + imageDir.getDir() + "/";
 		return dir + id + "/" + format.getPrefix() + ".jpg" + (image != null ? "?" + image : "");

@@ -108,7 +108,7 @@ public abstract class EditorController extends AjaxUpdater {
 					}
 					setValue(athletes);
 				}
-			} else if("team".equals(fieldName)) {
+			} else if ("team".equals(fieldName)) {
 				if(StringUtils.isBlank(text)) {
 					setValue(null);
 				} else {
@@ -145,59 +145,59 @@ public abstract class EditorController extends AjaxUpdater {
 		public String getAsText() {
 			if ("country".equals(fieldName)) {
 				Country country = (Country)getValue();
-				if(country != null) {
+				if (country != null) {
 					return String.valueOf(country.getId());
 				}
 			} else if ("person".equals(fieldName)) {
 				Person person = (Person)getValue();
-				if(person != null) {
+				if (person != null) {
 					return String.valueOf(person.getId());
 				}
 			} else if ("registrationRegion".equals(fieldName)) {
 				RegistrationRegion registrationRegion = (RegistrationRegion)getValue();
-				if(registrationRegion != null) {
+				if (registrationRegion != null) {
 					return String.valueOf(registrationRegion.getId());
 				}
 			} else if ("city".equals(fieldName)) {
 				City city = (City)getValue();
-				if(city != null) {
+				if (city != null) {
 					return String.valueOf(city.getId());
 				}
 			} else if ("athlete".equals(fieldName)) {
 				Athlete athlete = (Athlete)getValue();
-				if(athlete != null) {
+				if (athlete != null) {
 					return String.valueOf(athlete.getId());
 				}
 			} else if ("athletes".equals(fieldName)) {
 				AutocompleteHelper autocompleteHelper = new AutocompleteHelper();
-				for(Athlete athlete : (List<Athlete>)getValue()) {
+				for (Athlete athlete : (List<Athlete>)getValue()) {
 					autocompleteHelper.addValue(athlete.getId());
 				}
 				return autocompleteHelper.getValue();
 
 			} else if ("team".equals(fieldName)) {
 				Team team = (Team)getValue();
-				if(team != null) {
+				if (team != null) {
 					return String.valueOf(team.getId());
 				}
 			} else if ("gym".equals(fieldName)) {
 				Gym gym = (Gym)getValue();
-				if(gym != null) {
+				if (gym != null) {
 					return String.valueOf(gym.getId());
 				}
 			} else if ("tariff".equals(fieldName)) {
 				Tariff tariff = (Tariff)getValue();
-				if(tariff != null) {
+				if (tariff != null) {
 					return String.valueOf(tariff.getId());
 				}
 			} else if ("coupon".equals(fieldName)) {
 				Coupon coupon = (Coupon)getValue();
-				if(coupon != null) {
+				if (coupon != null) {
 					return String.valueOf(coupon.getId());
 				}
 			} else if ("athleteTariff".equals(fieldName)) {
 				AthleteTariff athleteTariff = (AthleteTariff)getValue();
-				if(athleteTariff != null) {
+				if (athleteTariff != null) {
 					return String.valueOf(athleteTariff.getId());
 				}
 			}

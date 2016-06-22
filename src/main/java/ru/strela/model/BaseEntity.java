@@ -1,11 +1,11 @@
 package ru.strela.model;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import org.hibernate.Hibernate;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Comparable<BaseEntity> {
@@ -24,12 +24,12 @@ public abstract class BaseEntity implements Comparable<BaseEntity> {
 	
 	@Override
     public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
 
         BaseEntity baseEntity = (BaseEntity) o;
         int baseEntityId = baseEntity.getId();
-        if(id != baseEntityId) return false;
+        if (id != baseEntityId) return false;
 
         return true;
     }
@@ -41,12 +41,6 @@ public abstract class BaseEntity implements Comparable<BaseEntity> {
     
     @Override
 	public int compareTo(BaseEntity o) {
-		if(id < o.getId()) {
-            return -1;
-        } else if(id > o.getId()) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return Integer.compare(id, o.getId());
 	}
 }

@@ -266,19 +266,19 @@ public class EditorImageController implements InitializingBean {
 	private void uploadGymContentImage(HttpServletRequest req, byte[] image, ImageDir dir) {
 		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
 		Gym gym = applicationService.findById(new Gym(id));
-		if(gym != null) {
-			GymImage gi = new GymImage();
-			gi.setGym(gym);
-			GymImage gymImage = applicationService.save(gi);
-			uploadImageHelper.uploadImage(dir, ImageFormat.getImageFormats(dir), image, gymImage.getId());
+		if(gym != null && gym.getArticle() != null) {
+			ArticleImage ai = new ArticleImage();
+			ai.setArticle(gym.getArticle());
+			ArticleImage articleImage = applicationService.save(ai);
+			uploadImageHelper.uploadImage(dir, ImageFormat.getImageFormats(dir), image, articleImage.getId());
 		}
 	}
 
 	private void removeGymContentImage(Integer id) {
 		if(id != null) {
-			GymImage gymImage = applicationService.findById(new GymImage(id));
-			if(gymImage != null) {
-				applicationService.remove(gymImage);
+			ArticleImage articleImage = applicationService.findById(new ArticleImage(id));
+			if(articleImage != null) {
+				applicationService.remove(articleImage);
 			}
 		}
 	}
@@ -286,17 +286,18 @@ public class EditorImageController implements InitializingBean {
 	private void uploadGymPreviewImage(HttpServletRequest req, byte[] image, ImageDir imageDir) {
 		int id = ServletRequestUtils.getIntParameter(req, "id", 0);
 		Gym gym = applicationService.findById(new Gym(id));
-		gym = uploadImage(gym, imageDir, req, image);
-		applicationService.save(gym);
+		Article article = uploadImage(gym.getArticle(), imageDir, req, image);
+		applicationService.save(article);
 	}
 
 	private void removeGymPreviewImage(Integer id, ImageDir imageDir) {
 		if(id != null) {
 			Gym gym = applicationService.findById(new Gym(id));
-			if(gym != null) {
-				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), gym.getId());
-				gym.setImage(null);
-				applicationService.save(gym);
+			Article article = gym.getArticle();
+			if(gym != null && article != null) {
+				uploadImageHelper.removeImage(imageDir, ImageFormat.getImageFormats(imageDir), article.getId());
+				article.setImage(null);
+				applicationService.save(article);
 			}
 		}
 	}

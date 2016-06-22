@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.editor.controller.core.EditorController;
+import ru.strela.model.Article;
 import ru.strela.model.Gym;
 import ru.strela.model.filter.GymFilter;
 import ru.strela.model.filter.Order;
@@ -52,18 +53,34 @@ public class EditorGymController extends EditorController {
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
     public ModelAndView save(Gym gym, BindingResult result, @PathVariable Map<String, String> pathVariables) {
     	if(validate(result, gym)) {
-            if(gym.getId() != 0) {
-                Gym saved = applicationService.findById(new Gym(gym.getId()));
-            	
-    			saved.setName(gym.getName());
-    			saved.setCity(gym.getCity());
-                saved.setTeam(gym.getTeam());
-                saved.setAddress(gym.getAddress());
-                saved.setInstructors(gym.getInstructors());
+            Article article = gym.getArticle();
+            article.setName(gym.getName());
+            if (article.getId() != 0) {
+                Article existArticle = applicationService.findById(new Article(article.getId()));
+                existArticle.setImage(article.getImage());
+                existArticle.setText(article.getText());
+                existArticle.setMetaDescription(article.getMetaDescription());
+                existArticle.setMetaKeywords(article.getMetaKeywords());
+                existArticle.setHtmlTitle(article.getHtmlTitle());
 
-        		gym = saved;
+                article = existArticle;
+            } else {
+                article.setType(Article.Type.inner);
+            }
+            if (gym.getId() != 0) {
+                Gym existGym = applicationService.findById(new Gym(gym.getId()));
+
+    			existGym.setName(gym.getName());
+    			existGym.setCity(gym.getCity());
+                existGym.setTeam(gym.getTeam());
+                existGym.setAddress(gym.getAddress());
+                existGym.setInstructors(gym.getInstructors());
+
+        		gym = existGym;
             }         
-            
+
+            article = applicationService.save(article);
+            gym.setArticle(article);
             gym = applicationService.save(gym);
             
             return new Redirect("/editor/gym/edit/" + gym.getId() + "/");
@@ -106,6 +123,7 @@ public class EditorGymController extends EditorController {
         
         if(id == 0) {
         	gym = new Gym();
+            gym.setArticle(new Article());
         } else {
         	gym = applicationService.findById(new Gym(id));
             model.put("gymImage", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));

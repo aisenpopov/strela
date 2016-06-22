@@ -14,7 +14,8 @@ public class Article extends BaseEntitySeo implements HasImage {
 
 	public enum Type {
 		news("Новость"),
-		static_page("Статическая страница");
+		static_page("Статическая страница"),
+		inner("Внутренний");
 
 		private String title;
 

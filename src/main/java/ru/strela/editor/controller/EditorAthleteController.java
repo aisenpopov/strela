@@ -78,40 +78,40 @@ public class EditorAthleteController extends EditorController {
 			}
 
             if (athlete.getId() != 0) {
-            	Athlete exist = personService.findById(new Athlete(athlete.getId()));
+            	Athlete existAthlete = personService.findById(new Athlete(athlete.getId()));
 
-            	exist.setFirstName(athlete.getFirstName());
-            	exist.setLastName(athlete.getLastName());
-            	exist.setMiddleName(athlete.getMiddleName());
-            	exist.setNickName(athlete.getNickName());
-            	exist.setSex(athlete.getSex());
-            	exist.setBirthday(athlete.getBirthday());
-            	exist.setStartDate(athlete.getStartDate());
-            	exist.setWeight(athlete.getWeight());
-            	exist.setHeight(athlete.getHeight());
-            	exist.setGiSize(athlete.getGiSize());
-            	exist.setRashguardSize(athlete.getRashguardSize());
-            	exist.setPassportNumber(athlete.getPassportNumber());
-            	exist.setInstructor(athlete.isInstructor());
-            	exist.setRetired(athlete.isRetired());
+            	existAthlete.setFirstName(athlete.getFirstName());
+            	existAthlete.setLastName(athlete.getLastName());
+            	existAthlete.setMiddleName(athlete.getMiddleName());
+            	existAthlete.setNickName(athlete.getNickName());
+            	existAthlete.setSex(athlete.getSex());
+            	existAthlete.setBirthday(athlete.getBirthday());
+            	existAthlete.setStartDate(athlete.getStartDate());
+            	existAthlete.setWeight(athlete.getWeight());
+            	existAthlete.setHeight(athlete.getHeight());
+            	existAthlete.setGiSize(athlete.getGiSize());
+            	existAthlete.setRashguardSize(athlete.getRashguardSize());
+            	existAthlete.setPassportNumber(athlete.getPassportNumber());
+            	existAthlete.setInstructor(athlete.isInstructor());
+            	existAthlete.setRetired(athlete.isRetired());
 
-            	exist.setRegistrationRegion(athlete.getRegistrationRegion());
-				exist.setTeam(athlete.getTeam());
+            	existAthlete.setRegistrationRegion(athlete.getRegistrationRegion());
+				existAthlete.setTeam(athlete.getTeam());
             	
-            	exist.setEmail(athlete.getEmail());
-            	exist.setPhoneNumber(athlete.getPhoneNumber());
-            	exist.setMobileNumber(athlete.getMobileNumber());
-            	exist.setVk(athlete.getVk());
-            	exist.setFacebook(athlete.getFacebook());
-            	exist.setInstagram(athlete.getInstagram());
-            	exist.setSkype(athlete.getSkype());
-            	exist.setComment(athlete.getComment());
+            	existAthlete.setEmail(athlete.getEmail());
+            	existAthlete.setPhoneNumber(athlete.getPhoneNumber());
+            	existAthlete.setMobileNumber(athlete.getMobileNumber());
+            	existAthlete.setVk(athlete.getVk());
+            	existAthlete.setFacebook(athlete.getFacebook());
+            	existAthlete.setInstagram(athlete.getInstagram());
+            	existAthlete.setSkype(athlete.getSkype());
+            	existAthlete.setComment(athlete.getComment());
 
-        		athlete = exist;
+        		athlete = existAthlete;
             }
 
-			Person savedPerson = personService.save(person);
-			athlete.setPerson(savedPerson);
+			person = personService.save(person);
+			athlete.setPerson(person);
             athlete = personService.save(athlete);          
             
             return new Redirect("/editor/athlete/edit/" + athlete.getId() + "/");

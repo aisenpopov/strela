@@ -44,6 +44,8 @@ public class GymController extends BaseController {
             gymItem.put("image", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));
         }
 
+        fillBanner(model);
+
         return model;
     }
 

@@ -16,14 +16,14 @@ import java.util.List;
         @Index(name = "gym_city", columnList="city_id")
 })
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
-public class Gym extends BaseEntityNamed implements HasImage {
+public class Gym extends BaseEntityNamed {
 
     private String address;
     private Team team;
     private City city;
     private List<Athlete> instructors;
 
-    private Integer image;
+    private Article article;
 
     public Gym() {}
 
@@ -75,11 +75,13 @@ public class Gym extends BaseEntityNamed implements HasImage {
         this.instructors = instructors;
     }
 
-    public Integer getImage() {
-        return image;
+    @OneToOne(targetEntity = Article.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "article_id", nullable = false)
+    public Article getArticle() {
+        return article;
     }
 
-    public void setImage(Integer image) {
-        this.image = image;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

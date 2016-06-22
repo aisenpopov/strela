@@ -28,6 +28,7 @@
                             <div class="widget-body no-padding">
                                 <form:form class="smart-form" commandName="gym" role="form" method="post">
                                     <form:hidden path="id"/>
+                                    <form:hidden path="article.id"/>
 
                                     <fieldset>
                                     	<te:baseEntityNamed isHideable="false"/>
