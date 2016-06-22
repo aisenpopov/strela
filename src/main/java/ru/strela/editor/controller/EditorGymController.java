@@ -121,12 +121,14 @@ public class EditorGymController extends EditorController {
         ModelBuilder model = new ModelBuilder("editor/editGym");
         Gym gym;
         
-        if(id == 0) {
+        if (id == 0) {
         	gym = new Gym();
-            gym.setArticle(new Article());
         } else {
         	gym = applicationService.findById(new Gym(id));
             model.put("gymImage", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));
+        }
+        if (gym.getArticle() == null) {
+            gym.setArticle(new Article());
         }
         model.put("gym", gym);
              
