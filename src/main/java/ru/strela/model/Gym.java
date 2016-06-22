@@ -13,7 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "gym", indexes = {
         @Index(name = "gym_team", columnList="team_id"),
-        @Index(name = "gym_city", columnList="city_id")
+        @Index(name = "gym_city", columnList="city_id"),
+        @Index(name = "gym_article", columnList="article_id")
 })
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)
 public class Gym extends BaseEntityNamed {
