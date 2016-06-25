@@ -29,7 +29,7 @@
                 <h3>${gym.name}</h3>
 
                 <!-- Terms List -->
-                <dl class="terms-list">
+                <dl class="article-content text-md-left">
                     <dd>${text}</dd>
                 </dl>
                 <!-- END Terms List -->

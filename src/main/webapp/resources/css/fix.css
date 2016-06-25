@@ -29,3 +29,10 @@
 .list > li a.active {
     color: #888888;
 }
+
+.article-content {
+    margin-top: 20px;
+}
+.article-content b {
+    font-weight: bold;
+}
