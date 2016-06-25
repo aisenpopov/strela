@@ -13,20 +13,14 @@
         S.initGymPage();
     </jsp:attribute>
     <jsp:body>
-        <!-- map -->
-        <section class="well--inset-2 md-well">
+        <section class="md-well well--inset-1 gym">
             <div class="container">
                 <div class="rd-google-map">
                     <div id="map" class="rd-google-map__model" data-latitude="${gym.latitude}" data-longitude="${gym.longitude}"></div>
                 </div>
-            </div>
-        </section>
-        <!-- END map-->
-        <div class="divider divider-big offset-2 md-visible"></div>
+                <div class="divider divider-big offset-2 md-visible"></div>
 
-        <section class="md-well well--inset-1 gym">
-            <div class="container">
-                <h3>${gym.name}</h3>
+                <h3 class="well--inset-1">${gym.name}</h3>
 
                 <!-- Terms List -->
                 <dl class="article-content text-md-left">
