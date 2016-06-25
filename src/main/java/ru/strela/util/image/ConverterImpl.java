@@ -1,33 +1,22 @@
 package ru.strela.util.image;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.media.jai.JAI;
-import javax.media.jai.RenderedOp;
-
+import com.sun.media.jai.codec.ImageCodec;
+import com.sun.media.jai.codec.ImageEncoder;
+import com.sun.media.jai.codec.JPEGEncodeParam;
+import com.sun.media.jai.codec.SeekableStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageEncoder;
-import com.sun.media.jai.codec.JPEGEncodeParam;
-import com.sun.media.jai.codec.SeekableStream;
+import javax.imageio.ImageIO;
+import javax.media.jai.JAI;
+import javax.media.jai.RenderedOp;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConverterImpl implements Converter {
 	
@@ -297,7 +286,6 @@ public class ConverterImpl implements Converter {
 	@Override
 	public ImageInfo getImageInfo(byte[] image) {
 		RenderedOp icon = JAI.create("stream", SeekableStream.wrapInputStream(new ByteArrayInputStream(image), true));
-		//ImageIcon icon = new ImageIcon(image);
 		return new ImageInfo(icon.getWidth(), icon.getHeight(), image.length);
 	}
 	

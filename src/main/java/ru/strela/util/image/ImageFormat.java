@@ -99,7 +99,7 @@ public enum ImageFormat {
 			formats = new ImageFormat[] {GYM_CONTENT};
 		}
 		
-		if(!excludeOriginal) {
+		if (!excludeOriginal) {
 			formats = (ImageFormat[])ArrayUtils.add(formats, ImageFormat.ORIGINAL);	
 		}
 		return formats;
@@ -110,8 +110,8 @@ public enum ImageFormat {
 	}
 	
 	public static ImageFormat getByName(String name) {
-		for(ImageFormat format : ImageFormat.values()) {
-			if(format.name().equalsIgnoreCase(name)) {
+		for (ImageFormat format : ImageFormat.values()) {
+			if (format.name().equalsIgnoreCase(name)) {
 				return format;
 			}
 		}

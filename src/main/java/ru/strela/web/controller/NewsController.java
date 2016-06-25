@@ -29,11 +29,11 @@ public class NewsController extends BaseController {
         articleFilter.setPath(path);
         Article news = applicationService.findOneArticle(articleFilter);
         if (news != null) {
-            model.addObject("news", news);
+            model.put("news", news);
 
             ArticlePrepareProcessor prepareProcessor = new ArticlePrepareProcessor(applicationService, projectConfiguration, news);
             String text = prepareProcessor.process(news.getText());
-            model.addObject("text", text);
+            model.put("text", text);
         } else {
             throw new ResourceNotFoundException();
         }

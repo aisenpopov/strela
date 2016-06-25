@@ -94,7 +94,7 @@ public class UploadImageHelperImpl implements UploadImageHelper {
 	public int uploadImage( ImageDir dir, ImageFormat[] formats,  byte[] data, String objectId) {
 		int ts = -1;
 		try {
-			boolean isConverte = true;
+			boolean isConverted = true;
 			List<File> files = new ArrayList<File>();
 			for(ImageFormat format : formats) {
 				File inFile = uploadTmpFile(format.name().toLowerCase() + "_in" ,".jpg", data);
@@ -103,11 +103,11 @@ public class UploadImageHelperImpl implements UploadImageHelper {
 				if(!converter.convertHW(inFile, tmpFile, 
 						format.getWidthVertical(), format.getHeightVertical(),
 						format.getWidthHorizontal(), format.getHeightHorizontal(), format.isSquare(), format.isHightQuality(), format.isGray()) ){
-					isConverte = false;
+					isConverted = false;
 					break;
 				}
 			}
-			if(isConverte){
+			if(isConverted){
 				ts = RandomUtils.nextInt(1000000);
 				int i = 0;
 				for(ImageFormat type : formats) {

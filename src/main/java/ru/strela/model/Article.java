@@ -1,6 +1,7 @@
 package ru.strela.model;
 
 import ru.strela.util.DateUtils;
+import ru.strela.util.image.ImageDir;
 import ru.strela.util.image.ImageFormat;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ public class Article extends BaseEntitySeo implements HasImage {
 	public enum Type {
 		news("Новость"),
 		static_page("Статическая страница"),
-		inner("Внутренний");
+		gym("Зал");
 
 		private String title;
 
@@ -33,9 +34,24 @@ public class Article extends BaseEntitySeo implements HasImage {
 				imageFormat = isPreview ? ImageFormat.NEWS_PREVIEW : ImageFormat.NEWS_CONTENT;
 			} else if (this == Type.static_page) {
 				imageFormat = ImageFormat.STATIC_PAGE_CONTENT;
+			} else if (this == Type.gym) {
+				imageFormat = isPreview ? ImageFormat.GYM_PREVIEW : ImageFormat.GYM_CONTENT;
 			}
 
 			return imageFormat;
+		}
+
+		public ImageDir getImageDir(boolean isPreview) {
+			ImageDir imageDir = null;
+			if (this == Type.news) {
+				imageDir = isPreview ? ImageDir.NEWS_PREVIEW : ImageDir.NEWS_CONTENT;
+			} else if (this == Type.static_page) {
+				imageDir = ImageDir.STATIC_PAGE_CONTENT;
+			} else if (this == Type.gym) {
+				imageDir = isPreview ? ImageDir.GYM_PREVIEW : ImageDir.GYM_CONTENT;
+			}
+
+			return imageDir;
 		}
 	}
 	

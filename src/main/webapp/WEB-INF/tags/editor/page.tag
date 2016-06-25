@@ -40,7 +40,7 @@
 		<script src="/resources/js/libs/plugin/bootstrap-timepicker.min.js"></script>
 		<script src="/resources/js/app.config.js"></script>
 		<script src="/resources/js/app.min.js"></script>
-		<!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+		<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"> </script>
 		
 	    <script type="text/javascript" src="/resources/js/commons.js"></script>
 		<script type="text/javascript" src="/resources/js/util.js"></script>

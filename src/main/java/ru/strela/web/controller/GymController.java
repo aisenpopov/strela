@@ -1,18 +1,22 @@
 package ru.strela.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ru.strela.model.Article;
 import ru.strela.model.City;
 import ru.strela.model.Gym;
 import ru.strela.model.filter.GymFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.util.ModelBuilder;
+import ru.strela.util.ResourceNotFoundException;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
+import ru.strela.util.processor.ArticlePrepareProcessor;
 import ru.strela.web.controller.core.BaseController;
 
 import java.util.List;
@@ -45,6 +49,25 @@ public class GymController extends BaseController {
         }
 
         fillBanner(model);
+
+        return model;
+    }
+
+    @RequestMapping(value = "/{id}/", method = {RequestMethod.GET})
+    public ModelAndView getGym(@PathVariable Integer id) {
+        ModelBuilder model = new ModelBuilder("gym");
+
+        Gym gym = applicationService.findById(new Gym(id));
+        if (gym != null) {
+            model.put("gym", gym);
+
+            Article article = gym.getArticle();
+            ArticlePrepareProcessor prepareProcessor = new ArticlePrepareProcessor(applicationService, projectConfiguration, article);
+            String text = prepareProcessor.process(article.getText());
+            model.put("text", text);
+        } else {
+            throw new ResourceNotFoundException();
+        }
 
         return model;
     }

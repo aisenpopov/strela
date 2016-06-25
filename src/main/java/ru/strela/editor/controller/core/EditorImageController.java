@@ -118,7 +118,7 @@ public class EditorImageController implements InitializingBean {
 			for(byte[] image : imagesList) {
 				final File tmpFile = File.createTempFile(RandomStringUtils.randomAlphabetic(5), "", uploadDir);
 				try {
-					if("true".equals(req.getParameter("isEncrease"))) {
+					if("true".equals(req.getParameter("increase"))) {
 						ImageInfo imageInfo = converter.getImageInfo(image);
 						int size = imageInfo.getWidth() > imageInfo.getHeigth() ? imageInfo.getWidth() : imageInfo.getHeigth();
 						image = converter.increaseImage(image, size, size, false);

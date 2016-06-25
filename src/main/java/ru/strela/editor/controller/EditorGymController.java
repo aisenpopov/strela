@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.Article;
+import ru.strela.model.ArticleImage;
 import ru.strela.model.Gym;
 import ru.strela.model.filter.GymFilter;
 import ru.strela.model.filter.Order;
@@ -64,7 +65,7 @@ public class EditorGymController extends EditorController {
 
                 article = existArticle;
             } else {
-                article.setType(Article.Type.inner);
+                article.setType(Article.Type.gym);
             }
             if (gym.getId() != 0) {
                 Gym existGym = applicationService.findById(new Gym(gym.getId()));
@@ -74,6 +75,8 @@ public class EditorGymController extends EditorController {
                 existGym.setTeam(gym.getTeam());
                 existGym.setAddress(gym.getAddress());
                 existGym.setInstructors(gym.getInstructors());
+                existGym.setLongitude(gym.getLongitude());
+                existGym.setLatitude(gym.getLatitude());
 
         		gym = existGym;
             }         
@@ -95,7 +98,7 @@ public class EditorGymController extends EditorController {
         String action = req.getParameter("action");
 
         int id = TextUtils.getIntValue(pathVariables.get("id"));
-        if("refresh-image".equals(action) && id != 0) {
+        if ("refresh-image".equals(action) && id != 0) {
             ajaxUpdate(req, res, "image-list");
         } else if ("refresh-crop-image".equals(action) && id != 0) {
             ajaxUpdate(req, res, "cropImagePanel");
@@ -125,6 +128,14 @@ public class EditorGymController extends EditorController {
         } else {
         	gym = applicationService.findById(new Gym(id));
             model.put("gymImage", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));
+            Article article = gym.getArticle();
+            if (article != null) {
+                for (ArticleImage articleImage : applicationService.getArticleImages(article)) {
+                    ModelBuilder item = model.createCollection("images");
+                    item.put("id", articleImage.getId());
+                    item.put("image", FileDataSource.getImage(projectConfiguration, articleImage, ImageFormat.GYM_CONTENT));
+                }
+            }
         }
         if (gym.getArticle() == null) {
             gym.setArticle(new Article());

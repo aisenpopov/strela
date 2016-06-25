@@ -25,8 +25,8 @@ public enum ImageDir {
 	}
 	
 	public static ImageDir getDir(String name) {
-		for(ImageDir dir : values()) {
-			if(dir.name().equalsIgnoreCase(name)) {
+		for (ImageDir dir : values()) {
+			if (dir.name().equalsIgnoreCase(name)) {
 				return dir;
 			}
 		}

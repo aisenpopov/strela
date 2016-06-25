@@ -29,6 +29,8 @@
                                 <form:form class="smart-form" commandName="gym" role="form" method="post">
                                     <form:hidden path="id"/>
                                     <form:hidden path="article.id"/>
+                                    <form:hidden path="longitude"/>
+                                    <form:hidden path="latitude"/>
 
                                     <fieldset>
                                     	<te:baseEntityNamed isHideable="false"/>
@@ -61,6 +63,12 @@
                                                 <form:errors class="help-block error" path="instructors"/>
                                             </label>
                                         </section>
+                                        <section>
+                                            <label class="label">Текст</label>
+                                            <label class="input">
+                                                <form:textarea class="form-control wysiwyg" path="article.text"/>
+                                            </label>
+                                        </section>
                                     </fieldset>
                                     <footer>
                                         <button class="btn btn-primary" type="submit" name="save">
@@ -75,6 +83,21 @@
             </div>
 
             <c:if test="${gym.id != 0}">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="jarviswidget jarviswidget-color-blueDark">
+                            <header role="heading">
+                                <h2>Карта</h2>
+                            </header>
+                            <div role="content">
+                                <div class="widget-body no-padding">
+                                    <div id="map" style="height: 400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row image-panel gym-preview">
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <div class="jarviswidget jarviswidget-color-blueDark">
@@ -95,7 +118,7 @@
                     </div>
                 </div>
 
-                <%--<div class="row image-panel content-image">
+                <div class="row image-panel content-image">
                     <div class="col-sm-12 col-md-12 col-lg-6">
                         <div class="jarviswidget jarviswidget-color-blueDark">
                             <header role="heading">
@@ -125,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                </div>--%>
+                </div>
             </c:if>
         </div>
     </jsp:body>

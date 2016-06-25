@@ -23,6 +23,8 @@ public class Gym extends BaseEntityNamed {
     private Team team;
     private City city;
     private List<Athlete> instructors;
+    private Double longitude;
+    private Double latitude;
 
     private Article article;
 
@@ -74,6 +76,22 @@ public class Gym extends BaseEntityNamed {
 
     public void setInstructors(List<Athlete> instructors) {
         this.instructors = instructors;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     @OneToOne(targetEntity = Article.class, fetch = FetchType.LAZY)

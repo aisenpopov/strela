@@ -113,7 +113,7 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
 	@Override
 	public void remove(ArticleImage articleImage) {
-		ImageDir dir = articleImage.getArticle().getType() == Article.Type.news ? ImageDir.NEWS_CONTENT : ImageDir.STATIC_PAGE_CONTENT;
+		ImageDir dir = articleImage.getArticle().getType().getImageDir(false);
 		uploadImageHelper.removeImage(dir, ImageFormat.getImageFormats(dir), articleImage.getId());
 		articleImageRepository.delete(articleImage);
 	}

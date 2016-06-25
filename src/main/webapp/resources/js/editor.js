@@ -235,6 +235,59 @@
 				cropHeight: 507
 			}]
 		});
+
+		var longitudeInput = area.find("input[name=longitude]"),
+			latitudeInput = area.find("input[name=latitude]"),
+			placemark,
+			coordinates,
+			moscowCoordinates = [55.753559, 37.609218];
+
+		if (longitudeInput.val().length && latitudeInput.val().length) {
+			coordinates = [parseFloat(latitudeInput.val()), parseFloat(longitudeInput.val())];
+		}
+		console.log(coordinates);
+
+		ymaps.ready(function() {
+			if (!coordinates) {
+				coordinates = moscowCoordinates;
+			}
+			var map = new ymaps.Map("map", {
+					center: coordinates,
+					zoom: 16,
+					controls: ['typeSelector', 'fullscreenControl', 'zoomControl']
+				}),
+				searchControl = new ymaps.control.SearchControl({
+					options: {
+						noPlacemark: true
+					}
+				});
+
+			placemark = new ymaps.Placemark(
+				coordinates,
+				{},
+				{
+					draggable: true,
+					preset: 'islands#whiteStretchyIcon'
+				}
+			);
+			map.geoObjects.add(placemark);
+
+			map.controls.add(searchControl);
+			searchControl.events.add('resultselect', function (e) {
+				var index = e.get('index');
+				searchControl.getResult(index).then(function (res) {
+					placemark.geometry.setCoordinates(res.geometry.getCoordinates());
+				});
+			});
+		});
+
+		var form = area.find("form");
+		form.find("button[type=submit]").off("click").on("click", function() {
+			var coord = placemark.geometry.getCoordinates();
+			latitudeInput.val(coord[0]);
+			longitudeInput.val(coord[1]);
+			form.submit();
+		});
 	},
 
 	initTariffList: function() {

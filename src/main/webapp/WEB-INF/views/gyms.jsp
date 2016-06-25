@@ -28,16 +28,16 @@
                         <h2 class="offset-6">${cityName}</h2>
                         <c:forEach items="${gyms}" var="item">
                             <article class="news-post">
-                                <a href="#">
+                                <a href="/gym/${item.gym.id}/">
                                     <img class="sm-max-width" src="${item.image}" alt="">
                                 </a>
                                 <time datetime="2001-05-15">${item.gym.address}</time>
-                                <h2><a href="#">${item.gym.name}</a> </h2>
+                                <h2><a href="/gym/${item.gym.id}/">${item.gym.name}</a> </h2>
 
                                 <p class="text-md-left"></p>
 
                                 <div class="text-md-right postfix-1 offset-4">
-                                    <a href="#" class="link">ПОДРОБНЕЕ</a>
+                                    <a href="/gym/${item.gym.id}/" class="link">ПОДРОБНЕЕ</a>
                                 </div>
                             </article>
                             <div class="divider divider-small"></div>

@@ -65,13 +65,15 @@
 					<input type="text" name="imageUrl" class="form-control"/>
 		   		</label>
 			</section>
-			<section>
-				<label class="label"></label>
-				<label class="checkbox">
-					<input type="checkbox" name="isEncrease"/>
-					<i></i> Увеличить до пропорции
-		   		</label>
-			</section>
+			<c:if test="${crop}">
+				<%--<section>
+					<label class="label"></label>
+					<label class="checkbox">
+						<input type="checkbox" name="increase"/>
+						<i></i> Увеличить до пропорции
+					</label>
+				</section>--%>
+			</c:if>
 			<section>
 				<button class="btn btn-primary upload">Загрузить</button>
 			</section>

@@ -28,6 +28,7 @@
 	<script src="/resources/js/html5shiv.min.js"></script>
 	<![endif]-->
 	<!-- Core Scripts -->
+	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"> </script>
 	<script src="/resources/js/core.min.js"></script>
 	<script src="/resources/js/strela.js"></script>
 </head>
