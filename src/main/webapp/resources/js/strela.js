@@ -11,8 +11,8 @@ var S = {
                 coordinates,
                 moscowCoordinates = [55.753559, 37.609218];
 
-            if (longitude.length && latitude.length) {
-                coordinates = [parseFloat(latitude), parseFloat(longitude)];
+            if (longitude && latitude) {
+                coordinates = [latitude, longitude];
             }
             if (!coordinates) {
                 coordinates = moscowCoordinates;
