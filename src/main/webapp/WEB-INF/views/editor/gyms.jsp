@@ -39,7 +39,7 @@
 								</form:form>
 								
 								<div class="table-responsive">
-									<k:ajaxUpdate id="list">
+									<t:ajaxUpdate id="list">
 										<table class="table table-striped table-bordered">
 											<thead>
 												<tr>
@@ -78,7 +78,7 @@
 												</c:forEach>
 											</tbody>
 										</table>
-									</k:ajaxUpdate>
+									</t:ajaxUpdate>
 									
 									<te:paging page="${page}" url="${pagerPath}" />
 								</div>

@@ -102,14 +102,14 @@
 							<div role="content">
 								<div class="widget-body">
 									<div class="superbox list-images">
-										<k:ajaxUpdate id="image-list">
+										<t:ajaxUpdate id="image-list">
 											<c:forEach items="${images}" var="image">
 												<div class="superbox-list block-image" iid="${image.id}">
 													<img src="${image.image}" class="superbox-img" data-img="${image.image}" width="150"/>
 													<div class="code">#[image=${image.id}]</div>
 												</div>
 											</c:forEach>
-										</k:ajaxUpdate>
+										</t:ajaxUpdate>
 										<div class="superbox-float"></div>
 									</div>
 										
@@ -136,7 +136,7 @@
                                     <header>Видео</header>
 									<fieldset>
 										<section>
-											<k:ajaxUpdate id="video-panel">
+											<t:ajaxUpdate id="video-panel">
 												<table class="table table-bordered">
 													<thead>
 														<tr>
@@ -186,7 +186,7 @@
 															</c:forEach>								
 														</tbody>
 													</table>
-				                                </k:ajaxUpdate>
+				                                </t:ajaxUpdate>
 											</section>
 											<section class="add-block">
 												<a href="#"><i class="glyphicon glyphicon-plus"></i>Добавить блок</a>

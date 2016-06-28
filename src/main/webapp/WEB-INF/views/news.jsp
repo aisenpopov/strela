@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" isELIgnored="false"%>
 <%@ include file="include.jsp"%>
 
-<k:page htmlTitle="${news.name}">
+<t:page htmlTitle="${news.name}">
 	<jsp:attribute name="initScript">
     </jsp:attribute>
     <jsp:body>
@@ -26,4 +26,4 @@
             </div>
         </section>
     </jsp:body>
-</k:page>
+</t:page>

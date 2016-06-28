@@ -1,12 +1,18 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Aisen
+  Date: 27.04.2016
+  Time: 18:42
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" isELIgnored="false"%>
 <%@ include file="include.jsp"%>
 
-<t:page htmlTitle="Главная">
+<t:page htmlTitle="Новости">
 	<jsp:attribute name="initScript">
     </jsp:attribute>
     <jsp:body>
-        <!-- popular news -->
-        <section class="well well--inset-1">
+        <section class="well well--inset-1 page-content">
             <div class="container">
                 <h1>новости</h1>
 
@@ -29,6 +35,10 @@
                 </div>
             </div>
         </section>
-        <!-- END popular news-->
+        <section class="well--inset-1">
+            <div class="container">
+                <t:paging page="${page}" url="${pagerPath}" />
+            </div>
+        </section>
     </jsp:body>
 </t:page>

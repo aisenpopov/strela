@@ -77,14 +77,14 @@
 							</header>
 							<div role="content">
 								<div class="widget-body no-padding">
-									<k:ajaxUpdate id="bannerImagePanel">
+									<t:ajaxUpdate id="bannerImagePanel">
 										<jsp:include page="panel/uploadImagePanel.jsp">
 									        <jsp:param name="type" value="BANNER_IMAGE"/>
 									        <jsp:param name="entityId" value="${bannerImage.id}"/>
 									        <jsp:param name="image" value="${image}"/>
 									        <jsp:param name="isMultiple" value="false"/>
 									    </jsp:include>
-									</k:ajaxUpdate>
+									</t:ajaxUpdate>
 								</div>
 							</div>
 						</div>

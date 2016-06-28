@@ -127,14 +127,14 @@
                             <div role="content">
                                 <div class="widget-body">
                                     <div class="superbox list-images">
-                                        <k:ajaxUpdate id="image-list">
+                                        <t:ajaxUpdate id="image-list">
                                             <c:forEach items="${images}" var="image">
                                                 <div class="superbox-list block-image" iid="${image.id}">
                                                     <img src="${image.image}" class="superbox-img" data-img="${image.image}" width="150"/>
                                                     <div class="code">#[image=${image.id}]</div>
                                                 </div>
                                             </c:forEach>
-                                        </k:ajaxUpdate>
+                                        </t:ajaxUpdate>
                                         <div class="superbox-float"></div>
                                     </div>
 

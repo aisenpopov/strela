@@ -20,7 +20,7 @@
 	<div class="smart-form">
 		<fieldset>
 			<div class="crop-image-panel">
-				<k:ajaxUpdate id="cropImagePanel${not empty format ? format : ''}">
+				<t:ajaxUpdate id="cropImagePanel${not empty format ? format : ''}">
 					<section>
 						<div class="image-wrapper">
 							<div class="image" style="${empty image ? 'display: none;' : ''}">
@@ -39,7 +39,7 @@
 					<section>
 						<button class="btn btn-primary save-image" style="display: none;">Сохранить</button>
 					</section>
-				</k:ajaxUpdate>
+				</t:ajaxUpdate>
 			</div>
 			
 			<section>

@@ -40,7 +40,7 @@
                             </ul>
                         </li>
                         <li class="${(fn:contains(currentHref, 'news') ? 'active' : '')}">
-                            <a href="#">Новости</a>
+                            <a href="/news/">Новости</a>
                         </li>
                         <li class="${(fn:contains(currentHref, 'contacts') ? 'active' : '')}">
                             <a href="/contacts/">Контакты</a>
