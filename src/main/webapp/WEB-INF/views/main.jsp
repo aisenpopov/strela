@@ -12,7 +12,7 @@
 
                 <div class="row text-md-left flow-offset-1">
                     <c:forEach items="${newsList}" var="newsItem">
-                        <div class="col-md-4 relative">
+                        <div class="col-md-4 relative news">
                             <!--News Post-->
                             <article class="news-post inset-1">
                                 <img height="222" width="337" src="${newsItem.image}" alt="">
@@ -21,7 +21,6 @@
 
                                 <p>${newsItem.news.shortText}</p>
                                 <a href="/news/${newsItem.news.path}" class="link">ПОДРОБНЕЕ</a>
-
                             </article>
                             <div class="divider divider-md-vertical divider-small divider-right offset-1"></div>
                         </div>

@@ -36,3 +36,14 @@
 .article-content b {
     font-weight: bold;
 }
+
+@media (min-width: 992px) {
+    .news {
+        padding-bottom: 40px;
+    }
+
+    .news .link {
+        position: absolute;
+        bottom: 0;
+    }
+}
