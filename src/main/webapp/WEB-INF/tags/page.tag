@@ -18,22 +18,17 @@
 	<meta name="format-detection" content="telephone=no"/>
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 
-	<!-- Stylesheets -->
 	<link rel="icon" href="/resources/favicon.ico" type="/favicon.ico"/>
-	<link href='//fonts.googleapis.com/css?family=Ubuntu:300%7CRoboto+Condensed:700' rel='stylesheet' type='text/css'>
+	<!-- Stylesheets -->
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:300%7CRoboto+Condensed:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/resources/css/style.css">
 	<link rel="stylesheet" href="/resources/css/fix.css">
 
 	<!--[if lt IE 10]>
 	<script src="/resources/js/html5shiv.min.js"></script>
 	<![endif]-->
-	<!-- Core Scripts -->
-	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"> </script>
-	<script src="/resources/js/core.min.js"></script>
-	<script src="/resources/js/strela.js"></script>
 </head>
 <body>
-
 	<div class="page text-center">
 
 		<!--For older internet explorer-->
@@ -54,12 +49,17 @@
 
 		<jsp:include page="../views/footer.jsp" />
 	</div>
-
-
 </body>
+	<!-- Core Scripts -->
+	<script src="/resources/js/core.min.js"></script>
 
 	<!-- Additional Functionality Scripts -->
 	<script src="/resources/js/script.js"></script>
+	<script src="/resources/js/libs/yandex-map-2.1.min.js"></script>
+	<script src="/resources/js/libs/jquery-ui-1.10.3.min.js"></script>
+	<script src="/resources/js/libs/jquery.form-validator.min.js"></script>
+	<script src="/resources/js/util.js"></script>
+	<script src="/resources/js/strela.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {

@@ -170,7 +170,7 @@ public class AutocompleteController {
         List<ResponseItem> result = new ArrayList<ResponseItem>();
         GymFilter filter = new GymFilter();
         filter.setQuery(q);
-        for(Gym gym : applicationService.findGyms(filter)) {
+        for(Gym gym : applicationService.findGyms(filter, true)) {
             result.add(new ResponseItem(gym.getId(), gym.getName()));
         }
         return result;

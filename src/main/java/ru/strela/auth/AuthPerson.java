@@ -1,12 +1,13 @@
 package ru.strela.auth;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import ru.strela.model.auth.Person;
+
 import java.util.Collection;
 import java.util.HashSet;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import ru.strela.model.auth.Person;
+import java.util.Set;
 
 public class AuthPerson implements UserDetails {
 	
@@ -20,7 +21,15 @@ public class AuthPerson implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new HashSet<GrantedAuthority>();
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
+		grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		if (person.isInstructor()) {
+			grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_INSTRUCTOR"));
+		}
+		if (person.isAdmin()) {
+			grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
+		return grantedAuthorities;
 	}
 
 	@Override

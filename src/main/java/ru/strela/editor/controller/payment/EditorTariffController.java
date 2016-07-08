@@ -26,8 +26,7 @@ public class EditorTariffController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") TariffFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") TariffFilter filter) {
     	ModelBuilder model = new ModelBuilder("editor/tariffs");
         if (filter == null) {
         	filter = new TariffFilter();

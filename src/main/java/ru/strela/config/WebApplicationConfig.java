@@ -9,13 +9,13 @@ import org.springframework.core.Ordered;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import ru.strela.mail.MailService;
+import ru.strela.mail.MailServiceImpl;
+import ru.strela.mail.SendMailHelper;
+import ru.strela.mail.SendMailHelperImpl;
 
 @Configuration
 @EnableWebMvc
@@ -75,14 +75,14 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
         return commonsMultipartResolver;
     }
     
-//    @Bean
-//	public SendMailHelper sendMailHelper() {
-//		return new SendMailHelperImpl();
-//	}
-//	
-//	@Bean 
-//	public MailService mailService() {
-//		return new MailServiceImpl();
-//	}
+    @Bean
+	public SendMailHelper sendMailHelper() {
+		return new SendMailHelperImpl();
+	}
+
+	@Bean
+	public MailService mailService() {
+		return new MailServiceImpl();
+	}
 	
 }

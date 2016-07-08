@@ -19,12 +19,11 @@ public class WebApp implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-	    // to select profile use -Dspring.profiles.default=profile_name
 	    AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 	    rootContext.register(PropertySourcesConfig.class);
 	    rootContext.register(ApplicationConfig.class);
 	    rootContext.register(WebApplicationConfig.class);
-	    rootContext.register(SecurityConfig.class);
+		rootContext.register(MultiHttpSecurityConfig.class);
 
 	    ServletRegistration.Dynamic dispatcher = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(rootContext));
 	    dispatcher.setLoadOnStartup(1);

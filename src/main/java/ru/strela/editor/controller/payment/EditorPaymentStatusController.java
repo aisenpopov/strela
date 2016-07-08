@@ -31,8 +31,7 @@ public class EditorPaymentStatusController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") PaymentStatusFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") PaymentStatusFilter filter) {
         ModelBuilder model = new ModelBuilder("editor/paymentStatuses");
         if(filter == null) {
             filter = new PaymentStatusFilter();

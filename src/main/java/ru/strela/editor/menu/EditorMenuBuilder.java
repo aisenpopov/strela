@@ -5,10 +5,10 @@ package ru.strela.editor.menu;
  */
 public class EditorMenuBuilder {
 
-    public EditorMenuBar build(boolean root) {
+    public EditorMenuBar build(boolean isAdmin) {
         EditorMenuBar menuBar = new EditorMenuBar();
 
-        if (root) {
+        if (isAdmin) {
             MenuItem main = new MenuItem();
             main.setCaption("Главная");
             main.setIcon("fa-image");
@@ -28,6 +28,11 @@ public class EditorMenuBuilder {
         menuBar.addItem(payment);
 
         {
+            MenuItem balance = new MenuItem();
+            balance.setCaption("Мой баланс");
+            balance.setHref("balance");
+            payment.addItem(balance);
+
             MenuItem pay = new MenuItem();
             pay.setCaption("Платежи");
             pay.setHref("payment");
@@ -37,6 +42,19 @@ public class EditorMenuBuilder {
             paymentStatus.setCaption("Даты истечения");
             paymentStatus.setHref("payed_status");
             payment.addItem(paymentStatus);
+
+            if (isAdmin) {
+                MenuItem personAccount = new MenuItem();
+                personAccount.setCaption("Операторы");
+                personAccount.setHref("person_account");
+                payment.addItem(personAccount);
+
+            }
+
+            MenuItem transaction = new MenuItem();
+            transaction.setCaption("Списания");
+            transaction.setHref("transaction");
+            payment.addItem(transaction);
 
             MenuItem tariff = new MenuItem();
             tariff.setCaption("Тарифы");
@@ -59,6 +77,7 @@ public class EditorMenuBuilder {
             MenuItem athlete = new MenuItem();
             athlete.setCaption("Атлеты");
             athlete.setHref("athlete");
+            athlete.setIcon("fa-users");
             directory.addItem(athlete);
 
             MenuItem team = new MenuItem();
@@ -71,7 +90,7 @@ public class EditorMenuBuilder {
             gym.setHref("gym");
             directory.addItem(gym);
 
-            if (root) {
+            if (isAdmin) {
                 MenuItem registrationRegion = new MenuItem();
                 registrationRegion.setCaption("Регионы регистрации");
                 registrationRegion.setHref("registration_region");
@@ -89,7 +108,7 @@ public class EditorMenuBuilder {
             }
         }
 
-        if (root) {
+        if (isAdmin) {
             MenuItem news = new MenuItem();
             news.setCaption("Новости");
             news.setIcon("fa-newspaper-o");
@@ -101,12 +120,6 @@ public class EditorMenuBuilder {
             staticPages.setIcon("fa-file-text");
             staticPages.setHref("article/static_page");
             menuBar.addItem(staticPages);
-
-            MenuItem persons = new MenuItem();
-            persons.setCaption("Пользователи");
-            persons.setIcon("fa-users");
-            persons.setHref("person");
-            menuBar.addItem(persons);
 
             MenuItem settings = new MenuItem();
             settings.setCaption("Настройки");

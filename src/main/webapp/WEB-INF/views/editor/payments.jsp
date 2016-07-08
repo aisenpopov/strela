@@ -10,7 +10,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-title txt-color-blueDark">
-						<i class="fa ${activeMenu.icon} fa-fw"></i>${activeMenu.caption} 
+						<i class="fa ${activeMenu.icon} fa-fw"></i>Платежи
 						<a href="/editor/${activeMenu.href}/edit/"class="btn btn-info right-header-button" role="button">Добавить</a>
 					</h1>
 				</div>
@@ -55,17 +55,21 @@
 											</thead>
 											<tbody>
 												<c:forEach var="item" items="${page.content}" varStatus="loop">
-													<tr class="sys-item" iid="${item.id}">
-														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.athleteTariff.athlete.displayName}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.athleteTariff.tariff.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${not empty item.athleteTariff ? item.athleteTariff.coupon.name : ''}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.amount}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.operator.login}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatFull(item.date)}</a></td>
+													<tr class="sys-item" iid="${item.payment.id}">
+														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.id}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.athleteTariff.athlete.displayName}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.athleteTariff.tariff.name}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${not empty item.payment.athleteTariff ? item.payment.athleteTariff.coupon.name : ''}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.amount}</a></td>
+														<td>
+															<a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">
+																${item.payment.operator.login}<c:if test="${not empty item.athlete}">, ${item.athlete.displayName}</c:if>
+															</a>
+														</td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${dateUtils:formatDayMonthYear(item.payment.date)}</a></td>
 
 												        <td>
-												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
+												        	<a href="/editor/${activeMenu.href}/remove/${item.payment.id}/" class="sys-remove">
 												        		<i class="glyphicon glyphicon-remove"></i>
 												        	</a>
 												        </td>

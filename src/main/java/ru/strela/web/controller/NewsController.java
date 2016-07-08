@@ -16,14 +16,14 @@ import ru.strela.util.ResourceNotFoundException;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 import ru.strela.util.processor.ArticlePrepareProcessor;
-import ru.strela.web.controller.core.BaseController;
+import ru.strela.web.controller.core.WebController;
 
 /**
  * Created by Aisen on 27.04.2016.
  */
 @Controller
 @RequestMapping(value = {"/news"})
-public class NewsController extends BaseController {
+public class NewsController extends WebController {
 
     @RequestMapping("/")
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,

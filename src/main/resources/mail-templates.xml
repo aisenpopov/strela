@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<dictionary>
+
+	<item text="registration-subject">
+		<localized locale="ru">Регистрация завершена</localized>
+	</item>
+	<item text="registration-mail">
+		<localized locale="ru"><![CDATA[
+			Здравствуйте, <LAST_NAME/> <FIRST_NAME/> <SECOND_NAME/><br/>
+			<br/>
+			Регистрация успешно завершена!
+			<br/>
+			Благодарим Вас за регистрацию на Конгресс «Психическое здоровье человека XXI века», который будет проходить 7-8 октября 2016 года.<br/>
+			<br/>
+			Вы можете авторизоваться на <a href="http://www.mental-health-congress.ru/ru/account/">сайте</a>, используя Ваш логин и пароль<br/>
+			<br/>
+			Логин: <EMAIL/><br/>
+			Пароль: <PASSWORD/><br/>
+			<br/>
+			Ознакомиться с пакетами участника и оплатить участие, Вы можете в «Личном кабинете» в разделе «<a href="http://www.mental-health-congress.ru/ru/account/payment/">Оплата посещения</a>»<br/>
+			<br/>
+			Вы получили данное письмо, так как зарегистрировались на сайте Конгресса «Психическое здоровье человека XXI века». Это письмо носит информационный характер и не предполагает ответа. Пожалуйста, не отвечайте на это письмо.
+		]]></localized>
+	</item>
+	
+	<item text="recovery-subject">
+		<localized locale="ru">Восстановление пароля</localized>
+	</item>
+	<item text="recovery-mail">
+		<localized locale="ru"><![CDATA[
+			Здравствуйте, <NAME/>, вы запросили восстановаление пароля. <br/><br/>
+
+			Чтобы создать новый пароль и получить доступ к вашему аккаунту - перейдите по ссылке:<br/>
+			<a href="http://<DOMAIN/>/recovery/?code=<CODE/>&email=<EMAIL/>">
+				http://<DOMAIN/>/recovery/?code=<CODE/>&email=<EMAIL/>
+			</a>
+		]]></localized>
+	</item>
+	
+</dictionary>

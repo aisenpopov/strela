@@ -56,7 +56,7 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.name}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.discountPercent}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatFull(item.expiration)}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatDayMonthYear(item.expiration)}</a></td>
 
 												        <td>
 												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">

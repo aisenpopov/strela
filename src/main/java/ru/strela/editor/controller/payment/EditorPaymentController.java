@@ -1,6 +1,7 @@
 package ru.strela.editor.controller.payment;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,7 @@ import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Aisen on 30.04.2016.
@@ -37,15 +36,21 @@ public class EditorPaymentController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") PaymentFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") PaymentFilter filter) {
         ModelBuilder model = new ModelBuilder("editor/payments");
-        if(filter == null) {
+        if (filter == null) {
             filter = new PaymentFilter();
         }
         filter.addOrder(new Order("id", OrderDirection.Desc));
         Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
-        model.put("page", page);
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (Payment payment : page) {
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("payment", payment);
+            item.put("athlete", personService.findByPerson(payment.getOperator()));
+            list.add(item);
+        }
+        model.put("page", new PageImpl<Map<String, Object>>(list));
 
         return model;
     }
@@ -80,34 +85,6 @@ public class EditorPaymentController extends EditorController {
         return getModel(null, null);
     }
 
-//    TODO remove after check
-//    @RequestMapping(value={"/edit/ajax/save/", "/edit/{idd}/ajax/save/"}, method=RequestMethod.POST)
-//    public ModelAndView saveAthleteTariff(HttpServletRequest req,
-//                                          HttpServletResponse res,
-//                                          @ModelAttribute("athleteTariff") AthleteTariff athleteTariff,
-//                                          BindingResult result) {
-//        if (validate(result, athleteTariff)) {
-//            if (athleteTariff.getId() > 0) {
-//                AthleteTariff exist = paymentService.findById(new AthleteTariff(athleteTariff.getId()));
-//
-//                exist.setTariff(athleteTariff.getTariff());
-//                exist.setCoupon(athleteTariff.getCoupon());
-//
-//                athleteTariff = exist;
-//            }
-//
-//            AthleteTariff saved = paymentService.save(athleteTariff);
-//
-//            ajaxUpdate(req, res, "athleteTariffForm");
-//
-//            return getModel(0, null);
-//        } else {
-//            ajaxUpdate(req, res, "athleteTariffForm");
-//
-//            return getModel(0, athleteTariff);
-//        }
-//    }
-
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse remove(@PathVariable("id") int id) {
@@ -131,13 +108,13 @@ public class EditorPaymentController extends EditorController {
                 Person currentPerson = personServer.getCurrentPerson();
                 payment.setOperator(currentPerson);
 
-                if (currentPerson != null && !currentPerson.isRoot()) {
+                if (currentPerson != null && currentPerson.isInstructor() && !currentPerson.isAdmin()) {
                     Athlete athlete = personService.findByPerson(currentPerson);
                     if (athlete != null) {
                         if (athlete.getTeam() != null) {
                             GymFilter filter = new GymFilter();
                             filter.setTeam(athlete.getTeam());
-                            List<Gym> gyms = applicationService.findGyms(filter);
+                            List<Gym> gyms = applicationService.findGyms(filter, true);
 
                             if (gyms != null && !gyms.isEmpty() && gyms.size() == 1) {
                                 Tariff newTariff = new Tariff();
@@ -184,10 +161,6 @@ public class EditorPaymentController extends EditorController {
             }
         }
 
-//        TODO remove after check
-//        if (payment.getAthleteTariff() == null || payment.getAthleteTariff().getId() == 0) {
-//            result.rejectValue("athleteTariff", "field.required", FIELD_REQUIRED);
-//        }
         if (payment.getDate() == null) {
             result.rejectValue("date", "field.required", FIELD_REQUIRED);
         }
@@ -197,25 +170,5 @@ public class EditorPaymentController extends EditorController {
 
         return !result.hasErrors();
     }
-
-//    TODO remove after check
-//    private boolean validate(BindingResult result, AthleteTariff athleteTariff) {
-//        if (athleteTariff.getAthlete() == null) {
-//            result.rejectValue("athlete", "field.required", FIELD_REQUIRED);
-//        }
-//        if (athleteTariff.getTariff() == null) {
-//            result.rejectValue("tariff", "field.required", FIELD_REQUIRED);
-//        } else if(athleteTariff.getAthlete() != null) {
-//            AthleteTariffFilter filter = new AthleteTariffFilter();
-//            filter.setAthlete(athleteTariff.getAthlete());
-//            filter.setTariff(athleteTariff.getTariff());
-//            List<AthleteTariff> athleteTariffs = paymentService.findAthleteTariffs(filter);
-//            if (!athleteTariffs.isEmpty() && athleteTariffs.get(0).getId() != athleteTariff.getId()) {
-//                result.rejectValue("tariff", "field.required", "Для данного пользователя уже создан такой тариф");
-//            }
-//        }
-//
-//        return !result.hasErrors();
-//    }
 
 }

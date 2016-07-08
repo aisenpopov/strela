@@ -10,14 +10,14 @@ import ru.strela.model.filter.ArticleFilter;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.ResourceNotFoundException;
 import ru.strela.util.processor.ArticlePrepareProcessor;
-import ru.strela.web.controller.core.BaseController;
+import ru.strela.web.controller.core.WebController;
 
 /**
  * Created by Aisen on 27.04.2016.
  */
 @Controller
 @RequestMapping(value = {"/{path}"})
-public class StaticPageController extends BaseController {
+public class StaticPageController extends WebController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView getStaticPage(@PathVariable String path) {

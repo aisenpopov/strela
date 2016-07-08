@@ -1,18 +1,13 @@
 package ru.strela.util;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.regex.Pattern;
 
 public class ValidateUtils {
 	
-	public static final String REQUIRED_ERROR_RU = "Необходимо заполнить поле";
-	public static final String REQUIRED_ERROR_EN = "Field required";
-	
-	public static final String[] REQUIRED_RU = {"lastNameRus", "firstNameRus", "secondNameRus", "organisationRus", "positionRus", 
-											"lastName", "firstName", "phone", "email", "country"};
-	public static final String[] REQUIRED_EN = { "lastName", "firstName", "organisation", "position", "phone", "email", "country"};
-	
+	public static final String REQUIRED_ERROR = "Необходимо заполнить поле";
+
 	protected final static int MIN_PASSWORD_LENGTH = 6;
 	
 	private static final Pattern emailCheckPattern = Pattern.compile(
@@ -25,50 +20,50 @@ public class ValidateUtils {
 	
 	public static String checkField(String field) {
 		if(StringUtils.isBlank(field)) {
-			return REQUIRED_ERROR_RU;
+			return REQUIRED_ERROR;
 		}
         return null;
     }
 	
 	public static String checkEmail(String email) {
-		if(StringUtils.isBlank(email)) {
-			return REQUIRED_ERROR_RU;
+		if (StringUtils.isBlank(email)) {
+			return REQUIRED_ERROR;
 		}
-        if(!emailCheckPattern.matcher(email).matches()) {
+        if (!emailCheckPattern.matcher(email).matches()) {
            return "Некорректный email";
         }
         return null;
     }
 	
 	public static String checkPhone(String phone) {
-		if(StringUtils.isBlank(phone)) {
-			return REQUIRED_ERROR_RU;
+		if (StringUtils.isBlank(phone)) {
+			return REQUIRED_ERROR;
 		}
-        if(!phoneCheckPattern.matcher(phone).matches()) {
+        if (!phoneCheckPattern.matcher(phone).matches()) {
            return "Некорректный телефон";
         }
         return null;
     }
 	
 	public static String checkLogin(String login) {
-		if(login == null || login.trim().isEmpty()) {
-			return "Login can not be empty";
-		} else if(login.length() < 3) {
-			return "Login can not be shorter than 3 characters";
-		} else if(login.length() > 20) {
-			return "Login can not be longer than 20 characters";
+		if (login == null || login.trim().isEmpty()) {
+			return "Login не может быть пустым";
+		} else if (login.length() < 3) {
+			return "Login не может быть короче чем 3 символа";
+		} else if (login.length() > 20) {
+			return "Login не может быть длиннее 20 символов";
 		} 
 		return null;
 	}
 	
 	public static String checkPassword(String password, String login) {
-		if (password.length() < MIN_PASSWORD_LENGTH) {
+		if (password == null || password.length() < MIN_PASSWORD_LENGTH) {
 	        return "Пароль не может быть короче " + MIN_PASSWORD_LENGTH + " символов";
 	    } else if (password.length() > 20) {
 	        return "Пароль не может быть длиннее 20 символов";
-	    } else if(password.equalsIgnoreCase(login)) {
+	    } else if (password.equalsIgnoreCase(login)) {
 	    	return "Пароль не должен совпадать с именем пользователя";
-	    } else if(!password.matches("\\w*")) {
+	    } else if (!password.matches("\\w*")) {
 			return "Пароль может содержать только латинские буквы, цифры и символ нижнего подчеркивания";
 		}
         

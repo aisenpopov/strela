@@ -21,7 +21,6 @@
 	
 		<script src="/resources/js/libs/jquery-2.0.2.min.js"></script>
 		<script src="/resources/js/libs/jquery-ui-1.10.3.min.js"></script>
-		<script src="/resources/js/libs/jquery-ui-1.8.23.custom.min.js"></script>
 		<script src="/resources/js/libs/jquery-migrate-1.2.1.min.js"></script>
 		<script src="/resources/js/libs/jquery.timers.js" type="text/javascript"></script>
 		<script src="/resources/js/libs/jquery.fileupload.js"></script>
@@ -40,8 +39,8 @@
 		<script src="/resources/js/libs/plugin/bootstrap-timepicker.min.js"></script>
 		<script src="/resources/js/app.config.js"></script>
 		<script src="/resources/js/app.min.js"></script>
-		<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"> </script>
-		
+		<script src="/resources/js/libs/yandex-map-2.1.min.js"></script>
+
 	    <script type="text/javascript" src="/resources/js/commons.js"></script>
 		<script type="text/javascript" src="/resources/js/util.js"></script>
 	    <script type="text/javascript" src="/resources/js/editor.js"></script>

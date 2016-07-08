@@ -1,12 +1,12 @@
 package ru.strela.util;
 
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 public class ModelBuilder extends ModelAndView {
 
@@ -47,8 +47,9 @@ public class ModelBuilder extends ModelAndView {
 		return new ModelBuilder(map);
 	}
 	
-	public void put(String name, Object object) {
+	public ModelBuilder put(String name, Object object) {
 		model.put(name, object);
+		return this;
 	}
 	
 	@Override

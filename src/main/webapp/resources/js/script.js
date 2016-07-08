@@ -109,143 +109,10 @@ function isIE() {
 (function ($) {
     var o = $('html');
     if (o.hasClass('desktop')) {
-
         $(document).ready(function () {
             $().UItoTop({
                 easingType: 'easeOutQuart',
                 containerClass: 'ui-to-top fa fa-angle-up'
-            });
-        });
-    }
-})(jQuery);
-
-/**
- * @module       RD Mailform
- * @description  Enables RD Mailform Plugin
- */
-;
-(function ($) {
-    var o = $('.rd-mailform');
-    if (o.length > 0) {
-        $(document).ready(function () {
-            var o = $('.rd-mailform');
-
-            if (o.length) {
-                o.rdMailForm({
-                    validator: {
-                        'constraints': {
-                            '@LettersOnly': {
-                                message: 'Please use only letters.'
-                            },
-                            '@NumbersOnly': {
-                                message: 'Please use only numbers.'
-                            },
-                            '@NotEmpty': {
-                                message: 'This field should not be empty.'
-                            },
-                            '@Email': {
-                                message: 'Enter valid e-mail address.'
-                            },
-                            '@Phone': {
-                                message: 'Enter valid phone number.'
-                            },
-                            '@Date': {
-                                message: 'Use MM/DD/YYYY format.'
-                            },
-                            '@SelectRequired': {
-                                message: 'Please choose an option.'
-                            }
-                        }
-                    }
-                }, {
-                    'MF000': 'Sent',
-                    'MF001': 'Recipients are not set.',
-                    'MF002': 'Form will not work locally.',
-                    'MF003': 'Please define email field in your form.',
-                    'MF004': 'Please define the type of your form.',
-                    'MF254': 'Something went wrong with PHPMailer.',
-                    'MF255': 'There was an error submitting the form.'
-                });
-            }
-        });
-    }
-})(jQuery);
-
-/**
- * @module       RD Google Map
- * @description  Enables RD Google Map Plugin
- */
-;
-(function ($) {
-    var o = $('#google-map');
-
-    if (o.length) {
-        include('//maps.google.com/maps/api/js');
-        $(document).ready(function () {
-            var head = document.getElementsByTagName('head')[0],
-                insertBefore = head.insertBefore;
-
-            head.insertBefore = function (newElement, referenceElement) {
-                if (newElement.href && newElement.href.indexOf('//fonts.googleapis.com/css?family=Roboto') != -1 || newElement.innerHTML.indexOf('gm-style') != -1) {
-                    return;
-                }
-                insertBefore.call(head, newElement, referenceElement);
-            };
-
-            lazyInit(o, function () {
-                o.googleMap({
-                    styles: [{
-                        "featureType": "water",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#e9e9e9"}, {"lightness": 17}]
-                    }, {
-                        "featureType": "landscape",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#f5f5f5"}, {"lightness": 20}]
-                    }, {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.fill",
-                        "stylers": [{"color": "#ffffff"}, {"lightness": 17}]
-                    }, {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.stroke",
-                        "stylers": [{"color": "#ffffff"}, {"lightness": 29}, {"weight": 0.2}]
-                    }, {
-                        "featureType": "road.arterial",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#ffffff"}, {"lightness": 18}]
-                    }, {
-                        "featureType": "road.local",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#ffffff"}, {"lightness": 16}]
-                    }, {
-                        "featureType": "poi",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#f5f5f5"}, {"lightness": 21}]
-                    }, {
-                        "featureType": "poi.park",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#dedede"}, {"lightness": 21}]
-                    }, {
-                        "elementType": "labels.text.stroke",
-                        "stylers": [{"visibility": "on"}, {"color": "#ffffff"}, {"lightness": 16}]
-                    }, {
-                        "elementType": "labels.text.fill",
-                        "stylers": [{"saturation": 36}, {"color": "#333333"}, {"lightness": 40}]
-                    }, {"elementType": "labels.icon", "stylers": [{"visibility": "off"}]}, {
-                        "featureType": "transit",
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#f2f2f2"}, {"lightness": 19}]
-                    }, {
-                        "featureType": "administrative",
-                        "elementType": "geometry.fill",
-                        "stylers": [{"color": "#fefefe"}, {"lightness": 20}]
-                    }, {
-                        "featureType": "administrative",
-                        "elementType": "geometry.stroke",
-                        "stylers": [{"color": "#fefefe"}, {"lightness": 17}, {"weight": 1.2}]
-                    }]
-                });
             });
         });
     }
@@ -285,20 +152,6 @@ function isIE() {
                 }
             });
 
-        });
-    }
-})(jQuery);
-
-/**
- * @module       RD Search
- * @description  Enables RD Search Plugin
- */
-;
-(function ($) {
-    var o = $('.rd-navbar-search');
-    if (o.length) {
-        $(document).ready(function () {
-            o.RDSearch({});
         });
     }
 })(jQuery);
@@ -345,6 +198,8 @@ function isIE() {
                 c.owlCarousel({
                     autoplay: c.attr("data-autoplay") === "true",
                     autoplayTimeout: c.attr("data-autoplay-timeout") ? parseInt(c.attr("data-autoplay-timeout")) : 5000,
+                    navSpeed: c.attr("data-nav-speed") ? parseInt(c.attr("data-nav-speed")) : false,
+                    autoplaySpeed: c.attr("data-autoplay-speed") ? parseInt(c.attr("data-autoplay-speed")) : false,
                     loop: c.attr("data-loop") !== "false",
                     items: 1,
                     mouseDrag: c.attr("data-mouse-drag") !== "false",

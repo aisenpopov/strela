@@ -56,12 +56,9 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.athlete.displayName}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.gym.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatFull(item.payedTill)}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatDayMonthYear(item.payedTill)}</a></td>
 
 														<td>
-															<%--<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
-																<i class="glyphicon glyphicon-remove"></i>
-															</a>--%>
 														</td>
 													</tr>
 												</c:forEach>

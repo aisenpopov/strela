@@ -23,8 +23,7 @@ public class Payment extends BaseEntity {
     private Date date;
     private Person operator;
 
-    public Payment() {
-    }
+    public Payment() {}
 
     public Payment(int id) {
         this.id = id;

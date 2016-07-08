@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-5 col-lg-4 col-lg-offset-4">
 						<div class="well no-padding">
-							<form id="login-form" action="/sign_in" class="smart-form client-form" method="post">
+							<form id="login-form" action="/editor/sign_in" class="smart-form client-form" method="post">
 								<header>
 									Вход
 								</header>
@@ -50,7 +50,6 @@
 											<b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Введите пароль</b> </label>
 									</section>
 									<input type="hidden" name="remember" value="true"/>
-									<input type="hidden" name="lb_redirect" value="/editor/"/>
 								</fieldset>
 								<footer>
 									<button name="login" type="submit" class="btn btn-primary">

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.strela.model.Athlete;
 import ru.strela.model.Gym;
+import ru.strela.model.auth.Person;
 import ru.strela.model.filter.payment.*;
 import ru.strela.model.payment.*;
 import ru.strela.repository.payment.*;
@@ -44,6 +45,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private PaymentStatusRepository paymentStatusRepository;
+
+    @Autowired
+    private PersonAccountRepository personAccountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @Autowired
     private ApplicationService applicationService;
@@ -163,6 +170,89 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     @Override
+    public PersonAccount save(PersonAccount personAccount) {
+        return personAccountRepository.save(personAccount);
+    }
+
+    @Override
+    public void remove(PersonAccount personAccount) {
+        personAccountRepository.delete(personAccount);
+    }
+
+    @Override
+    public PersonAccount findById(PersonAccount personAccount) {
+        return personAccountRepository.findOne(personAccount.getId());
+    }
+
+    @Override
+    public PersonAccount findByPerson(Person person) {
+        return personAccountRepository.findByPerson(person);
+    }
+
+    @Override
+    public Page<PersonAccount> findPersonAccounts(PersonAccountFilter filter, int pageNumber, int pageSize) {
+        return personAccountRepository.findAll(PersonAccountSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+    }
+
+    @Override
+    public List<PersonAccount> findPersonAccounts(PersonAccountFilter filter) {
+        return personAccountRepository.findAll(PersonAccountSpec.filter(filter), PageRequestBuilder.getSort(filter));
+    }
+
+
+    @Override
+    public Transaction save(Transaction transaction) {
+        Transaction existTransaction = findById(transaction);
+        Person person = transaction.getPerson();
+        if (person != null) {
+            PersonAccount personAccount = findByPerson(person);
+            if (personAccount == null) {
+                personAccount = createOrGetPersonAccount(person);
+            }
+            if (transaction.getId() == 0) {
+                personAccount.setAccount(personAccount.getAccount() - transaction.getAmount());
+                save(personAccount);
+            } else if (transaction.getAmount() < existTransaction.getAmount()) {
+                personAccount.setAccount(personAccount.getAccount() + existTransaction.getAmount() - transaction.getAmount());
+                save(personAccount);
+            }
+        }
+
+        return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public void remove(Transaction transaction) {
+        Transaction existTransaction = findById(transaction);
+        Person person = existTransaction.getPerson();
+        if (person != null) {
+            PersonAccount personAccount = findByPerson(person);
+            if (personAccount != null) {
+                personAccount.setAccount(personAccount.getAccount() + existTransaction.getAmount());
+                save(personAccount);
+            }
+        }
+
+        transactionRepository.delete(existTransaction);
+    }
+
+    @Override
+    public Transaction findById(Transaction transaction) {
+        return transactionRepository.findOne(transaction.getId());
+    }
+
+    @Override
+    public Page<Transaction> findTransactions(TransactionFilter filter, int pageNumber, int pageSize) {
+        return transactionRepository.findAll(TransactionSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+    }
+
+    @Override
+    public List<Transaction> findTransactions(TransactionFilter filter) {
+        return transactionRepository.findAll(TransactionSpec.filter(filter), PageRequestBuilder.getSort(filter));
+    }
+
+
+    @Override
     public Payment save(Payment payment) {
         PaymentStatus paymentStatus = createOrGetPaymentStatus(payment, true);
         if (payment.getId() > 0) {
@@ -196,6 +286,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private Date calculatePayedTill(Date payedTill, Payment payment, boolean add) {
+        updatePersonAccount(payment, add);
+
         AthleteTariff athleteTariff = payment.getAthleteTariff();
         Double amount = payment.getAmount();
 
@@ -280,6 +372,30 @@ public class PaymentServiceImpl implements PaymentService {
 //        }
 
         return calendar.getTime();
+    }
+
+    private PersonAccount createOrGetPersonAccount(Person person) {
+        PersonAccount personAccount = null;
+        if (person != null) {
+            personAccount = findByPerson(person);
+            if (personAccount == null) {
+                personAccount = new PersonAccount();
+                personAccount.setPerson(person);
+                personAccount.setAccount(0.0d);
+                personAccount = save(personAccount);
+            }
+        }
+
+        return personAccount;
+    }
+
+    private void updatePersonAccount(Payment payment, boolean add) {
+        PersonAccount personAccount = createOrGetPersonAccount(payment.getOperator());
+        if (personAccount != null) {
+            Double amount = payment.getAmount();
+            personAccount.setAccount(personAccount.getAccount() + (add ? amount : -amount));
+            save(personAccount);
+        }
     }
 
 

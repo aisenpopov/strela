@@ -16,11 +16,11 @@
                             <!--News Post-->
                             <article class="news-post inset-1">
                                 <img height="222" width="337" src="${newsItem.image}" alt="">
-                                <time>${dateUtils:formatFull(newsItem.news.publish)}</time>
+                                <time>${dateUtils:formatDayMonthYear(newsItem.news.publish)}</time>
                                 <h5><a href="/news/${newsItem.news.path}/">${newsItem.news.name}</a></h5>
 
                                 <p>${newsItem.news.shortText}</p>
-                                <a href="/news/${newsItem.news.path}" class="link">ПОДРОБНЕЕ</a>
+                                <a href="/news/${newsItem.news.path}/" class="link">ПОДРОБНЕЕ</a>
                             </article>
                             <div class="divider divider-md-vertical divider-small divider-right offset-1"></div>
                         </div>

@@ -18,7 +18,7 @@
 
                 <!-- Terms List -->
                 <dl class="terms-list">
-                    <dt class="heading-5">${dateUtils:formatFull(news.publish)}</dt>
+                    <dt class="heading-5">${dateUtils:formatDayMonthYear(news.publish)}</dt>
 
                     <dd>${text}</dd>
                 </dl>

@@ -114,7 +114,7 @@ public class Article extends BaseEntitySeo implements HasImage {
 	
 	@Transient
 	public String getPrintPublish() {
-		return DateUtils.format(this.publish);
+		return DateUtils.formatDayMonthYear(this.publish);
 	}
 
 }

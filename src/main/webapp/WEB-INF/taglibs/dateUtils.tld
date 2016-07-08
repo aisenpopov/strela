@@ -10,11 +10,17 @@
     <uri>http://strela.ru/</uri>
 
     <function>
-        <name>format</name>
+        <name>formatDayMonth</name>
         <function-class>ru.strela.util.DateUtils</function-class>
-        <function-signature>java.lang.String format(java.util.Date)</function-signature>
+        <function-signature>java.lang.String formatDayMonth(java.util.Date)</function-signature>
     </function>
     
+    <function>
+        <name>formatDayMonthYear</name>
+        <function-class>ru.strela.util.DateUtils</function-class>
+        <function-signature>java.lang.String formatDayMonthYear(java.util.Date)</function-signature>
+    </function>
+
     <function>
         <name>formatFull</name>
         <function-class>ru.strela.util.DateUtils</function-class>

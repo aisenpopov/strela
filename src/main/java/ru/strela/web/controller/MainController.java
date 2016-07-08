@@ -11,11 +11,11 @@ import ru.strela.model.filter.OrderDirection;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
-import ru.strela.web.controller.core.BaseController;
+import ru.strela.web.controller.core.WebController;
 
 @Controller
 @RequestMapping(value = {"/"})
-public class MainController extends BaseController {
+public class MainController extends WebController {
 
     @RequestMapping(method = {RequestMethod.GET})
     public ModelAndView main() {

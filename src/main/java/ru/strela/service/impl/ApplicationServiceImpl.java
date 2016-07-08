@@ -297,14 +297,18 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	}
 
 	@Override
-	public Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize) {
-		personService.updateFilter(filter);
+	public Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize, boolean checkPermissions) {
+		if (checkPermissions) {
+			personService.updateFilter(filter);
+		}
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
 	}
 
 	@Override
-	public List<Gym> findGyms(GymFilter filter) {
-		personService.updateFilter(filter);
+	public List<Gym> findGyms(GymFilter filter, boolean checkPermissions) {
+		if (checkPermissions) {
+			personService.updateFilter(filter);
+		}
 		return gymRepository.findAll(GymSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 

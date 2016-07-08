@@ -45,18 +45,12 @@ var Util = {
     		parameters = $.param(parameters);
     	} 
         
-    	$(document).oneTime(1000, "show-loading", function(){
-    		Util.showLoadPanel();
-		});
     	var successWrap = function(data, textStatus, xhr) {
-    		$(document).stopTime("show-loading");
-    		Util.closeLoadPanel();
     		if(success) {
     			success(data, textStatus, xhr);
     		}
     	};
     	var errorWrap = function(xhr, code) {
-    		Util.setStatus("Ошибка: сервер недоступен");
     		if(error) {
     			error(xhr, code);
     		}
@@ -73,7 +67,7 @@ var Util = {
             success: function(data, textStatus, xhr) {
                 // firefox and chrome native JSON parsers hang on certain JSON data, so use eval
                 data = eval(data);
-                if(!isNotProcessResponse) {
+                if (!isNotProcessResponse) {
 	                $(data).each(function(i, v) {
 	                    if (v.type == 'c') {
 	                        $('#' + v.id).html(v.html);
@@ -119,18 +113,12 @@ var Util = {
     		dataType = "json";
     	}
     	
-    	$(document).oneTime(1000, "show-loading", function(){
-    		Util.showLoadPanel();
-		});
     	var successWrap = function(data, textStatus, xhr) {
-    		$(document).stopTime("show-loading");
-    		Util.closeLoadPanel();
     		if(success) {
     			success(data, textStatus, xhr);
     		}
     	};
     	var errorWrap = function(xhr, code) {
-    		Util.setStatus("Ошибка: сервер недоступен");
     		if(error) {
     			error(xhr, code);
     		}

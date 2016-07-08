@@ -49,6 +49,9 @@
 													<te:sortableTableHeader filter="${filter}" field="id" title="ID"/>
 													<te:sortableTableHeader filter="${filter}" field="lastName" title="ФИО"/>
 													<te:sortableTableHeader filter="${filter}" field="person.login" title="Пользователь"/>
+													<te:sortableTableHeader filter="${filter}" field="person.instructor" title="Инстр."/>
+													<te:sortableTableHeader filter="${filter}" field="person.admin" title="Админ"/>
+													<te:sortableTableHeader filter="${filter}" field="person.disabled" title="Заблок."/>
 													<te:sortableTableHeader filter="${filter}" field="team.name" title="Команда"/>
 													<te:sortableTableHeader filter="${filter}" field="registrationRegion.name" title="Регион регистрации"/>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
@@ -60,6 +63,30 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.displayName}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.person.login}</a></td>
+														<td>
+															<c:if test="${item.person.instructor}">
+																<i class="glyphicon glyphicon-ok-circle finished-icon"></i>
+															</c:if>
+															<c:if test="${!item.person.instructor}">
+																<i class="glyphicon glyphicon-remove-circle not-finished-icon"></i>
+															</c:if>
+														</td>
+														<td>
+															<c:if test="${item.person.admin}">
+																<i class="glyphicon glyphicon-ok-circle finished-icon"></i>
+															</c:if>
+															<c:if test="${!item.person.admin}">
+																<i class="glyphicon glyphicon-remove-circle not-finished-icon"></i>
+															</c:if>
+														</td>
+														<td>
+															<c:if test="${item.person.disabled}">
+																<i class="glyphicon glyphicon-ok-circle finished-icon"></i>
+															</c:if>
+															<c:if test="${!item.person.disabled}">
+																<i class="glyphicon glyphicon-remove-circle not-finished-icon"></i>
+															</c:if>
+														</td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${empty item.team ? '' : item.team.name}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${empty item.registrationRegion ? '' : item.registrationRegion.name}</a></td>
 																

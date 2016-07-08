@@ -43,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void updateFilter(BaseFilter filter) {
         Person currentPerson = personServer.getCurrentPerson();
-        if (currentPerson != null && !currentPerson.isRoot()) {
+        if (currentPerson != null && currentPerson.isInstructor() && !currentPerson.isAdmin()) {
             Athlete athlete = findByPerson(currentPerson);
             if (athlete != null && athlete.getTeam() != null) {
                 PermissionFilter permissionFilter = new PermissionFilter();
@@ -60,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person save(Person person, Athlete athlete) {		
-		if(StringUtils.isBlank(person.getLogin())) {
+		if (StringUtils.isBlank(person.getLogin())) {
 			person.setLogin("id");
 			person = save(person);
 			person.setLogin(person.getLogin() + person.getId());
@@ -76,9 +76,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void remove(Person person) {
     	Athlete athlete = findByPerson(person);
-    	if(athlete != null) {
+    	if (athlete != null) {
     		athleteRepository.delete(athlete);
     	}
+
         personRepository.delete(person);
     }
 
@@ -120,6 +121,8 @@ public class PersonServiceImpl implements PersonService {
     
     @Override
 	public void remove(Athlete athlete) {
+        personRepository.delete(athlete.getPerson());
+
         AthleteTariffFilter filter = new AthleteTariffFilter();
         filter.setAthlete(athlete);
         for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, false)) {

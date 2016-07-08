@@ -1,23 +1,15 @@
 package ru.strela.web.controller.core;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
-import ru.strela.config.ProjectConfiguration;
-import ru.strela.model.BannerImage;
-import ru.strela.model.BaseEntitySeo;
-import ru.strela.model.City;
-import ru.strela.model.Settings;
+import ru.strela.core.AbstractController;
+import ru.strela.model.*;
+import ru.strela.model.auth.Person;
 import ru.strela.model.filter.BannerImageFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
-import ru.strela.service.ApplicationService;
-import ru.strela.service.PersonServer;
-import ru.strela.service.PersonService;
 import ru.strela.util.ModelBuilder;
-import ru.strela.util.PagerUtils;
-import ru.strela.util.ajax.AjaxUpdater;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
@@ -29,24 +21,7 @@ import java.util.Map;
 /**
  * Created by Aisen on 27.04.2016.
  */
-public abstract class BaseController extends AjaxUpdater {
-
-    @Autowired
-    protected PersonService personService;
-
-    @Autowired
-    protected PersonServer personServer;
-
-    @Autowired
-    protected ApplicationService applicationService;
-
-    @Autowired
-    protected ProjectConfiguration projectConfiguration;
-
-    @ModelAttribute("pagerPath")
-    private String getPagerPath(HttpServletRequest request) {
-        return PagerUtils.getPagerPath(request);
-    }
+public abstract class WebController extends AbstractController {
 
     protected void fillMetaInf(BaseEntitySeo entity, ModelAndView model) {
         if (StringUtils.isNotBlank(entity.getHtmlTitle())) {
@@ -75,12 +50,13 @@ public abstract class BaseController extends AjaxUpdater {
     }
 
     @ModelAttribute("settings")
-    protected Settings settings(HttpServletRequest request) {
+    protected Settings settings() {
         return applicationService.getSettings();
     }
 
+    @Override
     @ModelAttribute("currentHref")
-    protected String currentHref(HttpServletRequest req) {
+    public String currentHref(HttpServletRequest req) {
         StringBuilder buf = new StringBuilder();
         for (Map.Entry<String, String[]> entry : req.getParameterMap().entrySet()) {
             buf.append(buf.length() == 0 ? "?" : "&");
@@ -90,14 +66,24 @@ public abstract class BaseController extends AjaxUpdater {
     }
 
     @ModelAttribute("year")
-    protected int year(HttpServletRequest request) {
+    protected int year() {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.YEAR);
     }
 
     @ModelAttribute("citiesHasGym")
-    protected List<City> citiesHasGym(HttpServletRequest request) {
+    protected List<City> citiesHasGym() {
         return applicationService.findHasGym();
+    }
+
+    @ModelAttribute("currentAthlete")
+    protected Athlete currentAthlete() {
+        Person currentPerson = personServer.getCurrentPerson();
+        if (currentPerson != null) {
+            return personService.findByPerson(currentPerson);
+        }
+
+        return null;
     }
 
     protected void fillBanner(ModelBuilder model) {

@@ -1,10 +1,7 @@
 package ru.strela.web.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.model.Article;
 import ru.strela.model.City;
@@ -17,8 +14,9 @@ import ru.strela.util.ResourceNotFoundException;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 import ru.strela.util.processor.ArticlePrepareProcessor;
-import ru.strela.web.controller.core.BaseController;
+import ru.strela.web.controller.core.WebController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -26,10 +24,20 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = {"/gym"})
-public class GymController extends BaseController {
+public class GymController extends WebController {
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET})
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getGyms(@RequestParam(required = false) Integer cityId) {
+        return getModel(cityId, true);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ModelAndView updateGyms(HttpServletRequest req, @RequestParam(required = false) Integer cityId) {
+        ajaxUpdate(req, "gymList");
+        return getModel(cityId, false);
+    }
+
+    private ModelAndView getModel(Integer cityId, boolean fillBanner) {
         ModelBuilder model = new ModelBuilder("gyms");
 
         City city = null;
@@ -41,14 +49,16 @@ public class GymController extends BaseController {
         GymFilter gymFilter = new GymFilter();
         gymFilter.setCity(city);
         gymFilter.addOrder(new Order("id", OrderDirection.Asc));
-        List<Gym> gyms = applicationService.findGyms(gymFilter);
+        List<Gym> gyms = applicationService.findGyms(gymFilter, false);
         for (Gym gym : gyms) {
             ModelBuilder gymItem = model.createCollection("gyms");
             gymItem.put("gym", gym);
             gymItem.put("image", FileDataSource.getImage(projectConfiguration, gym, ImageFormat.GYM_PREVIEW));
         }
 
-        fillBanner(model);
+        if (fillBanner) {
+            fillBanner(model);
+        }
 
         return model;
     }

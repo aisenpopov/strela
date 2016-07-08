@@ -15,7 +15,8 @@ public class Person extends BaseEntity {
 	private String password;
 	private boolean disabled;
 	private boolean admin;
-	private boolean root;
+	private boolean instructor;
+	private String recoveryCode;
 
     public Person() {}
 
@@ -61,11 +62,19 @@ public class Person extends BaseEntity {
 	}
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-	public boolean isRoot() {
-		return root;
+	public boolean isInstructor() {
+		return instructor;
 	}
 
-	public void setRoot(boolean root) {
-		this.root = root;
+	public void setInstructor(boolean instructor) {
+		this.instructor = instructor;
+	}
+
+	public String getRecoveryCode() {
+		return recoveryCode;
+	}
+
+	public void setRecoveryCode(String recoveryCode) {
+		this.recoveryCode = recoveryCode;
 	}
 }

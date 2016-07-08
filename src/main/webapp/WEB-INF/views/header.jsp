@@ -30,11 +30,11 @@
                             <a href="/">Главная</a>
                         </li>
                         <li class="${(fn:contains(currentHref, 'gym') ? 'active' : '')}">
-                            <a href="/gym/">Залы</a>
+                            <a class="sys-change-city" href="/gym/">Залы</a>
                             <ul class="rd-navbar-dropdown">
                                 <c:forEach items="${citiesHasGym}" var="city">
                                     <li>
-                                        <a href="/gym/?cityId=${city.id}">${city.name}</a>
+                                        <a data-city-id="${city.id}" class="sys-change-city" href="/gym/?cityId=${city.id}">${city.name}</a>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -42,9 +42,60 @@
                         <li class="${(fn:contains(currentHref, 'news') ? 'active' : '')}">
                             <a href="/news/">Новости</a>
                         </li>
-                        <li class="${(fn:contains(currentHref, 'contacts') ? 'active' : '')}">
-                            <a href="/contacts/">Контакты</a>
-                        </li>
+                        <sec:authorize access="isAnonymous()">
+                            <li class="${(fn:contains(currentHref, 'login') ? 'active' : '')}">
+                                <a href="/account/login">Войти</a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <li class="${(fn:contains(currentHref, 'account') ? 'active' : '')}">
+                                <a href="/account/">Личный кабинет</a>
+                                <ul class="rd-navbar-dropdown">
+                                    <sec:authorize access="hasAnyRole('ROLE_INSTRUCTOR', 'ROLE_ADMIN')">
+                                        <li>
+                                            <a href="#">Оплата</a>
+                                            <ul class="rd-navbar-dropdown">
+                                                <li>
+                                                    <a href="/editor/balance/">Мой баланс</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/payment/">Платежи</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/payed_status/">Даты истечения</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/transaction/">Списания</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/tariff/">Тарифы</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/coupon/">Купоны</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">Справочники</a>
+                                            <ul class="rd-navbar-dropdown">
+                                                <li>
+                                                    <a href="/editor/athlete/">Атлеты</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/team/">Команды</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/editor/gym/">Залы</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </sec:authorize>
+                                    <li>
+                                        <a class="logout" href="/account/logout">Выйти</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </sec:authorize>
                     </ul>
                     <!-- END RD Navbar Nav -->
 
@@ -68,27 +119,31 @@
     <c:if test="${not empty showBanner && showBanner}">
         <div class="container md-well well--inset-2">
             <!-- Owl Carousel -->
-            <div class="owl-carousel"
-                 data-nav="true"
-                 data-autoplay="true"
-                 data-autoplay-timeout="7000">
-                <c:forEach items="${bannerImageList}" var="item">
-                    <div class="owl-item">
-                        <!--News Post-->
-                        <c:if test="${item.bannerImage.type == 'advert'}">
-                            <a href="/${item.bannerImage.link}/">
-                        </c:if>
-                        <article class="news-post text-center">
-                            <img height="596" width="1170" src="${item.image}" alt="">
+            <div class="owl-carousel-wrapper">
+                <div class="owl-carousel"
+                     data-nav="true"
+                     data-autoplay="true"
+                     data-autoplay-timeout="7000"
+                     data-autoplay-speed="500"
+                     data-nav-speed="500">
+                    <c:forEach items="${bannerImageList}" var="item">
+                        <div class="owl-item">
+                            <!--News Post-->
                             <c:if test="${item.bannerImage.type == 'advert'}">
-                                <h4 class="advert-header">${item.bannerImage.name}</h4>
+                                <a href="/${item.bannerImage.link}/">
                             </c:if>
-                        </article>
-                        <c:if test="${item.bannerImage.type == 'advert'}">
-                            </a>
-                        </c:if>
-                    </div>
-                </c:forEach>
+                            <article class="news-post text-center">
+                                <img height="596" width="1170" src="${item.image}" alt="">
+                                <c:if test="${item.bannerImage.type == 'advert'}">
+                                    <h4 class="advert-header">${item.bannerImage.name}</h4>
+                                </c:if>
+                            </article>
+                            <c:if test="${item.bannerImage.type == 'advert'}">
+                                </a>
+                            </c:if>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
             <!-- END Owl Carousel -->
         </div>

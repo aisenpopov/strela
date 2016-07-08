@@ -3,7 +3,10 @@
 }
 #header > :first-child,
 aside {
-  width: 224px;
+  width: 220px;
+}
+.login-info a span {
+  max-width: 220px;
 }
 .hidden {
   display: none;

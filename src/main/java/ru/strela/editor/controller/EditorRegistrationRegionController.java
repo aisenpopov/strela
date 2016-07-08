@@ -1,19 +1,11 @@
 package ru.strela.editor.controller;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.RegistrationRegion;
 import ru.strela.model.filter.BaseFilter;
@@ -24,6 +16,8 @@ import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/editor/registration_region")
 public class EditorRegistrationRegionController extends EditorController {
@@ -31,8 +25,7 @@ public class EditorRegistrationRegionController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") BaseFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") BaseFilter filter) {
     	ModelBuilder model = new ModelBuilder("editor/registrationRegions");
         if(filter == null) {        	
         	filter = new BaseFilter();

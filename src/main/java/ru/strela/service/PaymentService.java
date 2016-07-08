@@ -3,6 +3,7 @@ package ru.strela.service;
 import org.springframework.data.domain.Page;
 import ru.strela.model.Athlete;
 import ru.strela.model.Gym;
+import ru.strela.model.auth.Person;
 import ru.strela.model.filter.payment.*;
 import ru.strela.model.payment.*;
 
@@ -46,6 +47,30 @@ public interface PaymentService {
     List<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, boolean checkPermissions);
 
     AthleteTariff getOrCreateAthleteTariff(Athlete athlete, Gym gym);
+
+
+    PersonAccount save(PersonAccount personAccount);
+
+    void remove(PersonAccount personAccount);
+
+    PersonAccount findById(PersonAccount personAccount);
+
+    PersonAccount findByPerson(Person person);
+
+    Page<PersonAccount> findPersonAccounts(PersonAccountFilter filter, int pageNumber, int pageSize);
+
+    List<PersonAccount> findPersonAccounts(PersonAccountFilter filter);
+
+
+    Transaction save(Transaction transaction);
+
+    void remove(Transaction transaction);
+
+    Transaction findById(Transaction transaction);
+
+    Page<Transaction> findTransactions(TransactionFilter filter, int pageNumber, int pageSize);
+
+    List<Transaction> findTransactions(TransactionFilter filter);
 
 
     Payment save(Payment payment);

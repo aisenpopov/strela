@@ -6,23 +6,23 @@ import ru.strela.model.*;
 
 public class FileDataSource {
 
-//	public static String getImage(ProjectConfiguration configuration, UserInfo userInfo, ImageFormat format) {
+//	public static String getImage(ProjectConfiguration configuration, UserInfo userInfo, ImageFormat formatDayMonth) {
 //		if (userInfo != null) {
-//			return getImage(configuration, userInfo.getId(), ImageDir.SOCIAL_AVATAR, format, null);
+//			return getImage(configuration, userInfo.getId(), ImageDir.SOCIAL_AVATAR, formatDayMonth, null);
 //		} 
 //		return StringUtils.EMPTY;
 //	}
 	
-//	public static String getImage(ProjectConfiguration configuration, PageImage pageImage, ImageFormat format) {
+//	public static String getImage(ProjectConfiguration configuration, PageImage pageImage, ImageFormat formatDayMonth) {
 //		if (pageImage != null) {
-//			return getImage(configuration, pageImage.getId(), ImageDir.PAGE_IMAGE, format, null);
+//			return getImage(configuration, pageImage.getId(), ImageDir.PAGE_IMAGE, formatDayMonth, null);
 //		} 
 //		return StringUtils.EMPTY;
 //	}
 //	
-//	public static String getImage(ProjectConfiguration configuration, Settings settings, ImageFormat format) {
+//	public static String getImage(ProjectConfiguration configuration, Settings settings, ImageFormat formatDayMonth) {
 //		if (settings != null && settings.getImage() != null) {
-//			return getImage(configuration, settings.getId(), ImageDir.SETTINGS_MENU, format, settings.getImage());
+//			return getImage(configuration, settings.getId(), ImageDir.SETTINGS_MENU, formatDayMonth, settings.getImage());
 //		} 
 //		return StringUtils.EMPTY;
 //	}

@@ -97,9 +97,9 @@ public interface ApplicationService {
 
     Gym findById(Gym gym);
 
-    Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize);
+    Page<Gym> findGyms(GymFilter filter, int pageNumber, int pageSize, boolean checkPermissions);
 
-    List<Gym> findGyms(GymFilter filter);
+    List<Gym> findGyms(GymFilter filter, boolean checkPermissions);
 
 
 	BannerImage save(BannerImage bannerImage);

@@ -159,10 +159,9 @@
 									</header>
 									<fieldset>
 										<form:hidden path="person.id"/>
-										<c:if test="${!root}">
-											<form:hidden path="person.root"/>
+										<sec:authorize access="!hasRole('ROLE_ADMIN')">
 											<form:hidden path="person.admin"/>
-										</c:if>
+										</sec:authorize>
 										<section>
 											<label class="label">Логин <span>*</span></label>
 											<label class="input">
@@ -177,7 +176,7 @@
 												<form:errors class="help-block error" path="person.password"/>
 											</label>
 										</section>
-										<c:if test="${root}">
+										<sec:authorize access="hasRole('ROLE_ADMIN')">
 											<section>
 												<label class="checkbox">
 													<form:checkbox path="person.admin"/>
@@ -185,14 +184,7 @@
 													Админ
 												</label>
 											</section>
-											<section>
-												<label class="checkbox">
-													<form:checkbox path="person.root"/>
-													<i></i>
-													Root
-												</label>
-											</section>
-										</c:if>
+										</sec:authorize>
 										<section>
 											<label class="checkbox">
 												<form:checkbox path="person.disabled"/>

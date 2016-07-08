@@ -1,5 +1,23 @@
+.rd-navbar {
+    display: block;
+    visibility: hidden;
+}
+
+.rd-navbar-static,
+.rd-navbar-fullwidth,
+.rd-navbar-fixed {
+    visibility: visible;
+}
+
 .owl-item {
     width: 100%;
+}
+.owl-carousel {
+    display: block;
+    visibility: hidden;
+}
+.owl-carousel.owl-loaded {
+    visibility: visible;
 }
 
 .article-image {
@@ -17,11 +35,11 @@
     color: #fff;
 }
 
-.error404 {
+.error404, .error403 {
     height: 100vh;
     line-height: 100vh;
 }
-.error404 h1 {
+.error404 h1, .error403 h1 {
     display: inline-block;
     vertical-align: middle;
 }
@@ -46,4 +64,342 @@
         position: absolute;
         bottom: 0;
     }
+}
+
+/*
+* Form
+*/
+.rd-mailform .title,
+.rd-mailform .radio,
+.rd-mailform .table,
+.rd-mailform .form-error {
+    font-size: 16px;
+    line-height: 34px;
+    color: #333333;
+    font-family: "Times New Roman", sans-serif;
+    font-style: italic;
+}
+.rd-mailform .form-error {
+    color: rgb(185, 74, 72);
+    font-size: 14px;
+
+}
+
+.field-error {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.form-success {
+    display: none;
+    color: rgb(185, 74, 72);
+}
+
+/*
+* Radio in form
+*/
+
+.checkbox, .radio {
+    position: relative;
+    display: block;
+    min-height: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.rd-mailform .inline-group .checkbox,
+.rd-mailform .inline-group .radio {
+    float: left;
+    margin-right: 30px;
+}
+
+.rd-mailform .checkbox,
+.rd-mailform .radio {
+    margin-bottom: 4px;
+    padding-left: 25px;
+    line-height: 25px;
+    color: #404040;
+    cursor: pointer;
+    font-size: 13px;
+    position: relative;
+    display: block;
+    font-weight: 400;
+    width: auto;
+    margin-top: 0;
+}
+
+.checkbox input[type=checkbox],
+.checkbox-inline input[type=checkbox],
+.radio input[type=radio],
+.radio-inline input[type=radio] {
+    position: absolute;
+    margin-left: -20px;
+}
+
+.rd-mailform .checkbox input,
+.rd-mailform .radio input {
+    position: absolute;
+    left: -9999px;
+}
+
+.rd-mailform .checkbox i,
+.rd-mailform .radio i {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    display: block;
+    width: 17px;
+    height: 17px;
+    outline: 0;
+    border-width: 1px;
+    border-style: solid;
+    background: #FFF;
+}
+
+.rd-mailform .radio i {
+    border-radius: 50%;
+}
+
+.rd-mailform .checkbox i,
+.rd-mailform .icon-append,
+.rd-mailform .icon-prepend,
+.rd-mailform .input input,
+.rd-mailform .radio i,
+.rd-mailform .select select,
+.rd-mailform .textarea textarea,
+.rd-mailform .toggle i {
+    border-color: #BDBDBD;
+    transition: border-color .3s;
+    -o-transition: border-color .3s;
+    -ms-transition: border-color .3s;
+    -moz-transition: border-color .3s;
+    -webkit-transition: border-color .3s;
+}
+
+.rd-mailform .checkbox input:checked+i,
+.rd-mailform .radio input:checked+i,
+.rd-mailform .toggle input:checked+i {
+    border-color: #333333;
+}
+
+.rd-mailform .checkbox input+i:after,
+.rd-mailform .radio input+i:after {
+    position: absolute;
+    opacity: 0;
+    transition: opacity .1s;
+    -o-transition: opacity .1s;
+    -ms-transition: opacity .1s;
+    -moz-transition: opacity .1s;
+    -webkit-transition: opacity .1s;
+}
+
+.rd-mailform .radio input+i:after {
+    content: '';
+    top: 3px;
+    left: 3px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.rd-mailform .radio input+i:after {
+    background-color: #333333;
+}
+
+.rd-mailform .checkbox input:checked+i:after,
+.rd-mailform .radio input:checked+i:after {
+    opacity: 1;
+}
+
+/*
+* Table
+*/
+
+.table {
+    width: 100%;
+    max-width: 100%;
+}
+
+.table-bordered,
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+    border: 1px solid #ddd;
+}
+
+.table thead tr {
+    background-color: #eee;
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#f2f2f2),to(#fafafa));
+    background-image: -webkit-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+    background-image: -moz-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+    background-image: -ms-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+    background-image: -o-linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+    background-image: linear-gradient(top,#f2f2f2 0,#fafafa 100%);
+    font-size: 16px;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #ddd;
+}
+
+table.table-bordered td:last-child,
+table.table-bordered th:last-child {
+    border-right-width: 0;
+}
+
+.table>caption+thead>tr:first-child>td,
+.table>caption+thead>tr:first-child>th,
+.table>colgroup+thead>tr:first-child>td,
+.table>colgroup+thead>tr:first-child>th,
+.table>thead:first-child>tr:first-child>td,
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+}
+
+/*
+* Datepicker
+*/
+
+.ui-datepicker {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 15px;
+    padding: 10px 15px;
+    opacity: 0;
+    z-index: 1;
+    width: 270px;
+    visibility: hidden;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.12), 3px 4px 8px 0px rgba(0, 0, 0, 0.11);
+    transition: .3s all ease-in-out;
+    z-index: 99;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    background: #333333;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid #333333;
+}
+
+
+.ui-datepicker:before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent #333333 transparent;
+}
+
+.ui-datepicker table {
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 3px;
+    font-size: 12px;
+}
+
+.ui-datepicker table th {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.ui-datepicker table td {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s all ease;
+    border-radius: 50%;
+}
+
+.ui-datepicker table td:hover {
+    color: #333333;
+    background: #d8dcdf;
+}
+
+.ui-datepicker table td.dp-offset {
+    color: #c6bbba;
+}
+
+.ui-datepicker table td.ui-datepicker-today {
+    color: #333333;
+    background: #fff;
+}
+
+.ui-datepicker table td.ui-datepicker-current-day {
+    color: #fff;
+    background: #A90329;
+}
+
+.ui-datepicker-title {
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    font: 400 22px "FontAwesome";
+    line-height: inherit;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.ui-datepicker-next:hover,
+.ui-datepicker-prev:hover {
+    color: #333333;
+}
+
+.ui-datepicker-header {
+    text-align: center;
+    padding: 0 2px;
+    line-height: 30px;
+}
+
+.ui-datepicker-next {
+    float: right;
+}
+
+.ui-datepicker-next:before {
+    content: '\f105';
+}
+
+.ui-datepicker-prev {
+    float: left;
+}
+
+.ui-datepicker-prev:before {
+    content: '\f104';
+}
+
+.ui-datepicker-header + table {
+    margin-top: 5px;
+}
+
+.ui-datepicker.open {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
 }

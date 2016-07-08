@@ -2,7 +2,11 @@
 		
 	
     initBase: function() {
-    	$('input.datepicker').datepicker({ dateFormat: 'dd.mm.yy' });
+    	$('input.datepicker').datepicker({
+			dateFormat: 'dd.mm.yy',
+			nextText: '>',
+			prevText: '<'
+		});
     	$('input.timepicker').timepicker({
     		defaultTime: false,
     		showMeridian: false,
@@ -124,50 +128,22 @@
 
 	initPaymentPage: function() {
 		var area = $(".payment-editor"),
-			athleteForm = area.find("form#payment"),
-			inputAthlete = athleteForm.find("input[name='athleteTariff.athlete']"),
-			inputGym = athleteForm.find("input[name='athleteTariff.tariff.gym']"),
-			// inputAthleteError = athleteForm.find("span[name='athleteTariff.athlete']"),
-			// inputAthleteTariff = athleteForm.find("input[name=athleteTariff]"),
-			inputAmount = athleteForm.find("input[name=amount]");
-			// editAthleteTariffPanel = area.find(".sys-edit-athlete-tariff");
+			paymentForm = area.find("form#payment"),
+			inputAthlete = paymentForm.find("input[name='athleteTariff.athlete']"),
+			inputGym = paymentForm.find("input[name='athleteTariff.tariff.gym']"),
+			inputAmount = paymentForm.find("input[name=amount]");
 
 		var inputGymVal = inputGym.val(),
 			inputAmountVal = inputAmount.val();
 
-		// TODO remove after check
-		// editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
 		C.initAutocomplete(inputAthlete, {
 			type: 'athlete'
 		});
 		C.initAutocomplete(inputGym, {
 			type: 'gym'
 		});
-		// inputAthlete.on("change", function () {
-		// 	console.log("inputAthlete changed");
-		// 	inputAthleteTariff.select2('data', null);
-		// 	editAthleteTariffPanel.find("input[name=athlete]").val(inputAthlete.val());
-		// 	inputAthleteError.addClass("hidden");
-		// });
-		// C.initAutocomplete(inputAthleteTariff, {
-		// 	type: 'athleteTariff',
-		// 	params: function() {
-		// 		return {
-		// 			athleteId: inputAthlete.val()
-		// 		};
-		// 	}
-		// });
-		// area.find(".sys-add-athlete-tariff").off("click").on("click", function() {
-		// 	if (!editAthleteTariffPanel.find("input[name=athlete]").val()) {
-		// 		inputAthleteError.removeClass("hidden");
-		// 	} else {
-		// 		E.showAthleteTariffModal(area, null, null);
-		// 	}
-        //
-		// 	return false;
-		// });
-		athleteForm.find("button[type='submit']").off("click").on("click", function () {
-			if (athleteForm.find("input[name='id']").val() > 0
+		paymentForm.find("button[type='submit']").off("click").on("click", function () {
+			if (paymentForm.find("input[name='id']").val() > 0
 				&& (inputGym.val() != inputGymVal || inputAmount.val() != inputAmountVal)) {
 				$.SmartMessageBox({
 					title : "Перепроведение",
@@ -175,11 +151,11 @@
 					buttons : '[Нет][Да]'
 				}, function(ButtonPressed) {
 					if (ButtonPressed === "Да") {
-						athleteForm.submit();
+						paymentForm.submit();
 					}
 				});
 			} else {
-				athleteForm.submit();
+				paymentForm.submit();
 			}
 			return false;
 		});
@@ -187,8 +163,6 @@
 
 	initPaymentStatusList: function() {
 		var area = $(".sys-payment-statuses");
-
-		// C.initRemoveable(area.find(".sys-item"));
 	},
 
 	initPaymentStatusPage: function() {
@@ -290,6 +264,35 @@
 		});
 	},
 
+
+	initBalancePage: function () {
+		var form = $(".balance form");
+		form.find("button[type='submit']").off("click").on("click", function () {
+			$.SmartMessageBox({
+				title : "Подтверждение",
+				content : "Вы действительно списать с баланса указанную сумму?",
+				buttons : '[Нет][Да]'
+			}, function(ButtonPressed) {
+				if (ButtonPressed === "Да") {
+					form.submit();
+				}
+			});
+			return false;
+		});
+	},
+
+
+	initTransactionList: function() {
+		var area = $(".sys-transactions");
+
+		C.initRemoveable(area.find(".sys-item"));
+	},
+
+	initTransactionPage: function() {
+		C.initAutocomplete($("input[name*=person]"), { type : 'person'});
+	},
+
+
 	initTariffList: function() {
 		var area = $(".sys-tariffs");
 
@@ -302,6 +305,7 @@
 		C.initAutocomplete($("input[name*=gym]"), { type : 'gym'});
 	},
 
+
 	initCouponList: function() {
 		var area = $(".sys-coupons");
 
@@ -311,17 +315,8 @@
 	initCouponPage: function() {
 		var area = $(".coupon-editor");
 	},
-	
-	initPersonList: function() {
-		var area = $(".sys-persons");
-		
-		C.initRemoveable(area.find(".sys-item"));
-	},
-	
-	initPersonPage: function() {
-		var area = $(".person-editor");
-	},
-	
+
+
 	initAthleteList: function() {
 		var area = $(".sys-athletes");
 		

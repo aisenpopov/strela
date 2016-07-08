@@ -20,12 +20,12 @@ import ru.strela.model.payment.AthleteTariff;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
+import ru.strela.util.ValidateUtils;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -68,11 +68,11 @@ public class EditorAthleteController extends EditorController {
 
 				existPerson.setLogin(person.getLogin());
 				existPerson.setAdmin(person.isAdmin());
-				existPerson.setRoot(person.isRoot());
 				existPerson.setDisabled(person.isDisabled());
 
 				person = existPerson;
 			}
+			person.setInstructor(athlete.isInstructor());
 			if (StringUtils.isNotBlank(newPassword)) {
 				person.setPassword(passwordEncoder.encode(newPassword));
 			}
@@ -122,7 +122,6 @@ public class EditorAthleteController extends EditorController {
 
 	@RequestMapping(value={"/edit/{idd}/ajax/save/"}, method=RequestMethod.POST)
 	public ModelAndView saveAthleteTariff(HttpServletRequest req,
-										   HttpServletResponse res,
 										   @ModelAttribute("athleteTariff") AthleteTariff athleteTariff,
 										   BindingResult result,
 										   @PathVariable("idd") int athleteId) {
@@ -136,14 +135,14 @@ public class EditorAthleteController extends EditorController {
 				athleteTariff = exist;
 			}
 
-			AthleteTariff saved = paymentService.save(athleteTariff);
+			paymentService.save(athleteTariff);
 
-			ajaxUpdate(req, res, "athleteTariffList");
-			ajaxUpdate(req, res, "athleteTariffForm");
+			ajaxUpdate(req, "athleteTariffList");
+			ajaxUpdate(req, "athleteTariffForm");
 
 			return getModel(athleteId, null, null);
 		} else {
-			ajaxUpdate(req, res, "athleteTariffForm");
+			ajaxUpdate(req, "athleteTariffForm");
 
 			return getModel(athleteId, null, athleteTariff);
 		}
@@ -178,21 +177,19 @@ public class EditorAthleteController extends EditorController {
 	}
     
     @RequestMapping(value="/edit/{id}/ajax/", method=RequestMethod.POST)
-	public ModelAndView onAjax(HttpServletRequest req, 
-								HttpServletResponse res, 
-								@PathVariable Map<String, String> pathVariables) {
+	public ModelAndView onAjax(HttpServletRequest req, @PathVariable Map<String, String> pathVariables) {
 		String action = req.getParameter("action");
 
 		int id = TextUtils.getIntValue(pathVariables.get("id"));
 		if (id != 0) {
 			if ("refresh-crop-image".equals(action)) {
-				ajaxUpdate(req, res, "cropImagePanel");
-				ajaxUpdate(req, res, "cropImagePanelSmall");
-				ajaxUpdate(req, res, "cropImagePanel" + req.getParameter("type"));
+				ajaxUpdate(req, "cropImagePanel");
+				ajaxUpdate(req, "cropImagePanelSmall");
+				ajaxUpdate(req, "cropImagePanel" + req.getParameter("type"));
 			} else if ("refresh-athlete-tariff-form".equals(action)) {
 				int athleteTariffId = TextUtils.getIntValue(req.getParameter("athleteTariffId"));
 
-				ajaxUpdate(req, res, "athleteTariffForm");
+				ajaxUpdate(req, "athleteTariffForm");
 
 				return getModel(id, null, paymentService.findById(new AthleteTariff(athleteTariffId)));
 			} else if ("remove-athlete-tariff".equals(action)) {
@@ -200,7 +197,7 @@ public class EditorAthleteController extends EditorController {
 				AthleteTariff athleteTariff = paymentService.findById(new AthleteTariff(athleteTariffId));
 				paymentService.remove(athleteTariff);
 
-				ajaxUpdate(req, res, "athleteTariffList");
+				ajaxUpdate(req, "athleteTariffList");
 
 				return getModel(id, null, null);
 			}
@@ -241,24 +238,43 @@ public class EditorAthleteController extends EditorController {
     
     private boolean validate(BindingResult result, Athlete athlete) {
 		Person person = athlete.getPerson();
+		String loginCheckResult;
 		if (person == null || StringUtils.isBlank(person.getLogin())) {
 			result.rejectValue("person.login", "field.required", FIELD_REQUIRED);
+		} else if ((loginCheckResult = ValidateUtils.checkLogin(person.getLogin())) != null) {
+			result.rejectValue("person.login", "field.required", loginCheckResult);
 		} else {
 			Person saved = personService.findByLogin(person);
 			if(saved != null && person.getId() != saved.getId()) {
 				result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
 			}
 		}
-		if (person.isAdmin() && !person.isRoot() && athlete.getTeam() == null) {
-			result.rejectValue("team", "field.required", "Для админа необходимо выбрать команду");
+		if (person.isInstructor() && athlete.getTeam() == null) {
+			result.rejectValue("team", "field.required", "Для инструктора необходимо выбрать команду");
 		}
-		if (athlete.getId() == 0 && StringUtils.isBlank(person.getPassword())) {
-			result.rejectValue("person.password", "field.required", FIELD_REQUIRED);
+		String passwordCheckResult;
+		if ((athlete.getId() == 0 || (athlete.getId() > 0 && StringUtils.isNotBlank(person.getPassword()))) && (passwordCheckResult = ValidateUtils.checkPassword(person.getPassword(), person.getLogin())) != null) {
+			result.rejectValue("person.password", "field.required", passwordCheckResult);
 		}
     	if (StringUtils.isBlank(athlete.getFirstName())) {
     		result.rejectValue("firstName", "field.required", FIELD_REQUIRED);
     	}
-    	
+
+		String emailCheckResult;
+		if (StringUtils.isNotBlank(athlete.getEmail()) && (emailCheckResult = ValidateUtils.checkEmail(athlete.getEmail())) != null) {
+			result.rejectValue("email", "field.required", emailCheckResult);
+		}
+
+		String phoneCheckResult;
+		if (StringUtils.isNotBlank(athlete.getPhoneNumber()) && (phoneCheckResult = ValidateUtils.checkPhone(athlete.getPhoneNumber())) != null) {
+			result.rejectValue("phoneNumber", "field.required", phoneCheckResult);
+		}
+
+		String mobileCheckResult;
+		if (StringUtils.isNotBlank(athlete.getMobileNumber()) && (mobileCheckResult = ValidateUtils.checkPhone(athlete.getMobileNumber())) != null) {
+			result.rejectValue("mobileNumber", "field.required", mobileCheckResult);
+		}
+
         return !result.hasErrors();
     }
 

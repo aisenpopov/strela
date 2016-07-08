@@ -25,8 +25,7 @@ public class EditorCouponController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") CouponFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") CouponFilter filter) {
     	ModelBuilder model = new ModelBuilder("editor/coupons");
         if (filter == null) {
         	filter = new CouponFilter();

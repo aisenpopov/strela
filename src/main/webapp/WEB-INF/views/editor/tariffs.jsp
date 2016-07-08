@@ -66,7 +66,7 @@
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceQuarter}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceHalfYear}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.priceYear}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatFull(item.expiration)}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${dateUtils:formatDayMonthYear(item.expiration)}</a></td>
 
 												        <td>
 												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">

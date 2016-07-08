@@ -22,7 +22,6 @@ import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.image.FileDataSource;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -122,15 +121,14 @@ public class EditorArticleController extends EditorController {
     
     @RequestMapping(value="/edit/{id}/ajax/", method=RequestMethod.POST)
 	public ModelAndView onAjax(HttpServletRequest req, 
-								HttpServletResponse res, 
 								@PathVariable Map<String, String> pathVariables) {
 		String action = req.getParameter("action");
 		
 		int id = TextUtils.getIntValue(pathVariables.get("id"));		
 		if("refresh-image".equals(action) && id != 0) {
-			ajaxUpdate(req, res, "image-list");
+			ajaxUpdate(req, "image-list");
 		} else if ("refresh-crop-image".equals(action) && id != 0) {
-			ajaxUpdate(req, res, "cropImagePanel");
+			ajaxUpdate(req, "cropImagePanel");
 		} else if("save-videos".equals(action) && id != 0) {
 			Article article = applicationService.findById(new Article(id));
 			List<ArticleVideo> videos = applicationService.getArticleVideos(article);
@@ -155,7 +153,7 @@ public class EditorArticleController extends EditorController {
 	    	for(ArticleVideo articleVideo : videos) {
 	    		applicationService.remove(articleVideo);
 	    	}
-	    	ajaxUpdate(req, res, "video-panel");
+	    	ajaxUpdate(req, "video-panel");
 		}
 		
 		return getModel(id, null);

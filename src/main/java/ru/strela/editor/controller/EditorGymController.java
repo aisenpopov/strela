@@ -21,7 +21,6 @@ import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
@@ -31,14 +30,13 @@ public class EditorGymController extends EditorController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @ModelAttribute("filter") GymFilter filter,
-                             @PathVariable Map<String, String> pathVariables) {
+                             @ModelAttribute("filter") GymFilter filter) {
     	ModelBuilder model = new ModelBuilder("editor/gyms");
-        if(filter == null) {        	
+        if (filter == null) {
         	filter = new GymFilter();
         }
         filter.addOrder(new Order("name", OrderDirection.Asc));
-        Page<Gym> page = applicationService.findGyms(filter, pageNumber - 1, pageSize);
+        Page<Gym> page = applicationService.findGyms(filter, pageNumber - 1, pageSize, true);
         model.put("page", page);
         
         return model;
@@ -93,15 +91,14 @@ public class EditorGymController extends EditorController {
 
     @RequestMapping(value="/edit/{id}/ajax/", method=RequestMethod.POST)
     public ModelAndView onAjax(HttpServletRequest req,
-                               HttpServletResponse res,
                                @PathVariable Map<String, String> pathVariables) {
         String action = req.getParameter("action");
 
         int id = TextUtils.getIntValue(pathVariables.get("id"));
         if ("refresh-image".equals(action) && id != 0) {
-            ajaxUpdate(req, res, "image-list");
+            ajaxUpdate(req, "image-list");
         } else if ("refresh-crop-image".equals(action) && id != 0) {
-            ajaxUpdate(req, res, "cropImagePanel");
+            ajaxUpdate(req, "cropImagePanel");
         }
 
         return getModel(id);

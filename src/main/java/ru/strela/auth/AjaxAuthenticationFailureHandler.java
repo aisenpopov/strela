@@ -1,13 +1,12 @@
 package ru.strela.auth;
 
-import java.io.IOException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import java.io.IOException;
 
 public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -19,7 +18,8 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 			throws IOException, ServletException {
 		if("true".equals(request.getHeader("X-Ajax"))) {
 			try {
-				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				response.getWriter().print("fail");
+				response.getWriter().flush();
 			} catch(Exception e) {}
 		} else {
 			super.onAuthenticationFailure(request, response, exception);

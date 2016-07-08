@@ -19,7 +19,6 @@ import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
@@ -27,7 +26,7 @@ import java.util.Map;
 public class EditorBannerImageController extends EditorController {
 
     @RequestMapping(value = {"/", "/ajax"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView list(HttpServletRequest req, HttpServletResponse res,
+    public ModelAndView list(HttpServletRequest req,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
                              @RequestParam(value = "id", required = false) Integer id,
@@ -42,7 +41,7 @@ public class EditorBannerImageController extends EditorController {
                 BannerImage bannerImage = applicationService.findById(new BannerImage(id));
     			applicationService.sortBannerImage(bannerImage, true);
     		}
-        	ajaxUpdate(req, res, "list");
+        	ajaxUpdate(req, "list");
         }
 
         ModelBuilder model = new ModelBuilder("editor/bannerImages");
@@ -98,15 +97,13 @@ public class EditorBannerImageController extends EditorController {
     }
 
     @RequestMapping(value="/edit/{id}/ajax", method=RequestMethod.POST)
-	public ModelAndView onAjax(HttpServletRequest req,
-								HttpServletResponse res,
-								@PathVariable Map<String, String> pathVariables) {
+	public ModelAndView onAjax(HttpServletRequest req, @PathVariable Map<String, String> pathVariables) {
 		String action = req.getParameter("action");
 
 		int id = TextUtils.getIntValue(pathVariables.get("id"));
 		if (id != 0) {
 			if ("refresh-crop-image".equals(action)) {
-				ajaxUpdate(req, res, "cropImagePanel");
+				ajaxUpdate(req, "cropImagePanel");
 			}
 		}
 
