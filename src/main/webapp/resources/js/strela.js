@@ -37,7 +37,7 @@ var S = {
 
         $(".rd-navbar .sys-change-city").off("click").on("click", function () {
             var url = window.location.href;
-            if (url.indexOf("gym") > 0) {
+            if (url.indexOf("gym") > 0 && $("#gymList").length) {
                 S.updateGyms($(this).data("cityId"));
 
                 return false;
