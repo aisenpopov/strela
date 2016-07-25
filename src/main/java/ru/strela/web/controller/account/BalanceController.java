@@ -32,7 +32,11 @@ public class BalanceController extends WebController {
         Person person = personServer.getCurrentPerson();
         if (person != null) {
             PersonAccount personAccount = paymentService.findByPerson(person);
-            response.addData("balance", personAccount.getAccount());
+            if (personAccount != null) {
+                response.addData("balance", personAccount.getAccount());
+            } else {
+                response.setErrorStatus();
+            }
         }
 
         return response;
@@ -56,7 +60,10 @@ public class BalanceController extends WebController {
         if (person != null && amount != null) {
             PersonAccount personAccount = paymentService.findByPerson(person);
 
-            if (amount <= 0.0d) {
+            if (personAccount == null) {
+                response.addData("errorMessage", "У пользователя нет баланса!");
+                return response;
+            } else if (amount <= 0.0d) {
                 response.addData("errorMessage", "Сумма должна быть положительной!");
                 return response;
             } else if (amount > personAccount.getAccount()) {

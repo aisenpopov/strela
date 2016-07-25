@@ -14,6 +14,9 @@ app.controller("BalanceCtrl", function ($scope, $http, $timeout) {
             var data = resp.data.data;
             if (!resp.data.statusError && data) {
                 $scope.balance = data.balance;
+                $scope.hasBalance = true;
+            } else {
+                $scope.hasBalance = false;
             }
         });
         $timeout(function () {
