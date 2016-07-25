@@ -18,9 +18,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Aisen on 27.04.2016.
- */
 public abstract class WebController extends AbstractController {
 
     protected void fillMetaInf(BaseEntitySeo entity, ModelAndView model) {

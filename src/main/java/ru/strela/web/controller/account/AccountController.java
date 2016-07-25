@@ -62,7 +62,7 @@ public class AccountController extends WebController {
     }
 
     private ModelAndView getModel() {
-        ModelBuilder model = new ModelBuilder("account");
+        ModelBuilder model = new ModelBuilder("account/account");
 
         Person person = personServer.getCurrentPerson();
         if (person != null) {
@@ -125,7 +125,7 @@ public class AccountController extends WebController {
             }
 
             if (athleteResult.hasErrors()) {
-                return new ModelBuilder("account");
+                return new ModelBuilder("account/account");
             }
         } else if ("save-password".equals(action)) {
             Person currentPerson = personServer.getCurrentPerson();
@@ -136,7 +136,7 @@ public class AccountController extends WebController {
             }
 
             if (passwordResult.hasErrors()) {
-                return new ModelBuilder("account");
+                return new ModelBuilder("account/account");
             }
         }
 

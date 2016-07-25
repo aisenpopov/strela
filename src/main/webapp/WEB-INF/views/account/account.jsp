@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" isELIgnored="false"%>
-<%@ include file="include.jsp"%>
+<%@ include file="../include.jsp"%>
 
 <t:page htmlTitle="${currentAthlete.displayName}">
 	<jsp:attribute name="initScript">

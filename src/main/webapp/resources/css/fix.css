@@ -403,3 +403,7 @@ table.table-bordered th:last-child {
     opacity: 1;
     visibility: visible;
 }
+
+input.error {
+    border-color: rgb(185, 74, 72) !important;
+}

@@ -111,7 +111,7 @@ public class RecoveryPasswordController extends WebController {
             model.addAttribute("emailForm", new EmailForm());
         }
 
-        return "recoveryPassword";
+        return "account/recoveryPassword";
     }
 
     @RequestMapping(value="/send_code", method = RequestMethod.POST)
@@ -126,11 +126,11 @@ public class RecoveryPasswordController extends WebController {
 
                 Athlete athlete = personService.findByPerson(person);
                 sendMailHelper.sendRecoveryMail(athlete != null ? athlete.getDisplayName() : "", email, code);
-                return (new ModelBuilder("recoveryPassword")).put("state", State.send_code);
+                return (new ModelBuilder("account/recoveryPassword")).put("state", State.send_code);
             }
         }
 
-        return (new ModelBuilder("recoveryPassword")).put("state", State.recovery);
+        return (new ModelBuilder("account/recoveryPassword")).put("state", State.recovery);
     }
 
     @RequestMapping(value="/save_new_password", method = RequestMethod.POST)
@@ -148,11 +148,11 @@ public class RecoveryPasswordController extends WebController {
                     authenticationProcessor.startRememberMeSession(req, res, new AuthPerson(person));
                 }
 
-                return (new ModelBuilder("recoveryPassword")).put("state", State.complete_recovery);
+                return (new ModelBuilder("account/recoveryPassword")).put("state", State.complete_recovery);
             }
         }
 
-        return (new ModelBuilder("recoveryPassword")).put("state", State.change_password);
+        return (new ModelBuilder("account/recoveryPassword")).put("state", State.change_password);
     }
 
     private boolean validateEmail(EmailForm emailForm, BindingResult emailResult) {

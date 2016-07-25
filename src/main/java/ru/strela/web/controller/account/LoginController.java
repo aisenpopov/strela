@@ -1,4 +1,4 @@
-package ru.strela.web.controller;
+package ru.strela.web.controller.account;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ public class LoginController extends WebController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getPage() {
-        ModelBuilder model = new ModelBuilder("login");
+        ModelBuilder model = new ModelBuilder("account/login");
 
         return model;
     }
