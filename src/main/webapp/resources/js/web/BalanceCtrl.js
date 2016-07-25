@@ -15,12 +15,10 @@ app.controller("BalanceCtrl", function ($scope, $http, $timeout) {
             if (!resp.data.statusError && data) {
                 $scope.balance = data.balance;
                 $scope.hasBalance = true;
+                $scope.balanceForm.$setPristine();
             } else {
                 $scope.hasBalance = false;
             }
-        });
-        $timeout(function () {
-            $scope.balanceForm.$setPristine();
         });
     }
     init();

@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <div ng-if="hasBalance">
+                        <div ng-show="hasBalance">
                             <h5 class="text-center">ваш баланс: {{balance}} руб.</h5>
                             <form class='rd-mailform' name="balanceForm">
                                 <fieldset>
@@ -39,7 +39,7 @@
                                 </fieldset>
                             </form>
                         </div>
-                        <div ng-if="!hasBalance">
+                        <div ng-show="!hasBalance">
                             <h5 class="text-center">У вас пока нет принятых оплат</h5>
                         </div>
                     </div>
