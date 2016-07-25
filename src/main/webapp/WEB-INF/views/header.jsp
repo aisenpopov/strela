@@ -56,7 +56,7 @@
                                             <a href="#">Оплата</a>
                                             <ul class="rd-navbar-dropdown">
                                                 <li>
-                                                    <a href="/editor/balance/">Мой баланс</a>
+                                                    <a href="/account/balance/">Мой баланс</a>
                                                 </li>
                                                 <li>
                                                     <a href="/editor/payment/">Платежи</a>
