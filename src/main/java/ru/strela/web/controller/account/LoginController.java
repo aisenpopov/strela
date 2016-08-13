@@ -7,9 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.strela.util.ModelBuilder;
 import ru.strela.web.controller.core.WebController;
 
-/**
- * Created by Aisen on 29.06.2016.
- */
 @Controller
 @RequestMapping("/account/login")
 public class LoginController extends WebController {

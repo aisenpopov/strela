@@ -230,7 +230,8 @@ public class AutocompleteController {
     
     @RequestMapping(value = "/athlete/find", method = RequestMethod.POST)
     @ResponseBody
-    public List<ResponseItem> findAthlete(@RequestParam(value = "q", required = false) String q, @RequestParam(value = "instructor", required = false) Boolean instructor) {
+    public List<ResponseItem> findAthlete(@RequestParam(value = "q", required = false) String q,
+                                          @RequestParam(value = "instructor", required = false) Boolean instructor) {
         List<ResponseItem> result = new ArrayList<ResponseItem>();
         AthleteFilter filter = new AthleteFilter();
         filter.setQuery(q);

@@ -11,7 +11,9 @@ public class JsonResponse {
 	private String status = SUCCESS;
 	private String redirect;
     private Map<String, Object> data;
-     
+
+	private Map<String, String> fieldsMessages;
+
     public String getStatus() {
     	return status;
     }
@@ -37,7 +39,7 @@ public class JsonResponse {
     }
     
     public Map<String, Object> getData() {
-    	if(data == null) {
+    	if (data == null) {
     		data = new HashMap<String, Object>();
     	}
 		return data;
@@ -61,5 +63,21 @@ public class JsonResponse {
 	public boolean isStatusError() {
 		return ERROR.equals(getStatus());
 	}
-	
+
+	public Map<String, String> getFieldsMessages() {
+		if (fieldsMessages == null) {
+			fieldsMessages = new HashMap<>();
+		}
+
+		return fieldsMessages;
+	}
+
+	public void setFieldsMessages(Map<String, String> fieldsMessages) {
+		this.fieldsMessages = fieldsMessages;
+	}
+
+	public void addFieldMessage(String field, String message) {
+		setErrorStatus();
+		getFieldsMessages().put(field, message);
+	}
 }

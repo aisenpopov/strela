@@ -21,9 +21,6 @@ import ru.strela.web.controller.core.WebController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by Aisen on 07.07.2016.
- */
 @Controller
 @RequestMapping("/recovery")
 public class RecoveryPasswordController extends WebController {

@@ -23,6 +23,12 @@
 		<!-- Stylesheets -->
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300%7CRoboto+Condensed:700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/resources/css/libs/angular-csp.css">
+		<link rel="stylesheet" href="/resources/css/libs/angular-select.css">
+		<link rel="stylesheet" href="/resources/css/libs/select2.css">
+		<link rel="stylesheet" href="/resources/css/libs/bootstrap-table.css">
+		<link rel="stylesheet" href="/resources/css/libs/bootstrap-glyphicons.css">
+		<link rel="stylesheet" href="/resources/css/libs/bootstrap-modals.css">
+		<link rel="stylesheet" href="/resources/css/libs/jquery.loading-indicator.css">
 		<link rel="stylesheet" href="/resources/css/style.css">
 		<link rel="stylesheet" href="/resources/css/fix.css">
 
@@ -61,8 +67,15 @@
 	<script src="/resources/js/libs/yandex-map-2.1.min.js"></script>
 	<script src="/resources/js/libs/jquery-ui-1.10.3.min.js"></script>
 	<script src="/resources/js/libs/jquery.form-validator.min.js"></script>
+	<script src="/resources/js/libs/jquery.loading-indicator.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular.min.js"></script>
+	<script src="/resources/js/libs/angularjs/angular-animate.min.js"></script>
+	<script src="/resources/js/libs/angularjs/angular-touch.min.js"></script>
+	<script src="/resources/js/libs/angularjs/angular-sanitize.min.js"></script>
+	<script src="/resources/js/libs/angularjs/ui-bootstrap-tpls-2.0.0.js"></script>
+	<script src="/resources/js/libs/angularjs/select.min.js"></script>
 	<script src="/resources/js/web/app.js"></script>
+	<script src="/resources/js/web/services.js"></script>
 	<script src="/resources/js/util.js"></script>
 	<script src="/resources/js/strela.js"></script>
 

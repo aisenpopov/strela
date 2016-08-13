@@ -10,3 +10,4 @@
     </div>
 </footer>
 
+<jsp:include page="include/modals.jsp"/>

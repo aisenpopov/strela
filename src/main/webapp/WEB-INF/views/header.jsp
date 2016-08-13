@@ -59,7 +59,7 @@
                                                     <a href="/account/balance/">Мой баланс</a>
                                                 </li>
                                                 <li>
-                                                    <a href="/editor/payment/">Платежи</a>
+                                                    <a href="/account/payment/">Платежи</a>
                                                 </li>
                                                 <li>
                                                     <a href="/editor/payed_status/">Даты истечения</a>

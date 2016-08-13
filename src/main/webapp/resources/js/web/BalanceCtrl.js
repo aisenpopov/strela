@@ -4,12 +4,9 @@
 
 var app = angular.module("app");
 
-app.controller("BalanceCtrl", function ($scope, $http, $timeout) {
+app.controller("BalanceCtrl", function ($scope, $http, $timeout, ModalService, ValidateService) {
     function init() {
         $scope.amount = null;
-        $timeout(function () {
-            $scope.showSuccessMessage = false;
-        }, 3000);
         $http.post("/account/balance/getBalance").then(function (resp) {
             var data = resp.data.data;
             if (!resp.data.statusError && data) {
@@ -33,16 +30,10 @@ app.controller("BalanceCtrl", function ($scope, $http, $timeout) {
         $http.post("/account/balance/debit", { amount: $scope.amount.toString() }).then(function (resp) {
             var data = resp.data.data;
             if (resp.data.statusError) {
-                $scope.balanceForm.amount.$setValidity("server", false);
-                $scope.balanceForm.amount.serverErrorMessage = data.errorMessage;
-                $timeout(function () {
-                    $scope.balanceForm.amount.$setValidity("server", true);
-                    $scope.balanceForm.amount.serverErrorMessage = "";
-                }, 3000);
+                $scope.showFieldErrorMessage($scope.balanceForm.amount, data.errorMessage);
             } else {
-                $scope.balanceForm.amount.$setValidity("server", true);
-                $scope.balanceForm.amount.serverErrorMessage = "";
-                $scope.showSuccessMessage = true;
+                $scope.clearFieldErrorMessage($scope.balanceForm.amount);
+                ModalService.openMessageModal("Сумма успешно списана");
 
                 init();
             }

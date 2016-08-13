@@ -33,12 +33,13 @@
 
                                     <fieldset>
                                         <section>
-                                           <label class="label">Атлет</label>
+                                           <label class="label">Атлет <span>*</span></label>
                                            <label class="input">
                                                <form:input class="form-control" type="text" path="athleteTariff.athlete"/>
-                                               <span class="help-block error hidden" name="athleteTariff.athlete">
+                                               <%--<span class="help-block error hidden" name="athleteTariff.athlete">
                                                    Выберите атлета
-                                               </span>
+                                               </span>--%>
+                                               <form:errors class="help-block error" path="athleteTariff.athlete"/>
                                            </label>
                                         </section>
                                         <section>

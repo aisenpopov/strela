@@ -59,7 +59,7 @@
 														<td class="col-md-1"><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.id}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.athleteTariff.athlete.displayName}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.athleteTariff.tariff.name}</a></td>
-														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${not empty item.payment.athleteTariff ? item.payment.athleteTariff.coupon.name : ''}</a></td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${not empty item.payment.athleteTariff.coupon ? item.payment.athleteTariff.coupon.name : ''}</a></td>
 														<td><a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">${item.payment.amount}</a></td>
 														<td>
 															<a href="/editor/${activeMenu.href}/edit/${item.payment.id}/">

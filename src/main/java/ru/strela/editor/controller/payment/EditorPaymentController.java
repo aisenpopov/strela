@@ -63,7 +63,7 @@ public class EditorPaymentController extends EditorController {
     }
 
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
-    public ModelAndView save(Payment payment, BindingResult result, @PathVariable Map<String, String> pathVariables) {
+    public ModelAndView save(Payment payment, BindingResult result) {
         if(validate(result, payment)) {
             AthleteTariff athleteTariff = paymentService.getOrCreateAthleteTariff(payment.getAthleteTariff().getAthlete(), payment.getAthleteTariff().getTariff().getGym());
             payment.setAthleteTariff(athleteTariff);
@@ -126,9 +126,7 @@ public class EditorPaymentController extends EditorController {
                                 payment.setAthleteTariff(newAthleteTariff);
                             }
                         }
-
                     }
-
                 }
             } else {
                 payment = paymentService.findById(new Payment(id));
@@ -159,6 +157,10 @@ public class EditorPaymentController extends EditorController {
             if (tariffs.isEmpty()) {
                 result.rejectValue("athleteTariff.tariff.gym", "field.required", "Для данного зала нету тарифов. Создайте тариф.");
             }
+        }
+
+        if (payment.getAthleteTariff().getAthlete() == null) {
+            result.rejectValue("athleteTariff.athlete", "field.required", FIELD_REQUIRED);
         }
 
         if (payment.getDate() == null) {
