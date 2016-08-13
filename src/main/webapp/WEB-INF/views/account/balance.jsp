@@ -17,7 +17,7 @@
                                     <div class="row flow-offset-4">
                                         <div class="col-md-12">
                                             <label>
-                                                <span class="title">Списать с баланса</span>
+                                                <span class="title">Списать</span>
                                                 <div class="field-error" ng-show="isInvalid(balanceForm.amount)">
                                                     <span class="form-error" ng-show="balanceForm.amount.$error.required">Поле не может быть пустым</span>
                                                     <span class="form-error" ng-show="balanceForm.amount.$error.max">Не может быть больше баланса</span>

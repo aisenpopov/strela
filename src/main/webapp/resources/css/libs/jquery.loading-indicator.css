@@ -1,6 +1,6 @@
 
 .loading-indicator-wrapper {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -30,7 +30,7 @@
 }
 
 .loading-indicator-wrapper .loader {
-  margin: 0 auto;
+  margin: -50px 0 0 -50px;
   font-size: 10px;
   position: fixed;
   display: inline-block;
@@ -41,15 +41,15 @@
   border-left: 1.1em solid #fff;
   -webkit-animation: load 1.1s infinite linear;
   animation: load 1.1s infinite linear;
-  top: 30%;
-  left: 47.5%;
+  top: 50%;
+  left: 50%;
 }
 
 .loading-indicator-wrapper .loader,
 .loading-indicator-wrapper .loader:after {
   border-radius: 50%;
-  width: 10em;
-  height: 10em
+  width: 100px;
+  height: 100px;
 }
 
 .loading-indicator-wrapper .loading-indicator-helper {

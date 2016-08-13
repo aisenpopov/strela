@@ -4,7 +4,7 @@
 
 var app = angular.module("app");
 
-app.controller("BalanceCtrl", function ($scope, $http, $timeout, ModalService, ValidateService) {
+app.controller("BalanceCtrl", function ($scope, $http, $timeout, ModalService) {
     function init() {
         $scope.amount = null;
         $http.post("/account/balance/getBalance").then(function (resp) {

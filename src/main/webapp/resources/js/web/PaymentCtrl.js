@@ -18,7 +18,7 @@ app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
     $scope.search = function (type, query) {
         CommonService.search({
             type: type,
-            query: query,
+            q: query,
             instructor: true
         }).then(function (resp) {
             if (type === "athlete") {

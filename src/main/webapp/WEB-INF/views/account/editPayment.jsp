@@ -22,10 +22,10 @@
                                                 <span class="form-error" ng-show="paymentForm.athlete.$error.required">Поле не может быть пустым</span>
                                                 <span class="form-error" ng-show="paymentForm.athlete.$error.server">{{paymentForm.athlete.serverErrorMessage}}</span>
                                             </div>
-                                            <ui-select ng-model="athlete.selected" name="athlete" ng-required="true" theme="select2" style="min-width: 300px;" title="Выберите атлета">
+                                            <ui-select ng-model="athlete.selected" name="athlete" ng-required="true" theme="select2" title="Выберите атлета">
                                                 <ui-select-match allow-clear="true" placeholder="Выберите атлета">{{$select.selected.text}}</ui-select-match>
-                                                <ui-select-choices repeat="athlete in athletes"
-                                                                   refresh="search('athlete', $select.search)" refresh-delay="1000">
+                                                <ui-select-choices repeat="athlete in athletes" position="down"
+                                                                   refresh="search('athlete', $select.search)" refresh-delay="500">
                                                     <div ng-bind-html="athlete.text | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
@@ -41,10 +41,10 @@
                                                 <span class="form-error" ng-show="paymentForm.gym.$error.required">Поле не может быть пустым</span>
                                                 <span class="form-error" ng-show="paymentForm.gym.$error.server">{{paymentForm.gym.serverErrorMessage}}</span>
                                             </div>
-                                            <ui-select ng-model="gym.selected" name="gym" ng-required="true" theme="select2" style="min-width: 300px;" title="Выберите зал">
+                                            <ui-select ng-model="gym.selected" name="gym" ng-required="true" theme="select2" title="Выберите зал">
                                                 <ui-select-match allow-clear="true" placeholder="Выберите зал">{{$select.selected.text}}</ui-select-match>
-                                                <ui-select-choices repeat="gym in gyms"
-                                                                   refresh="search('gym', $select.search)" refresh-delay="1000">
+                                                <ui-select-choices repeat="gym in gyms" position="down"
+                                                                   refresh="search('gym', $select.search)" refresh-delay="500">
                                                     <div ng-bind-html="gym.text | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
