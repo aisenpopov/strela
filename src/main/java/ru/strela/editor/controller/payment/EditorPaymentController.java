@@ -25,10 +25,6 @@ import ru.strela.util.ajax.JsonResponse;
 
 import java.util.*;
 
-/**
- * Created by Aisen on 30.04.2016.
- */
-
 @Controller
 @RequestMapping("/editor/payment")
 public class EditorPaymentController extends EditorController {

@@ -39,7 +39,7 @@
                             <a href="/#/news">Новости</a>
                         </li>
                         <li ng-show="!person" ng-class="{'active': location.path().indexOf('login') > 0}">
-                            <a ng-href="/#/login">Войти</a>
+                            <a ng-href="/#/login" ng-click="hideMenu()">Войти</a>
                         </li>
                         <li ng-show="person" ng-class="{'active': location.path().indexOf('account') > 0}">
                             <a href="/#/account" ng-click="hideMenu()">Личный кабинет</a>
@@ -82,7 +82,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a class="logout" ng-click="logout()">Выйти</a>
+                                    <a class="logout" ng-click="logout(); hideMenu()">Выйти</a>
                                 </li>
                             </ul>
                         </li>

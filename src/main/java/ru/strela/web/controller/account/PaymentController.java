@@ -35,10 +35,10 @@ public class PaymentController extends WebController {
         filter.setQuery(query);
         filter.addOrder(new Order("id", OrderDirection.Desc));
         Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> list = new ArrayList<>();
         response.addData("payments", list);
         for (Payment payment : page) {
-            Map<String, Object> item = new HashMap<String, Object>();
+            Map<String, Object> item = new HashMap<>();
             item.put("id", payment.getId());
             item.put("athlete", payment.getAthleteTariff().getAthlete().getDisplayName());
             item.put("tariff", payment.getAthleteTariff().getTariff().getName());
