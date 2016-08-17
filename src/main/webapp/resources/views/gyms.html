@@ -1,0 +1,46 @@
+
+<section class="md-well well--inset-2 gym-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row text-md-left inset-1 flow-offset-2">
+                    <div class="col-sm-preffix-3 col-sm-6 col-md-preffix-0 col-md-12 col-md-push-1">
+                        <h2 class="offset-6">города:</h2>
+                        <ul class="list">
+                                <li ng-repeat="city in citiesHasGym">
+                                    <div class="heading-6">
+                                        <a ng-class="{'active': selectedCity && selectedCity.id == city.id}"
+                                           ng-href="/#/gym/?cityId={{city.id}}" ng-click="setSelectedCity(city)">
+                                            {{city.name}}
+                                        </a>
+                                    </div>
+                                </li>
+                        </ul>
+
+                        <div class="divider divider-small offset-4 md-visible"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 relative">
+                <h2 class="offset-6">{{selectedCity.name || 'Залы'}}</h2>
+
+                <article ng-repeat-start="gym in gyms" class="news-post">
+                    <a ng-href="/#/gym/{{gym.id}}">
+                        <img class="sm-max-width" ng-src="{{gym.image}}" alt="">
+                    </a>
+                    <time datetime="2001-05-15">{{gym.address}}</time>
+                    <h2><a href="/#/gym/{{gym.id}}">{{gym.name}}</a> </h2>
+
+                    <p class="text-md-left"></p>
+
+                    <div class="text-md-right postfix-1 offset-4">
+                        <a href="/#/gym/{{gym.id}}" class="link">ПОДРОБНЕЕ</a>
+                    </div>
+                </article>
+                <div ng-repeat-end class="divider divider-small"></div>
+
+                <div class="divider divider-big divider-md-vertical divider-left md-visible"></div>
+            </div>
+        </div>
+    </div>
+</section>

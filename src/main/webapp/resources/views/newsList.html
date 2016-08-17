@@ -1,0 +1,26 @@
+
+<section class="well well--inset-1 page-content">
+    <div class="container">
+        <h1>новости</h1>
+
+        <div class="row text-md-left flow-offset-1">
+            <div class="col-md-4 relative news" ng-repeat="news in newsList">
+                <!--News Post-->
+                <article class="news-post inset-1">
+                    <img height="222" width="337" ng-src="{{news.image}}" alt="">
+                    <time>{{news.publish}}</time>
+                    <h5><a ng-href="/#/news/{{news.path}}">{{news.name}}</a></h5>
+
+                    <p>{{news.shortText}}</p>
+                    <a ng-href="/#/news/{{news.path}}" class="link">ПОДРОБНЕЕ</a>
+                </article>
+                <div class="divider divider-md-vertical divider-small divider-right offset-1"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="well--inset-1">
+    <div class="container">
+        <div ng-include="'/resources/views/include/paging.html'"></div>
+    </div>
+</section>

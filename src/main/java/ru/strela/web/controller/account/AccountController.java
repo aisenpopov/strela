@@ -4,23 +4,25 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
-import ru.strela.util.ModelBuilder;
+import ru.strela.model.payment.AthleteTariff;
 import ru.strela.util.ValidateUtils;
+import ru.strela.util.ajax.JsonData;
+import ru.strela.util.ajax.JsonResponse;
 import ru.strela.web.controller.core.WebController;
+import ru.strela.web.controller.dto.AthleteDTO;
+import ru.strela.web.controller.dto.PersonDTO;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
-@RequestMapping(value = {"/account"})
 public class AccountController extends WebController {
 
     @Autowired
@@ -56,163 +58,161 @@ public class AccountController extends WebController {
         }
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET})
-    public ModelAndView get() {
-        return getModel();
+    @ResponseBody
+    @RequestMapping(value = "/getCurrentPerson", method = RequestMethod.POST)
+    public JsonResponse getCurrentPerson() {
+        JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
+
+        Person person = personServer.getCurrentPerson();
+        if (person != null) {
+            data.put("person", new PersonDTO(person));
+        }
+
+        return response;
     }
 
-    private ModelAndView getModel() {
-        ModelBuilder model = new ModelBuilder("account/account");
+    @ResponseBody
+    @RequestMapping(value = "/account/getCurrentAthlete", method = RequestMethod.POST)
+    public JsonResponse getCurrentAthlete() {
+        JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
 
         Person person = personServer.getCurrentPerson();
         if (person != null) {
             Athlete athlete = personService.findByPerson(person);
-            model.put("athlete", athlete);
             if (athlete != null) {
+                data.put("athlete", new AthleteDTO(athlete));
+
+                data.put("changePassword", new PasswordForm());
+
                 AthleteTariffFilter filter = new AthleteTariffFilter();
                 filter.setAthlete(athlete);
                 filter.addOrder(new Order("id", OrderDirection.Asc));
-                model.put("athleteTariffs", paymentService.findAthleteTariffs(filter, false));
-
-                model.put("passwordForm", new PasswordForm());
+                List<AthleteTariff> athleteTariffList = paymentService.findAthleteTariffs(filter, false);
+                for (AthleteTariff athleteTariff : athleteTariffList) {
+                    JsonData at = data.createCollection("athleteTariffs");
+                    at.put("id", athleteTariff.getId());
+                    at.put("tariffName", athleteTariff.getTariff() != null ? athleteTariff.getTariff().getName() : "");
+                    at.put("couponName", athleteTariff.getCoupon() != null ? athleteTariff.getCoupon().getName() : "");
+                }
             }
         }
 
-        return model;
+        return response;
     }
 
-    @RequestMapping(value="/ajax/", method=RequestMethod.POST)
-    public ModelAndView onAjax(HttpServletRequest req,
-                               Athlete athlete, BindingResult athleteResult,
-                               PasswordForm passwordForm, BindingResult passwordResult) {
-        String action = req.getParameter("action");
+    @ResponseBody
+    @RequestMapping(value="/account/saveAthlete", method=RequestMethod.POST)
+    public JsonResponse saveAthlete(Athlete athlete) {
+        JsonResponse response = new JsonResponse();
 
-        if ("refresh-crop-image".equals(action)) {
-            ajaxUpdate(req, "cropImagePanel");
-        } else if ("save-athlete".equals(action)) {
-            if (validateAthlete(req, athleteResult, athlete)) {
-                Person person = athlete.getPerson();
-                Person existPerson = personService.findById(person);
-                if (existPerson != null) {
-                    existPerson.setLogin(person.getLogin());
+        if (validateAthlete(response, athlete)) {
+            Person person = athlete.getPerson();
+            Person existPerson = personService.findById(person);
+            if (existPerson != null) {
+                existPerson.setLogin(person.getLogin());
 
-                    person = personService.save(existPerson);
-                }
-
-                Athlete existAthlete = personService.findById(new Athlete(athlete.getId()));
-                if (existAthlete != null) {
-                    existAthlete.setFirstName(athlete.getFirstName());
-                    existAthlete.setLastName(athlete.getLastName());
-                    existAthlete.setMiddleName(athlete.getMiddleName());
-                    existAthlete.setSex(athlete.getSex());
-                    existAthlete.setBirthday(athlete.getBirthday());
-                    existAthlete.setWeight(athlete.getWeight());
-                    existAthlete.setHeight(athlete.getHeight());
-                    existAthlete.setGiSize(athlete.getGiSize());
-                    existAthlete.setRashguardSize(athlete.getRashguardSize());
-
-                    existAthlete.setEmail(athlete.getEmail());
-                    existAthlete.setPhoneNumber(athlete.getPhoneNumber());
-                    existAthlete.setMobileNumber(athlete.getMobileNumber());
-                    existAthlete.setVk(athlete.getVk());
-                    existAthlete.setFacebook(athlete.getFacebook());
-                    existAthlete.setInstagram(athlete.getInstagram());
-                    existAthlete.setSkype(athlete.getSkype());
-
-                    existAthlete.setPerson(person);
-                    personService.save(existAthlete);
-                }
+                person = personService.save(existPerson);
             }
 
-            if (athleteResult.hasErrors()) {
-                return new ModelBuilder("account/account");
-            }
-        } else if ("save-password".equals(action)) {
-            Person currentPerson = personServer.getCurrentPerson();
-            if (validatePassword(req, currentPerson, passwordForm, passwordResult)) {
-                Person person = personService.findById(currentPerson);
-                person.setPassword(passwordEncoder.encode(passwordForm.getNewPassword()));
-                personService.save(person);
-            }
+            Athlete existAthlete = personService.findById(new Athlete(athlete.getId()));
+            if (existAthlete != null) {
+                existAthlete.setFirstName(athlete.getFirstName());
+                existAthlete.setLastName(athlete.getLastName());
+                existAthlete.setMiddleName(athlete.getMiddleName());
+                existAthlete.setSex(athlete.getSex());
+                existAthlete.setBirthday(athlete.getBirthday());
+                existAthlete.setWeight(athlete.getWeight());
+                existAthlete.setHeight(athlete.getHeight());
+                existAthlete.setGiSize(athlete.getGiSize());
+                existAthlete.setRashguardSize(athlete.getRashguardSize());
 
-            if (passwordResult.hasErrors()) {
-                return new ModelBuilder("account/account");
+                existAthlete.setEmail(athlete.getEmail());
+                existAthlete.setPhoneNumber(athlete.getPhoneNumber());
+                existAthlete.setMobileNumber(athlete.getMobileNumber());
+                existAthlete.setVk(athlete.getVk());
+                existAthlete.setFacebook(athlete.getFacebook());
+                existAthlete.setInstagram(athlete.getInstagram());
+                existAthlete.setSkype(athlete.getSkype());
+
+                existAthlete.setPerson(person);
+                personService.save(existAthlete);
             }
         }
 
-        return getModel();
+        return response;
     }
 
-    private void ajaxUpdateAthleteFields(HttpServletRequest req) {
-        ajaxUpdate(req, "loginField");
-        ajaxUpdate(req, "mobileNumberField");
-        ajaxUpdate(req, "firstNameField");
-        ajaxUpdate(req, "birthdayField");
-        ajaxUpdate(req, "emailField");
+    @ResponseBody
+    @RequestMapping(value="/account/savePassword", method=RequestMethod.POST)
+    public JsonResponse savePassword(PasswordForm passwordForm) {
+        JsonResponse response = new JsonResponse();
+
+        Person currentPerson = personServer.getCurrentPerson();
+        if (validatePassword(response, currentPerson, passwordForm)) {
+            Person person = personService.findById(currentPerson);
+            person.setPassword(passwordEncoder.encode(passwordForm.getNewPassword()));
+            personService.save(person);
+        }
+
+        return response;
     }
 
-    private void ajaxUpdatePasswordFields(HttpServletRequest req) {
-        ajaxUpdate(req, "oldPasswordField");
-        ajaxUpdate(req, "newPasswordField");
-        ajaxUpdate(req, "repPasswordField");
-    }
-
-    private boolean validateAthlete(HttpServletRequest request, BindingResult result, Athlete athlete) {
+    private boolean validateAthlete(JsonResponse response, Athlete athlete) {
         Person person = athlete.getPerson();
         String loginCheckResult;
         if (StringUtils.isBlank(person.getLogin())) {
-            result.rejectValue("person.login", "field.required", FIELD_REQUIRED);
+            response.addFieldMessage("personLogin", FIELD_REQUIRED);
         } else if ((loginCheckResult = ValidateUtils.checkLogin(person.getLogin())) != null) {
-            result.rejectValue("person.login", "field.required", loginCheckResult);
+            response.addFieldMessage("personLogin", loginCheckResult);
         } else {
             Person saved = personService.findByLogin(person);
             if(saved != null && person.getId() != saved.getId()) {
-                result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
+                response.addFieldMessage("personLogin", "Пользователь с таким login-ом уже существует");
             }
         }
         if (StringUtils.isBlank(athlete.getFirstName())) {
-            result.rejectValue("firstName", "field.required", FIELD_REQUIRED);
+            response.addFieldMessage("firstName", FIELD_REQUIRED);
         }
 
         String emailCheckResult;
         if (StringUtils.isNotBlank(athlete.getEmail()) && (emailCheckResult = ValidateUtils.checkEmail(athlete.getEmail())) != null) {
-            result.rejectValue("email", "field.required", emailCheckResult);
+            response.addFieldMessage("email", emailCheckResult);
         }
 
         String phoneCheckResult;
         if (StringUtils.isNotBlank(athlete.getPhoneNumber()) && (phoneCheckResult = ValidateUtils.checkPhone(athlete.getPhoneNumber())) != null) {
-            result.rejectValue("phoneNumber", "field.required", phoneCheckResult);
+            response.addFieldMessage("phoneNumber", phoneCheckResult);
         }
 
         String mobileCheckResult;
         if (StringUtils.isNotBlank(athlete.getMobileNumber()) && (mobileCheckResult = ValidateUtils.checkPhone(athlete.getMobileNumber())) != null) {
-            result.rejectValue("mobileNumber", "field.required", mobileCheckResult);
+            response.addFieldMessage("mobileNumber", mobileCheckResult);
         }
-        ajaxUpdateAthleteFields(request);
 
-        return !result.hasErrors();
+        return !response.isStatusError();
     }
 
-    private boolean validatePassword(HttpServletRequest req, Person person, PasswordForm passwordForm, BindingResult result) {
+    private boolean validatePassword(JsonResponse response, Person person, PasswordForm passwordForm) {
         if (StringUtils.isBlank(passwordForm.getOldPassword())) {
-            result.rejectValue("oldPassword", "field.required", FIELD_REQUIRED);
+            response.addFieldMessage("oldPassword", FIELD_REQUIRED);
         } else if (!passwordEncoder.matches(passwordForm.getOldPassword(), person.getPassword())) {
-            result.rejectValue("oldPassword", "field.required", "Неправильный старый пароль");
+            response.addFieldMessage("oldPassword", "Неправильный старый пароль");
         }
 
         if (StringUtils.isBlank(passwordForm.getNewPassword())) {
-            result.rejectValue("newPassword", "field.required", FIELD_REQUIRED);
+            response.addFieldMessage("newPassword", FIELD_REQUIRED);
         } else {
             String verifyPass = ValidateUtils.checkPassword(passwordForm.getNewPassword(), person.getLogin());
             if (verifyPass != null) {
-                result.rejectValue("newPassword", "field.required", verifyPass);
+                response.addFieldMessage("newPassword", verifyPass);
             } else if (!passwordForm.getNewPassword().equals(passwordForm.getRepPassword())) {
-                result.rejectValue("repPassword", "field.required", "Пароли не совпадают");
+                response.addFieldMessage("repPassword", "Пароли не совпадают");
             }
         }
-        ajaxUpdatePasswordFields(req);
 
-        return !result.hasErrors();
+        return !response.isStatusError();
     }
 
 }

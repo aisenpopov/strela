@@ -1,0 +1,27 @@
+
+<section class="md-well well--inset-1 gym">
+    <div class="container">
+        <div class="rd-google-map">
+            <div id="map" class="rd-google-map__model" data-latitude="{{gym.latitude}}" data-longitude="{{gym.longitude}}"></div>
+        </div>
+        <div class="divider divider-big offset-2 md-visible"></div>
+
+        <h3 class="well--inset-1">{{gym.name}}</h3>
+
+        <!-- Terms List -->
+        <dl class="article-content text-md-left">
+            <dd ng-bind-html="gym.text"></dd>
+        </dl>
+        <!-- END Terms List -->
+        <div class="row inset-1 flow-offset-2">
+            <div class="col-sm-preffix-3 col-sm-6 col-md-preffix-0 col-md-12 col-md-push-1">
+                <h5 class="offset-6">тренера:</h5>
+                <ul class="list">
+                    <li ng-repeat="instructor in gym.instructors">
+                        <div class="heading-6">{{instructor.displayName}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

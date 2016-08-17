@@ -32,8 +32,8 @@
 			Здравствуйте, <NAME/>, вы запросили восстановаление пароля. <br/><br/>
 
 			Чтобы создать новый пароль и получить доступ к вашему аккаунту - перейдите по ссылке:<br/>
-			<a href="http://<DOMAIN/>/recovery/?code=<CODE/>&email=<EMAIL/>">
-				http://<DOMAIN/>/recovery/?code=<CODE/>&email=<EMAIL/>
+			<a href="http://<DOMAIN/>/#/recovery?code=<CODE/>&email=<EMAIL/>">
+				http://<DOMAIN/>/#/recovery?code=<CODE/>&email=<EMAIL/>
 			</a>
 		]]></localized>
 	</item>

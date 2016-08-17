@@ -49,5 +49,15 @@ public class DateUtils {
 
 		return StringUtils.EMPTY;
 	}
-    
+
+	private  static SimpleDateFormat formatDDMMYYYY = new SimpleDateFormat("dd.MM.yyyy");
+
+	public static String formatDDMMYYYY(Date date) {
+		if (date != null) {
+			return formatDDMMYYYY.format(date);
+		}
+
+		return StringUtils.EMPTY;
+	}
+
 }

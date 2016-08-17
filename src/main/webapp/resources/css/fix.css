@@ -1,4 +1,4 @@
-.rd-navbar {
+/*.rd-navbar {
     display: block;
     visibility: hidden;
 }
@@ -9,15 +9,20 @@
     visibility: visible;
 }
 
-.owl-item {
-    width: 100%;
-}
 .owl-carousel {
     display: block;
     visibility: hidden;
 }
 .owl-carousel.owl-loaded {
     visibility: visible;
+}*/
+
+/*.owl-carousel-wrapper {
+    height: 596px;
+}*/
+
+.owl-item {
+    width: 100%;
 }
 
 .article-image {

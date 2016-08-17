@@ -75,18 +75,6 @@ function isIE() {
 
 
 /**
- * @module       Copyright
- * @description  Evaluates the copyright year
- */
-;
-(function ($) {
-    $(document).ready(function () {
-        $("#copyright-year").text((new Date).getFullYear());
-    });
-})(jQuery);
-
-
-/**
  * @module       WOW Animation
  * @description  Enables scroll animation on the page
  */
@@ -123,45 +111,46 @@ function isIE() {
  * @description  Enables RD Navbar Plugin
  */
 ;
-(function ($) {
+function initNavbar() {
+    console.log("init navbar");
+
     var o = $('.rd-navbar');
     if (o.length > 0) {
-        $(document).ready(function () {
-            o.RDNavbar({
-                stuckWidth: 768,
-                stuckMorph: true,
-                stuckLayout: "rd-navbar-static",
-                stickUpClone:false,
-                stickUpOffset:180,
-                responsive: {
-                    0: {
-                        layout: 'rd-navbar-fixed',
-                        focusOnHover: false
-                    },
-                    768: {
-                        layout: 'rd-navbar-fullwidth'
-                    },
-                    1200: {
-                        layout: o.attr("data-rd-navbar-lg").split(" ")[0],
-                    }
+        o.RDNavbar({
+            stuckWidth: 768,
+            stuckMorph: true,
+            stuckLayout: "rd-navbar-static",
+            stickUpClone:false,
+            stickUpOffset:180,
+            responsive: {
+                0: {
+                    layout: 'rd-navbar-fixed',
+                    focusOnHover: false
                 },
-                onepage: {
-                    enable: false,
-                    offset: 0,
-                    speed: 400
+                768: {
+                    layout: 'rd-navbar-fullwidth'
+                },
+                1200: {
+                    layout: o.attr("data-rd-navbar-lg").split(" ")[0],
                 }
-            });
-
+            },
+            onepage: {
+                enable: false,
+                offset: 0,
+                speed: 400
+            }
         });
     }
-})(jQuery);
+}
 
 /**
  * @module     Owl Carousel
  * @description Enables Owl Carousel Plugin
  */
 ;
-(function ($) {
+function initOwlCarousel() {
+    console.log("init owl carousel");
+    
     var o = $('.owl-carousel');
     if (o.length) {
 
@@ -171,53 +160,90 @@ function isIE() {
             e.preventDefault();
         }
 
-        $(document).ready(function () {
-            o.each(function () {
-                var c = $(this),
-                    responsive = {};
+        o.each(function () {
+            var c = $(this),
+                responsive = {};
 
-                var aliaces = ["-", "-xs-", "-sm-", "-md-", "-lg-"],
-                    values = [0, 480, 768, 992, 1200],
-                    i, j;
+            var aliaces = ["-", "-xs-", "-sm-", "-md-", "-lg-"],
+                values = [0, 480, 768, 992, 1200],
+                i, j;
 
-                for (i = 0; i < values.length; i++) {
-                    responsive[values[i]] = {};
-                    for (j = i; j >= -1; j--) {
-                        if (!responsive[values[i]]["items"] && c.attr("data" + aliaces[j] + "items")) {
-                            responsive[values[i]]["items"] = j < 0 ? 1 : parseInt(c.attr("data" + aliaces[j] + "items"));
-                        }
-                        if (!responsive[values[i]]["stagePadding"] && responsive[values[i]]["stagePadding"] !== 0 && c.attr("data" + aliaces[j] + "stage-padding")) {
-                            responsive[values[i]]["stagePadding"] = j < 0 ? 0 : parseInt(c.attr("data" + aliaces[j] + "stage-padding"));
-                        }
-                        if (!responsive[values[i]]["margin"] && responsive[values[i]]["margin"] !== 0 && c.attr("data" + aliaces[j] + "margin")) {
-                            responsive[values[i]]["margin"] = j < 0 ? 30 : parseInt(c.attr("data" + aliaces[j] + "margin"));
-                        }
+            for (i = 0; i < values.length; i++) {
+                responsive[values[i]] = {};
+                for (j = i; j >= -1; j--) {
+                    if (!responsive[values[i]]["items"] && c.attr("data" + aliaces[j] + "items")) {
+                        responsive[values[i]]["items"] = j < 0 ? 1 : parseInt(c.attr("data" + aliaces[j] + "items"));
+                    }
+                    if (!responsive[values[i]]["stagePadding"] && responsive[values[i]]["stagePadding"] !== 0 && c.attr("data" + aliaces[j] + "stage-padding")) {
+                        responsive[values[i]]["stagePadding"] = j < 0 ? 0 : parseInt(c.attr("data" + aliaces[j] + "stage-padding"));
+                    }
+                    if (!responsive[values[i]]["margin"] && responsive[values[i]]["margin"] !== 0 && c.attr("data" + aliaces[j] + "margin")) {
+                        responsive[values[i]]["margin"] = j < 0 ? 30 : parseInt(c.attr("data" + aliaces[j] + "margin"));
                     }
                 }
+            }
 
-                c.owlCarousel({
-                    autoplay: c.attr("data-autoplay") === "true",
-                    autoplayTimeout: c.attr("data-autoplay-timeout") ? parseInt(c.attr("data-autoplay-timeout")) : 5000,
-                    navSpeed: c.attr("data-nav-speed") ? parseInt(c.attr("data-nav-speed")) : false,
-                    autoplaySpeed: c.attr("data-autoplay-speed") ? parseInt(c.attr("data-autoplay-speed")) : false,
-                    loop: c.attr("data-loop") !== "false",
-                    items: 1,
-                    mouseDrag: c.attr("data-mouse-drag") !== "false",
-                    nav: c.attr("data-nav") === "true",
-                    dots: c.attr("data-dots") === "true",
-                    dotsEach: c.attr("data-dots-each") ? parseInt(c.attr("data-dots-each")) : false,
-                    responsive: responsive,
-                    navText: [],
-                    onInitialized: function () {
-                        if ($.fn.magnificPopup) {
-                            var o = this.$element.attr('data-lightbox') !== undefined && this.$element.attr("data-lightbox") !== "gallery",
-                                g = this.$element.attr('data-lightbox') === "gallery";
+            c.owlCarousel({
+                autoplay: c.attr("data-autoplay") === "true",
+                autoplayTimeout: c.attr("data-autoplay-timeout") ? parseInt(c.attr("data-autoplay-timeout")) : 5000,
+                navSpeed: c.attr("data-nav-speed") ? parseInt(c.attr("data-nav-speed")) : false,
+                autoplaySpeed: c.attr("data-autoplay-speed") ? parseInt(c.attr("data-autoplay-speed")) : false,
+                loop: c.attr("data-loop") !== "false",
+                items: 1,
+                mouseDrag: c.attr("data-mouse-drag") !== "false",
+                nav: c.attr("data-nav") === "true",
+                dots: c.attr("data-dots") === "true",
+                dotsEach: c.attr("data-dots-each") ? parseInt(c.attr("data-dots-each")) : false,
+                responsive: responsive,
+                navText: [],
+                onInitialized: function () {
+                    if ($.fn.magnificPopup) {
+                        var o = this.$element.attr('data-lightbox') !== undefined && this.$element.attr("data-lightbox") !== "gallery",
+                            g = this.$element.attr('data-lightbox') === "gallery";
 
-                            if (o) {
-                                this.$element.each(function () {
-                                    var $this = $(this);
-                                    $this.magnificPopup({
-                                        type: $this.attr("data-lightbox"),
+                        if (o) {
+                            this.$element.each(function () {
+                                var $this = $(this);
+                                $this.magnificPopup({
+                                    type: $this.attr("data-lightbox"),
+                                    callbacks: {
+                                        open: function () {
+                                            if (isTouch) {
+                                                $(document).on("touchmove", preventScroll);
+                                                $(document).swipe({
+                                                    swipeDown: function () {
+                                                        $.magnificPopup.close();
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        close: function () {
+                                            if (isTouch) {
+                                                $(document).off("touchmove", preventScroll);
+                                                $(document).swipe("destroy");
+                                            }
+                                        }
+                                    }
+                                });
+                            })
+                        }
+
+                        if (g) {
+                            this.$element.each(function () {
+                                var $gallery = $(this);
+
+                                $gallery
+                                    .find('[data-lightbox]').each(function () {
+                                        var $item = $(this);
+                                        $item.addClass("mfp-" + $item.attr("data-lightbox"));
+                                    })
+                                    .end()
+                                    .magnificPopup({
+                                        delegate: '.owl-item [data-lightbox]',
+                                        type: "image",
+                                        gallery: {
+                                            enabled: true
+                                        },
                                         callbacks: {
                                             open: function () {
                                                 if (isTouch) {
@@ -237,53 +263,14 @@ function isIE() {
                                             }
                                         }
                                     });
-                                })
-                            }
-
-                            if (g) {
-                                this.$element.each(function () {
-                                    var $gallery = $(this);
-
-                                    $gallery
-                                        .find('[data-lightbox]').each(function () {
-                                            var $item = $(this);
-                                            $item.addClass("mfp-" + $item.attr("data-lightbox"));
-                                        })
-                                        .end()
-                                        .magnificPopup({
-                                            delegate: '.owl-item [data-lightbox]',
-                                            type: "image",
-                                            gallery: {
-                                                enabled: true
-                                            },
-                                            callbacks: {
-                                                open: function () {
-                                                    if (isTouch) {
-                                                        $(document).on("touchmove", preventScroll);
-                                                        $(document).swipe({
-                                                            swipeDown: function () {
-                                                                $.magnificPopup.close();
-                                                            }
-                                                        });
-                                                    }
-                                                },
-                                                close: function () {
-                                                    if (isTouch) {
-                                                        $(document).off("touchmove", preventScroll);
-                                                        $(document).swipe("destroy");
-                                                    }
-                                                }
-                                            }
-                                        });
-                                })
-                            }
+                            })
                         }
                     }
-                });
+                }
             });
         });
     }
-})(jQuery);
+}
 
 /**
  * @module       RD-instafeed

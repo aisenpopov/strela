@@ -1,0 +1,50 @@
+
+<section class="text-md-left well--inset-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h5 class="text-center">авторизация</h5>
+                <form class='login rd-mailform' name="loginForm">
+                    <fieldset>
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Login<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(loginForm.username)">
+                                        <span class="form-error" ng-show="loginForm.username.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="loginForm.username.$error.server">{{loginForm.username.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text"
+                                           name="username"
+                                           placeholder="Введите ваш login"
+                                           ng-required="true" ng-model="username"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Пароль<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(loginForm.password)">
+                                        <span class="form-error" ng-show="loginForm.password.$error.required">Поле не может быть пустым</span>
+                                    </div>
+                                    <input type="password"
+                                           name="password"
+                                           placeholder="Введите ваш пароль"
+                                           ng-required="true" ng-model="password"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mfControls btn-group text-center text-md-left">
+                            <button class="btn btn-md btn-default" type="submit" ng-click="onClickLogin()">Войти</button>
+                            <a href="/#/recovery" class="btn btn-md">Забыли пароль?</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</section>

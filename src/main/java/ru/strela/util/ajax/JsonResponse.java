@@ -54,7 +54,7 @@ public class JsonResponse {
     }
     
     public JsonData createJsonData() {
-    	if(data == null) {
+    	if (data == null) {
     		data = new HashMap<String, Object>();
     	}
     	return new JsonData(data);

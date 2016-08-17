@@ -4,9 +4,10 @@
 
 var app = angular.module("app");
 
-app.controller("PaymentListCtrl", function ($scope, $http, $window, $location, ModalService, CommonService) {
+app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
+
     var size = 8;
-    CommonService.preloader.show();
+    CommonService.loader(true);
     $scope.list = function (page, query) {
         var search = $location.search(),
             page = page || search.page || 1,
@@ -21,13 +22,13 @@ app.controller("PaymentListCtrl", function ($scope, $http, $window, $location, M
                 $location.search("query", query);
             }
         }).finally(function () {
-            CommonService.preloader.hide();
+            CommonService.loader(false);
         });
     };
     $scope.list();
 
     $scope.onClickPayment = function (id) {
-        $window.location = "/account/payment/edit/" + (id ? "#?id=" + id : "");
+        $location.url("/account/payment/edit/" + (id ? id  + "/" : ""))
     };
     
     $scope.onClickNew = function () {

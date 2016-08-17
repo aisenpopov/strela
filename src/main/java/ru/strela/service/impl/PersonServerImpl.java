@@ -30,13 +30,20 @@ public class PersonServerImpl implements PersonServer {
 	
 	@Override
 	public Person getCurrentPerson() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if((auth instanceof UsernamePasswordAuthenticationToken || auth instanceof RememberMeAuthenticationToken) 
-															    && auth.isAuthenticated()) {
-			Person person = ((AuthPerson)auth.getPrincipal()).getPerson();
-			return person;
+		AuthPerson authPerson = getCurrentAuthPerson();
+		if (authPerson != null) {
+			return authPerson.getPerson();
 		}
 		return null;
 	}
 
+	@Override
+	public AuthPerson getCurrentAuthPerson() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if((auth instanceof UsernamePasswordAuthenticationToken || auth instanceof RememberMeAuthenticationToken)
+				&& auth.isAuthenticated()) {
+			return ((AuthPerson)auth.getPrincipal());
+		}
+		return null;
+	}
 }

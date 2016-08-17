@@ -1,0 +1,99 @@
+
+<section class="text-md-left well--inset-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div ng-show="state === 'recovery'">
+                    <h5 class="text-center">введите почту</h5>
+                    <form class="email rd-mailform" name="sendCodeForm">
+                        <fieldset>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Email<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(sendCodeForm.email)">
+                                            <span class="form-error" ng-show="sendCodeForm.email.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="sendCodeForm.email.$error.pattern">Неправильный формат</span>
+                                            <span class="form-error" ng-show="sendCodeForm.email.$error.server">{{sendCodeForm.email.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="email" ng-model="email" ng-required="true"
+                                               ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mfControls btn-group text-center text-md-left">
+                                <button class="btn btn-md btn-default" ng-click="sendCode()">Отправить</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div ng-show="state === 'code_send'">
+                    <div class="text-center">
+                        <h5>Код отправлен</h5>
+                        <p>Пожалуйста проверьте указанную почту.</p>
+                        <p><a href="/#/" class="text-underline">Перейти на главную</a></p>
+                    </div>
+                </div>
+
+                <div ng-show="state === 'wrong_code'">
+                    <div class="text-center">
+                        <h5>Неправильный код</h5>
+                    </div>
+                </div>
+
+                <div ng-show="state === 'change_password'">
+                    <h5 class="text-center">восстановление</h5>
+                    <form class='password rd-mailform' name="passwordForm">
+                        <fieldset>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Новый пароль<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(passwordForm.newPassword)">
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.server">{{passwordForm.newPassword.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="password"
+                                               name="newPassword"
+                                               ng-model="newPassword"
+                                               ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Повторите пароль<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(passwordForm.repPassword)">
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.server">{{passwordForm.repPassword.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="password"
+                                               name="repPassword"
+                                               ng-model="repPassword"
+                                               ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mfControls btn-group text-center text-md-left">
+                                <button class="btn btn-md btn-default" ng-click="changePassword()">Сохранить</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div ng-show="state === 'complete_recovery'">
+                    <div class="text-center">
+                        <h5>Пароль изменен</h5>
+                        <p><a href="/#/account/" class="text-underline">Перейти в личный кабинет</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</section>

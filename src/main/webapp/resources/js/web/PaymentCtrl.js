@@ -4,9 +4,10 @@
 
 var app = angular.module("app");
 
-app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
-                                        $location, CommonService) {
-    $scope.id = $location.search().id;
+app.controller("PaymentCtrl", function ($scope, $http, ModalService,
+                                        $location, CommonService, $routeParams) {
+    
+    $scope.id = $routeParams.id;
     $scope.athlete = {};
     $scope.gym = {};
     $scope.amount = null;
@@ -18,8 +19,7 @@ app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
     $scope.search = function (type, query) {
         CommonService.search({
             type: type,
-            q: query,
-            instructor: true
+            q: query
         }).then(function (resp) {
             if (type === "athlete") {
                 $scope.athletes = resp.data;
@@ -32,7 +32,7 @@ app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
     var oldAmount, oldGymId;
     if ($scope.id) {
         $scope.buttonLabel = "Перепровести";
-        CommonService.preloader.show();
+        CommonService.loader(true);
         CommonService.post("/account/payment/info", {id: $scope.id}).then(function (resp) {
             var data = resp.data.data;
             if (data) {
@@ -53,7 +53,22 @@ app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
                 oldGymId = data.gymId;
             }
         }).finally(function () {
-            CommonService.preloader.hide();
+            CommonService.loader(false);
+        });
+    } else {
+        CommonService.loader(true);
+        CommonService.post("/account/payment/checkSingleGym").then(function (resp) {
+            var data = resp.data.data;
+            if (data && data.gym) {
+                $scope.gym = {
+                    selected: {
+                        id: data.gym.id,
+                        text: data.gym.name
+                    }
+                };
+            }
+        }).finally(function () {
+            CommonService.loader(false);
         });
     }
     
@@ -80,7 +95,7 @@ app.controller("PaymentCtrl", function ($scope, $http, $window, ModalService,
                     $scope.showFormErrorMessages($scope.paymentForm, data.fieldsMessages);
                 } else {
                     $scope.clearFormErrorMessages($scope.paymentForm);
-                    $window.location = "/account/payment/";
+                    $location.path("account/payment");
                 }
             });
         }

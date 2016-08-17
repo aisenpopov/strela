@@ -5,17 +5,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ru.strela.auth.AuthPerson;
 import ru.strela.auth.AuthenticationProcessor;
 import ru.strela.mail.SendMailHelper;
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
-import ru.strela.util.ModelBuilder;
 import ru.strela.util.ValidateUtils;
+import ru.strela.util.ajax.JsonResponse;
 import ru.strela.web.controller.core.WebController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,26 +22,18 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/recovery")
 public class RecoveryPasswordController extends WebController {
 
-    private enum State {
-        recovery,
-        send_code,
-        wrong_code,
-        change_password,
-        complete_recovery
-    }
-
     public static class PasswordForm {
 
-        private String login;
+        private String email;
         private String newPassword;
         private String repPassword;
 
-        public String getLogin() {
-            return login;
+        public String getEmail() {
+            return email;
         }
 
-        public void setLogin(String login) {
-            this.login = login;
+        public void setEmail(String email) {
+            this.email = email;
         }
 
         public String getNewPassword() {
@@ -86,34 +75,29 @@ public class RecoveryPasswordController extends WebController {
     @Autowired
     private AuthenticationProcessor authenticationProcessor;
 
+    @ResponseBody
+    @RequestMapping(value="/check_code", method = RequestMethod.POST)
+    public JsonResponse get(@RequestParam(value = "email", required = true) String email,
+                            @RequestParam(value = "code", required = true) String code) {
+        JsonResponse response = new JsonResponse();
 
-    @RequestMapping(value="/", method = RequestMethod.GET)
-    public String get(HttpServletRequest req, Model model) {
-        String email = req.getParameter("email");
-        String code = req.getParameter("code");
         if (StringUtils.isNotBlank(email) && StringUtils.isNotBlank(code)) {
             Person person = personService.findByEmail(email);
-            if (person != null) {
-                if (person.getRecoveryCode() != null && person.getRecoveryCode().equals(code)) {
-                    model.addAttribute("state", State.change_password);
-                    PasswordForm passwordForm = new PasswordForm();
-                    passwordForm.setLogin(person.getLogin());
-                    model.addAttribute("passwordForm", passwordForm);
-                } else {
-                    model.addAttribute("state", State.wrong_code);
-                }
+            if (person != null && person.getRecoveryCode() != null && person.getRecoveryCode().equals(code)) {
+                return response;
             }
-        } else {
-            model.addAttribute("state", State.recovery);
-            model.addAttribute("emailForm", new EmailForm());
         }
 
-        return "account/recoveryPassword";
+        response.setErrorStatus();
+        return response;
     }
 
+    @ResponseBody
     @RequestMapping(value="/send_code", method = RequestMethod.POST)
-    public ModelAndView sendRecoveryCode(@ModelAttribute("emailForm") EmailForm emailForm, BindingResult emailResult) {
-        if (validateEmail(emailForm, emailResult)) {
+    public JsonResponse sendRecoveryCode(@RequestBody(required = true) EmailForm emailForm) {
+        JsonResponse response = new JsonResponse();
+
+        if (validateEmail(emailForm, response)) {
             String email = emailForm.getEmail();
             Person person = personService.findByEmail(email);
             if (person != null) {
@@ -123,20 +107,24 @@ public class RecoveryPasswordController extends WebController {
 
                 Athlete athlete = personService.findByPerson(person);
                 sendMailHelper.sendRecoveryMail(athlete != null ? athlete.getDisplayName() : "", email, code);
-                return (new ModelBuilder("account/recoveryPassword")).put("state", State.send_code);
+                return response;
             }
         }
 
-        return (new ModelBuilder("account/recoveryPassword")).put("state", State.recovery);
+        response.setErrorStatus();
+        return response;
     }
 
+    @ResponseBody
     @RequestMapping(value="/save_new_password", method = RequestMethod.POST)
-    public ModelAndView saveNewPassword(HttpServletRequest req, HttpServletResponse res,
-                                        @ModelAttribute("passwordForm") PasswordForm passwordForm, BindingResult passwordResult) {
-        String login = passwordForm.getLogin();
-        if (login != null) {
-            Person person = personService.findByLogin(new Person(login));
-            if (person != null && validatePassword(passwordForm, passwordResult)) {
+    public JsonResponse saveNewPassword(HttpServletRequest req, HttpServletResponse res,
+                                        @RequestBody(required = true) PasswordForm passwordForm) {
+        JsonResponse response = new JsonResponse();
+
+        String email = passwordForm.getEmail();
+        if (email != null) {
+            Person person = personService.findByEmail(email);
+            if (person != null && validatePassword(passwordForm, person.getLogin(), response)) {
                 person.setRecoveryCode(null);
                 person.setPassword(passwordEncoder.encode(passwordForm.getNewPassword()));
                 personService.save(person);
@@ -145,37 +133,37 @@ public class RecoveryPasswordController extends WebController {
                     authenticationProcessor.startRememberMeSession(req, res, new AuthPerson(person));
                 }
 
-                return (new ModelBuilder("account/recoveryPassword")).put("state", State.complete_recovery);
+                return response;
             }
         }
 
-        return (new ModelBuilder("account/recoveryPassword")).put("state", State.change_password);
+        return response;
     }
 
-    private boolean validateEmail(EmailForm emailForm, BindingResult emailResult) {
+    private boolean validateEmail(EmailForm emailForm, JsonResponse response) {
         String email = emailForm.getEmail();
         String verifyEmail = ValidateUtils.checkEmail(email);
         if (verifyEmail != null) {
-            emailResult.rejectValue("email", "field.required", verifyEmail);
+            response.addFieldMessage("email", verifyEmail);
         } else if (personService.findByEmail(email) == null) {
-            emailResult.rejectValue("email", "field.required", "Пользователя с таким email не существует");
+            response.addFieldMessage("email", "Пользователя с таким email не существует");
         }
 
-        return !emailResult.hasErrors();
+        return !response.isStatusError();
     }
 
-    private boolean validatePassword(PasswordForm passwordForm, BindingResult passwordResult) {
+    private boolean validatePassword(PasswordForm passwordForm, String login, JsonResponse response) {
         String newPassword = passwordForm.getNewPassword();
         String passwordCheckResult;
-        if ((passwordCheckResult = ValidateUtils.checkPassword(newPassword, passwordForm.getLogin())) != null) {
-            passwordResult.rejectValue("newPassword", "field.required", passwordCheckResult);
+        if ((passwordCheckResult = ValidateUtils.checkPassword(newPassword, login)) != null) {
+            response.addFieldMessage("newPassword", passwordCheckResult);
         }
 
         if (newPassword != null && !newPassword.equals(passwordForm.getRepPassword())) {
-            passwordResult.rejectValue("repPassword", "field.required", "Пароли не совпадают");
+            response.addFieldMessage("repPassword", "Пароли не совпадают");
         }
 
-        return !passwordResult.hasErrors();
+        return !response.isStatusError();
     }
 
 }

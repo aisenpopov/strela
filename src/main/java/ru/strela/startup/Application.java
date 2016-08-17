@@ -4,7 +4,6 @@ import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -30,10 +29,10 @@ public class Application {
                 new WebXmlConfiguration(),
                 new AnnotationConfiguration()
         });
-        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
-	    errorHandler.addErrorPage(404, "/error404");
-        errorHandler.addErrorPage(403, "/error403");
-	    context.setErrorHandler(errorHandler);
+//        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+//	    errorHandler.addErrorPage(404, "/error404");
+//        errorHandler.addErrorPage(403, "/error403");
+//	    context.setErrorHandler(errorHandler);
 
         server.setHandler(context);
         

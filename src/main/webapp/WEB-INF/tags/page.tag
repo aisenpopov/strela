@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html class="boxed smoothscroll wow-animation" ng-app="app">
 	<head>
-		<title>${htmlTitle} | Strela</title>
+		<title ng-bind="htmlTitle + ' | Strela'">Strela</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="author" content="Strela"/>
 		<meta name="description" content="${htmlDescription}"/>
@@ -36,7 +36,7 @@
 		<script src="/resources/js/html5shiv.min.js"></script>
 		<![endif]-->
 	</head>
-	<body ng-controller="MainCtrl">
+	<body ng-controller="CommonCtrl" ng-cloak>
 		<div class="page text-center">
 
 			<!--For older internet explorer-->
@@ -49,13 +49,11 @@
 			</div>
 			<!--END block for older internet explorer-->
 
-			<jsp:include page="/WEB-INF/views/header.jsp" />
+			<div ng-include="'/resources/views/include/header.html'"></div>
 
-			<main class="page-content">
-				<jsp:doBody/>
-			</main>
+			<main class="page-content" ng-view></main>
 
-			<jsp:include page="/WEB-INF/views/footer.jsp" />
+			<div ng-include="'/resources/views/include/footer.html'"></div>
 		</div>
 	</body>
 
@@ -69,19 +67,29 @@
 	<script src="/resources/js/libs/jquery.form-validator.min.js"></script>
 	<script src="/resources/js/libs/jquery.loading-indicator.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular.min.js"></script>
+	<script src="/resources/js/libs/angularjs/angular-route.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular-animate.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular-touch.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular-sanitize.min.js"></script>
 	<script src="/resources/js/libs/angularjs/ui-bootstrap-tpls-2.0.0.js"></script>
 	<script src="/resources/js/libs/angularjs/select.min.js"></script>
-	<script src="/resources/js/web/app.js"></script>
-	<script src="/resources/js/web/services.js"></script>
+
+	<script src="/resources/js/web/App.js"></script>
+	<script src="/resources/js/web/Services.js"></script>
+
+	<script src="/resources/js/web/LoginCtrl.js"></script>
+	<script src="/resources/js/web/GymCtrls.js"></script>
+	<script src="/resources/js/web/NewsCtrls.js"></script>
+
+	<script src="/resources/js/web/AccountCtrl.js"></script>
+	<script src="/resources/js/web/RecoveryCtrl.js"></script>
+	<script src="/resources/js/web/BalanceCtrl.js"></script>
+	<script src="/resources/js/web/PaymentCtrl.js"></script>
+	<script src="/resources/js/web/PaymentListCtrl.js"></script>
+
 	<script src="/resources/js/util.js"></script>
 	<script src="/resources/js/strela.js"></script>
 
-	<c:if test="${not empty ctrl}">
-		<script src="/resources/js/web/${ctrl}.js"></script>
-	</c:if>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			S.initBase();

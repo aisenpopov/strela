@@ -3,9 +3,10 @@ package ru.strela.web.controller.account;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ru.strela.model.Athlete;
 import ru.strela.model.Gym;
+import ru.strela.model.auth.Person;
+import ru.strela.model.filter.GymFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.PaymentFilter;
@@ -14,6 +15,7 @@ import ru.strela.model.payment.AthleteTariff;
 import ru.strela.model.payment.Payment;
 import ru.strela.model.payment.Tariff;
 import ru.strela.util.DateUtils;
+import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.web.controller.core.WebController;
 
@@ -22,11 +24,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/account/payment")
 public class PaymentController extends WebController {
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView get() {
-        return new ModelAndView("account/payments");
-    }
 
     @ResponseBody
     @RequestMapping(value = "/list/", method = RequestMethod.GET)
@@ -73,11 +70,6 @@ public class PaymentController extends WebController {
         return response;
     }
 
-    @RequestMapping(value = "/edit/", method = RequestMethod.GET)
-    public ModelAndView getPage() {
-        return new ModelAndView("account/editPayment");
-    }
-
     @ResponseBody
     @RequestMapping(value = {"/info"}, method = RequestMethod.POST)
     public JsonResponse getPayment(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
@@ -98,6 +90,34 @@ public class PaymentController extends WebController {
             paymentItem.put("gymName", gym.getName());
 
             response.setData(paymentItem);
+        }
+
+        return response;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/checkSingleGym", method=RequestMethod.POST)
+    public JsonResponse checkSingleGym() {
+        JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
+
+        Person currentPerson = personServer.getCurrentPerson();
+        if (currentPerson != null && currentPerson.isInstructor() && !currentPerson.isAdmin()) {
+            Athlete athlete = personService.findByPerson(currentPerson);
+            if (athlete != null) {
+                if (athlete.getTeam() != null) {
+                    GymFilter filter = new GymFilter();
+                    filter.setTeam(athlete.getTeam());
+                    List<Gym> gyms = applicationService.findGyms(filter, true);
+
+                    if (gyms != null && !gyms.isEmpty() && gyms.size() == 1) {
+                        Gym gym = gyms.get(0);
+                        JsonData jsonData = data.addJsonData("gym");
+                        jsonData.put("id", gym.getId());
+                        jsonData.put("name", gym.getName());
+                    }
+                }
+            }
         }
 
         return response;

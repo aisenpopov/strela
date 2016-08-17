@@ -1,0 +1,287 @@
+
+<section class="md-well well--inset-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="row text-md-left inset-1 flow-offset-2">
+                    <div class="col-sm-preffix-3 col-sm-6 col-md-preffix-0 col-md-12 col-md-push-1">
+                        <!--<div class="divider divider-small offset-4 md-visible"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 relative">
+                <div ng-show="hasAthlete">
+                    <h2 class="offset-6">Профиль</h2>
+                    <form class='athlete rd-mailform' name="athleteForm">
+                        <fieldset>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Имя<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.firstName)">
+                                            <span class="form-error" ng-show="athleteForm.firstName.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="athleteForm.firstName.$error.server">{{athleteForm.firstName.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="firstName"
+                                               ng-model="athlete.firstName" ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Фамилия</span>
+                                        <input type="text" name="lastName" ng-model="athlete.lastName"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Отчество</span>
+                                        <input type="text" name="middleName" ng-model="athlete.middleName"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Дата рождения</span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.birthday)">
+                                            <span class="form-error" ng-show="athleteForm.birthday.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="athleteForm.birthday.$error.pattern">Неправильный формат</span>
+                                            <span class="form-error" ng-show="athleteForm.birthday.$error.server">{{athleteForm.birthday.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="birthday" ng-datepicker
+                                               ng-model="athlete.birthday" ng-required="true"
+                                               ng-pattern="/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <span class="title">Пол</span>
+                                    <div class="inline-group">
+                                        <label class="radio">
+                                            <input type="radio" name="sex" ng-model="athlete.sex" value="male"/>
+                                            <i></i>
+                                            Мужской
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="sex" ng-model="athlete.sex" value="female"/>
+                                            <i></i>
+                                            Женский
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Вес(кг)</span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.weight)">
+                                            <span class="form-error" ng-show="athleteForm.weight.$error.number">Введите корректное число</span>
+                                        </div>
+                                        <input type="number" name="weight" ng-model="athlete.weight"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Рост(см)</span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.height)">
+                                            <span class="form-error" ng-show="athleteForm.height.$error.number">Введите корректное число</span>
+                                        </div>
+                                        <input type="number" name="height" ng-model="athlete.height"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Размер ГИ</span>
+                                        <input type="text" name="giSize" ng-model="athlete.giSize"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Размер рашгарда</span>
+                                        <input type="text" name="rashguardSize" ng-model="athlete.rashguardSize"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="divider divider-small offset-4"></div>
+
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Эл. почта</span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.email)">
+                                            <span class="form-error" ng-show="athleteForm.email.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="athleteForm.email.$error.pattern">Введите валидный e-mail</span>
+                                            <span class="form-error" ng-show="athleteForm.email.$error.server">{{athleteForm.email.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="email"
+                                                ng-model="athlete.email" ng-required="true"
+                                                ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Мобильный телефон</span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.mobileNumber)">
+                                            <span class="form-error" ng-show="athleteForm.mobileNumber.$error.pattern">Введите валидный номер телефона</span>
+                                            <span class="form-error" ng-show="athleteForm.mobileNumber.$error.server">{{athleteForm.mobileNumber.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="mobileNumber"
+                                               ng-model="athlete.mobileNumber" ng-pattern="/^[0-9-()+]+$/"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Vkontakte</span>
+                                        <input type="text" name="vk" ng-model="athlete.vk"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Facebook</span>
+                                        <input type="text" name="facebook" ng-model="athlete.facebook"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Instagram</span>
+                                        <input type="text" name="instagram" ng-model="athlete.instagram"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Skype</span>
+                                        <input type="text" name="skype" ng-model="athlete.skype"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="divider divider-small offset-4"></div>
+
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Login<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(athleteForm.personLogin)">
+                                            <span class="form-error" ng-show="athleteForm.personLogin.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="athleteForm.personLogin.$error.minlength">Длина должна быть больше 3</span>
+                                            <span class="form-error" ng-show="athleteForm.personLogin.$error.maxlength">Длина должна быть меньше 20</span>
+                                            <span class="form-error" ng-show="athleteForm.personLogin.$error.server">{{athleteForm.personLogin.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="text" name="personLogin" ng-model="athlete.person.login"
+                                               ng-minlength="3" ng-maxlength="20" ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <span class="title">Тарифы</span>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th class="col-lg-1">Тариф</th>
+                                            <th class="col-lg-2">Купон</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in athleteTariffs" data-athlete-tariff-id="{{item.id}}">
+                                            <td>{{item.tariffName}}</td>
+                                            <td>{{item.couponName}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="divider divider-small offset-4"></div>
+                            <div class="mfControls btn-group text-center text-md-left">
+                                <button class="btn btn-md btn-default" ng-click="saveAthlete()">Сохранить</button>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <h2 class="offset-4">Пароль</h2>
+                    <form class='password rd-mailform' name="passwordForm">
+                        <fieldset>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Старый пароль<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(passwordForm.oldPassword)">
+                                            <span class="form-error" ng-show="passwordForm.oldPassword.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="passwordForm.oldPassword.$error.server">{{passwordForm.oldPassword.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="password" name="oldPassword"
+                                               ng-model="changePassword.oldPassword" ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Новый пароль<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(passwordForm.newPassword)">
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.minlength">Длина должна быть больше 6</span>
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.maxlength">Длина должна быть меньше 20</span>
+                                            <span class="form-error" ng-show="passwordForm.newPassword.$error.server">{{passwordForm.newPassword.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="password" name="newPassword" ng-model="changePassword.newPassword"
+                                               ng-minlength="3" ng-maxlength="20" ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row flow-offset-4">
+                                <div class="col-md-12">
+                                    <label>
+                                        <span class="title">Повторите новый пароль<span>*</span></span>
+                                        <div class="field-error" ng-show="isInvalid(passwordForm.repPassword)">
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.required">Поле не может быть пустым</span>
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.minlength">Длина должна быть больше 6</span>
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.maxlength">Длина должна быть меньше 20</span>
+                                            <span class="form-error" ng-show="passwordForm.repPassword.$error.server">{{passwordForm.repPassword.serverErrorMessage}}</span>
+                                        </div>
+                                        <input type="password" name="repPassword" ng-model="changePassword.repPassword"
+                                               ng-minlength="3" ng-maxlength="20" ng-required="true"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="divider divider-small offset-4"></div>
+
+                            <div class="mfControls btn-group text-center text-md-left">
+                                <button class="btn btn-md btn-default" ng-click="savePassword()">Сохранить</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+
+                <div class="divider divider-big divider-md-vertical divider-left md-visible"></div>
+            </div>
+        </div>
+    </div>
+</section>
