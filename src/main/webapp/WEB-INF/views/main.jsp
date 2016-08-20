@@ -2,8 +2,6 @@
 <%@ include file="include.jsp"%>
 
 <t:page htmlTitle="Главная">
-	<jsp:attribute name="initScript">
-    </jsp:attribute>
     <jsp:body>
     </jsp:body>
 </t:page>

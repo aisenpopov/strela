@@ -31,14 +31,14 @@ public class PaymentController extends WebController {
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
                              @RequestParam(value = "query", required = false) String query) {
         JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
+
         PaymentFilter filter = new PaymentFilter();
         filter.setQuery(query);
         filter.addOrder(new Order("id", OrderDirection.Desc));
         Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
-        List<Map<String, Object>> list = new ArrayList<>();
-        response.addData("payments", list);
         for (Payment payment : page) {
-            Map<String, Object> item = new HashMap<>();
+            JsonData item = data.createCollection("payments");
             item.put("id", payment.getId());
             item.put("athlete", payment.getAthleteTariff().getAthlete().getDisplayName());
             item.put("tariff", payment.getAthleteTariff().getTariff().getName());
@@ -47,13 +47,11 @@ public class PaymentController extends WebController {
             Athlete operatorAthlete = personService.findByPerson(payment.getOperator());
             item.put("operator", payment.getOperator().getLogin() + (operatorAthlete != null ? (", " + operatorAthlete.getDisplayName()) : ""));
             item.put("date", DateUtils.formatDayMonthYear(payment.getDate()));
-            list.add(item);
         }
 
-        Map<String, Object> pageItem = new HashMap<String, Object>();
-        response.addData("page", pageItem);
-        pageItem.put("number", page.getNumber());
-        pageItem.put("totalPages", page.getTotalPages());
+        JsonData pageData = data.addJsonData("page");
+        pageData.put("number", page.getNumber());
+        pageData.put("totalPages", page.getTotalPages());
 
         return response;
     }
@@ -71,7 +69,7 @@ public class PaymentController extends WebController {
     }
 
     @ResponseBody
-    @RequestMapping(value = {"/info"}, method = RequestMethod.POST)
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
     public JsonResponse getPayment(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
         JsonResponse response = new JsonResponse();
 

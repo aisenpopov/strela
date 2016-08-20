@@ -1,25 +1,7 @@
-/*.rd-navbar {
-    display: block;
-    visibility: hidden;
-}
 
-.rd-navbar-static,
-.rd-navbar-fullwidth,
-.rd-navbar-fixed {
-    visibility: visible;
+.mobile .page-content {
+    min-height: 100vh;
 }
-
-.owl-carousel {
-    display: block;
-    visibility: hidden;
-}
-.owl-carousel.owl-loaded {
-    visibility: visible;
-}*/
-
-/*.owl-carousel-wrapper {
-    height: 596px;
-}*/
 
 .owl-item {
     width: 100%;
@@ -353,33 +335,31 @@ input.error {
 }
 
 /**
- * Список платежей
+ * Списковые страницы
  */
 
-.payments-page .payments {
+.list-page .table-responsive {
     margin-top: 30px;
 }
 
-.payments-page .payments td {
+.list-page .table-responsive td {
     text-align: left;
 }
 
-.payments-page .payments tbody tr {
+.list-page .table-responsive tbody tr {
     cursor: pointer;
 }
 
 @media (min-width: 992px) {
 
-    .payments-page .search .btn {
+    .list-page .search .btn {
         margin-top: 34px;
     }
 
 }
 
-/**
- * Список платежа
- */
-
+.transaction-page .rd-mailform fieldset,
+.payment-status-page .rd-mailform fieldset,
 .payment-page .rd-mailform fieldset {
     font-size: inherit;
 }

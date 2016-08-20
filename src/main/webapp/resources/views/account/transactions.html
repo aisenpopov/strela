@@ -1,0 +1,38 @@
+
+<section class="md-well well--inset-2 transactions-page list-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center">списания</h5>
+
+                <div ng-include="'/resources/views/include/listSearch.html'"></div>
+
+                <div class="table-responsive transactions">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Дата</th>
+                            <th>Оператор</th>
+                            <th>Сумма</th>
+                            <th><i class="glyphicon glyphicon-cog"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="transaction in transactions" ng-click="onClick(transaction.id)">
+                            <td>{{transaction.id}}</td>
+                            <td>{{transaction.date}}</td>
+                            <td>{{transaction.operator}}</td>
+                            <td>{{transaction.amount}}</td>
+                            <td>
+                                <i class="glyphicon glyphicon-remove" ng-if="person.admin" ng-click="onClickRemove(transaction.id, $event)"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
+            </div>
+        </div>
+    </div>
+</section>

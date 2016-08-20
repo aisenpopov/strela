@@ -1,0 +1,36 @@
+
+<section class="md-well well--inset-2 payment-statuses-page list-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center">даты истечения</h5>
+
+                <div onload="newLabel = 'Добавить'" ng-include="'/resources/views/include/listSearch.html'"></div>
+
+                <div class="table-responsive payment-statuses">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Атлет</th>
+                            <th>Зал</th>
+                            <th>Оплачено до</th>
+                            <th><i class="glyphicon glyphicon-cog"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="paymentStatus in paymentStatuses" ng-click="onClick(paymentStatus.id)">
+                            <td>{{paymentStatus.id}}</td>
+                            <td>{{paymentStatus.athlete}}</td>
+                            <td>{{paymentStatus.gym}}</td>
+                            <td>{{paymentStatus.payedTill}}</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
+            </div>
+        </div>
+    </div>
+</section>

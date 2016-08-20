@@ -8,10 +8,10 @@
                 <article class="news-post inset-1">
                     <img height="222" width="337" ng-src="{{news.image}}" alt="">
                     <time>{{news.publish}}</time>
-                    <h5><a href="/news/{{news.path}}/">{{news.name}}</a></h5>
+                    <h5><a ng-href="/#/news/{{news.path}}/">{{news.name}}</a></h5>
 
                     <p>{{news.shortText}}</p>
-                    <a href="/news/{{news.path}}/" class="link">ПОДРОБНЕЕ</a>
+                    <a ng-href="/#/news/{{news.path}}/" class="link">ПОДРОБНЕЕ</a>
                 </article>
                 <div class="divider divider-md-vertical divider-small divider-right offset-1"></div>
             </div>

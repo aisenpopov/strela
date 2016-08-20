@@ -31,33 +31,33 @@
                             <a class="sys-change-city" ng-href="/#/gym/" ng-click="setSelectedCity(); hideMenu()">Залы</a>
                             <ul class="rd-navbar-dropdown">
                                 <li ng-repeat="city in citiesHasGym">
-                                    <a href="/#/gym/?cityId={{city.id}}" ng-click="setSelectedCity(city); hideMenu()">{{city.name}}</a>
+                                    <a ng-href="/#/gym/?cityId={{city.id}}" ng-click="setSelectedCity(city); hideMenu()">{{city.name}}</a>
                                 </li>
                             </ul>
                         </li>
                         <li ng-class="{'active': location.path().indexOf('news') > 0}">
-                            <a href="/#/news">Новости</a>
+                            <a ng-href="/#/news" ng-click="hideMenu()">Новости</a>
                         </li>
                         <li ng-show="!person" ng-class="{'active': location.path().indexOf('login') > 0}">
                             <a ng-href="/#/login" ng-click="hideMenu()">Войти</a>
                         </li>
                         <li ng-show="person" ng-class="{'active': location.path().indexOf('account') > 0}">
-                            <a href="/#/account" ng-click="hideMenu()">Личный кабинет</a>
+                            <a ng-href="/#/account" ng-click="hideMenu()">Личный кабинет</a>
                             <ul class="rd-navbar-dropdown">
                                 <li ng-show="person.admin || person.instructor">
                                     <a>Оплата</a>
                                     <ul class="rd-navbar-dropdown">
                                         <li>
-                                            <a href="/#/account/balance" ng-click="hideMenu()">Мой баланс</a>
+                                            <a ng-href="/#/account/balance" ng-click="hideMenu()">Мой баланс</a>
                                         </li>
                                         <li>
-                                            <a href="/#/account/payment" ng-click="hideMenu()">Платежи</a>
+                                            <a ng-href="/#/account/payment" ng-click="hideMenu()">Платежи</a>
                                         </li>
                                         <li>
-                                            <a href="/editor/payed_status/">Даты истечения</a>
+                                            <a ng-href="/#/account/payment_status" ng-click="hideMenu()">Даты истечения</a>
                                         </li>
                                         <li>
-                                            <a href="/editor/transaction/">Списания</a>
+                                            <a ng-href="/#/account/transaction" ng-click="hideMenu()">Списания</a>
                                         </li>
                                         <li>
                                             <a href="/editor/tariff/">Тарифы</a>
@@ -109,7 +109,7 @@
     <div class="container md-well well--inset-2" ng-show="showBanner">
         <!-- Owl Carousel -->
         <div class="owl-carousel-wrapper">
-            <div class="owl-carousel"
+            <div ng-carousel class="owl-carousel"
                  data-nav="true"
                  data-autoplay="true"
                  data-autoplay-timeout="7000"

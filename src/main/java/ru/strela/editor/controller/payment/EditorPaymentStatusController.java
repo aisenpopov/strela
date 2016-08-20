@@ -20,10 +20,6 @@ import ru.strela.util.ajax.JsonResponse;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Aisen on 30.04.2016.
- */
-
 @Controller
 @RequestMapping("/editor/payed_status")
 public class EditorPaymentStatusController extends EditorController {
@@ -109,7 +105,7 @@ public class EditorPaymentStatusController extends EditorController {
         if (paymentStatus.getPayedTill() == null) {
             result.rejectValue("payedTill", "field.required", FIELD_REQUIRED);
         }
-        if (paymentStatus != null && athlete != null) {
+        if (gym != null && athlete != null) {
             PaymentStatusFilter filter = new PaymentStatusFilter();
             filter.setAthlete(athlete);
             filter.setGym(gym);

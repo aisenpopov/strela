@@ -1,7 +1,6 @@
 <%@ tag pageEncoding="utf-8" %>
 <%@ include file="../views/include.jsp" %>
 
-<%@ attribute name="initScript" fragment="true" %>
 <%@ attribute name="htmlTitle" type="java.lang.String" %>
 <%@ attribute name="htmlDescription" type="java.lang.String" %>
 <%@ attribute name="htmlKeywords" type="java.lang.String" %>
@@ -62,9 +61,11 @@
 
 	<!-- Additional Functionality Scripts -->
 	<script src="/resources/js/script.js"></script>
+
+	<!-- Libs -->
 	<script src="/resources/js/libs/yandex-map-2.1.min.js"></script>
 	<script src="/resources/js/libs/jquery-ui-1.10.3.min.js"></script>
-	<script src="/resources/js/libs/jquery.form-validator.min.js"></script>
+	<script src="/resources/js/libs/owl.carousel.min.js"></script>
 	<script src="/resources/js/libs/jquery.loading-indicator.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular.min.js"></script>
 	<script src="/resources/js/libs/angularjs/angular-route.min.js"></script>
@@ -74,7 +75,10 @@
 	<script src="/resources/js/libs/angularjs/ui-bootstrap-tpls-2.0.0.js"></script>
 	<script src="/resources/js/libs/angularjs/select.min.js"></script>
 
+	<!-- App -->
 	<script src="/resources/js/web/App.js"></script>
+	<script src="/resources/js/web/Route.js"></script>
+	<script src="/resources/js/web/Directives.js"></script>
 	<script src="/resources/js/web/Services.js"></script>
 
 	<script src="/resources/js/web/LoginCtrl.js"></script>
@@ -86,14 +90,7 @@
 	<script src="/resources/js/web/BalanceCtrl.js"></script>
 	<script src="/resources/js/web/PaymentCtrl.js"></script>
 	<script src="/resources/js/web/PaymentListCtrl.js"></script>
+	<script src="/resources/js/web/PaymentStatusCtrls.js"></script>
+	<script src="/resources/js/web/TransactionCtrls.js"></script>
 
-	<script src="/resources/js/util.js"></script>
-	<script src="/resources/js/strela.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			S.initBase();
-			<jsp:invoke fragment="initScript" />
-		});
-	</script>
 </html>

@@ -6,10 +6,6 @@ import ru.strela.model.auth.Person;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by Aisen on 30.04.2016.
- */
-
 @Entity
 @Table(name = "payment", indexes = {
         @Index(name = "payment_athlete_tariff", columnList="athlete_tariff_id"),
