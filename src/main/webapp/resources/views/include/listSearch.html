@@ -3,9 +3,10 @@
     <fieldset>
         <div class="row flow-offset-4">
             <div class="col-md-4">
-                <label>
+                <label class="search-container">
                     <span class="title">Поиск</span>
-                    <input placeholder="Введите запрос" name="query" ng-model="query"/>
+                    <input placeholder="Введите запрос" name="query" ng-model="query" ng-change="onChangeQuery()"/>
+                    <abbr ng-click="onClickClearQuery()"/>
                 </label>
             </div>
             <div class="col-md-4" ng-if="newLabel">

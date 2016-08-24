@@ -1,0 +1,67 @@
+
+<section class="md-well well--inset-2 coupon-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h5 class="text-center">купон</h5>
+
+                <form class='rd-mailform' name="couponForm">
+                    <fieldset>
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Название<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(couponForm.name)">
+                                        <span class="form-error" ng-show="couponForm.name.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="couponForm.name.$error.server">{{couponForm.name.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text" name="name"
+                                           ng-model="coupon.name" ng-required="true"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Скидка %<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(couponForm.discountPercent)">
+                                        <span class="form-error" ng-show="couponForm.discountPercent.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="couponForm.discountPercent.$error.min">Должно быть положительным</span>
+                                        <span class="form-error" ng-show="couponForm.discountPercent.$error.max">Должно быть меньше 100%</span>
+                                        <span class="form-error" ng-show="couponForm.discountPercent.$error.server">{{couponForm.discountPercent.serverErrorMessage}}</span>
+                                    </div>
+                                    <input ng-class="{'error': isInvalid(couponForm.discountPercent)}" type="number" placeholder="Введите процент" min="1" max="100"
+                                           name="discountPercent" ng-model="coupon.discountPercent" ng-required="true"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Дата истечения</span>
+                                    <div class="field-error" ng-show="isInvalid(couponForm.expiration)">
+                                        <span class="form-error" ng-show="couponForm.expiration.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="couponForm.expiration.$error.pattern">Неправильный формат</span>
+                                        <span class="form-error" ng-show="couponForm.expiration.$error.server">{{couponForm.expiration.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text" name="expiration" ng-datepicker
+                                           ng-model="coupon.expiration"
+                                           ng-pattern="/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mfControls btn-group text-center text-md-left">
+                            <button class="btn btn-md btn-default" ng-click="onClickButton()">Сохранить</button>
+                            <a ng-href="/#/account/coupon" class="btn btn-md">Список</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>

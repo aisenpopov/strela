@@ -1,0 +1,38 @@
+
+<section class="md-well well--inset-2 coupons-page list-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center">купоны</h5>
+
+                <div onload="newLabel = 'Новый купон'" ng-include="'/resources/views/include/listSearch.html'"></div>
+
+                <div class="table-responsive coupons">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Скидка</th>
+                            <th>Истекает</th>
+                            <th><i class="glyphicon glyphicon-cog"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="coupon in coupons" ng-click="onClick(coupon.id)">
+                            <td>{{coupon.id}}</td>
+                            <td>{{coupon.name}}</td>
+                            <td>{{coupon.discountPercent}}</td>
+                            <td>{{coupon.expiration}}</td>
+                            <td>
+                                <i class="glyphicon glyphicon-remove" ng-click="onClickRemove(coupon.id, $event)"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
+            </div>
+        </div>
+    </div>
+</section>

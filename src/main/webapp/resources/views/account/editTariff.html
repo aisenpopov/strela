@@ -1,0 +1,126 @@
+
+<section class="md-well well--inset-2 tariff-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h5 class="text-center">тариф</h5>
+
+                <form class='rd-mailform' name="tariffForm">
+                    <fieldset>
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Название<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.name)">
+                                        <span class="form-error" ng-show="tariffForm.name.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="tariffForm.name.$error.server">{{tariffForm.name.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text" name="name"
+                                           ng-model="tariff.name" ng-required="true"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Зал<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.gym)">
+                                        <span class="form-error" ng-show="tariffForm.gym.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="tariffForm.gym.$error.server">{{tariffForm.gym.serverErrorMessage}}</span>
+                                    </div>
+                                    <ui-select ng-model="tariff.gym" name="gym" ng-required="true" theme="select2" title="Выберите зал">
+                                        <ui-select-match allow-clear="true" placeholder="Выберите зал">{{$select.selected.text}}</ui-select-match>
+                                        <ui-select-choices repeat="gym in gyms" position="down"
+                                                           refresh="search($select.search)" refresh-delay="500">
+                                            <div ng-bind-html="gym.text | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Дата истечения</span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.expiration)">
+                                        <span class="form-error" ng-show="tariffForm.expiration.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="tariffForm.expiration.$error.pattern">Неправильный формат</span>
+                                        <span class="form-error" ng-show="tariffForm.expiration.$error.server">{{tariffForm.expiration.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text" name="expiration" ng-datepicker
+                                           ng-model="tariff.expiration"
+                                           ng-pattern="/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Цена за месяц</span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.priceMonth)">
+                                        <span class="form-error" ng-show="tariffForm.priceMonth.$error.min">Должно быть положительным</span>
+                                        <span class="form-error" ng-show="tariffForm.priceMonth.$error.server">{{tariffForm.priceMonth.serverErrorMessage}}</span>
+                                    </div>
+                                    <input ng-class="{'error': isInvalid(tariffForm.priceMonth)}" type="number" placeholder="Введите цену" min="1"
+                                           name="priceMonth" ng-model="tariff.priceMonth"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Цена за квартал</span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.priceQuarter)">
+                                        <span class="form-error" ng-show="tariffForm.priceQuarter.$error.min">Должно быть положительным</span>
+                                        <span class="form-error" ng-show="tariffForm.priceQuarter.$error.server">{{tariffForm.priceQuarter.serverErrorMessage}}</span>
+                                    </div>
+                                    <input ng-class="{'error': isInvalid(tariffForm.priceQuarter)}" type="number" placeholder="Введите цену" min="1"
+                                           name="priceQuarter" ng-model="tariff.priceQuarter"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Цена за полгода</span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.priceHalfYear)">
+                                        <span class="form-error" ng-show="tariffForm.priceHalfYear.$error.min">Должно быть положительным</span>
+                                        <span class="form-error" ng-show="tariffForm.priceHalfYear.$error.server">{{tariffForm.priceHalfYear.serverErrorMessage}}</span>
+                                    </div>
+                                    <input ng-class="{'error': isInvalid(tariffForm.priceHalfYear)}" type="number" placeholder="Введите цену" min="1"
+                                           name="priceHalfYear" ng-model="tariff.priceHalfYear"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Цена за год</span>
+                                    <div class="field-error" ng-show="isInvalid(tariffForm.priceYear)">
+                                        <span class="form-error" ng-show="tariffForm.priceYear.$error.min">Должно быть положительным</span>
+                                        <span class="form-error" ng-show="tariffForm.priceYear.$error.server">{{tariffForm.priceYear.serverErrorMessage}}</span>
+                                    </div>
+                                    <input ng-class="{'error': isInvalid(tariffForm.priceYear)}" type="number" placeholder="Введите цену" min="1"
+                                           name="priceYear" ng-model="tariff.priceYear"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mfControls btn-group text-center text-md-left">
+                            <button class="btn btn-md btn-default" ng-click="onClickButton()">Сохранить</button>
+                            <a ng-href="/#/account/tariff" class="btn btn-md">Список</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>

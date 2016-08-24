@@ -358,6 +358,26 @@ input.error {
 
 }
 
+.search-container {
+    position: relative;
+}
+
+.search-container abbr {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 20px;
+    bottom: 23px;
+    font-size: 1px;
+    text-decoration: none;
+    border: 0;
+    background: url('/resources/img/select2/select2.png') right top no-repeat;
+    cursor: pointer;
+    outline: 0;
+}
+
+.tariff-page .rd-mailform fieldset,
 .transaction-page .rd-mailform fieldset,
 .payment-status-page .rd-mailform fieldset,
 .payment-page .rd-mailform fieldset {

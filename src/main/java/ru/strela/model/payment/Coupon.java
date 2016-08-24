@@ -7,10 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
-/**
- * Created by Aisen on 29.04.2016.
- */
-
 @Entity
 @Table(name = "coupon")
 @org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)

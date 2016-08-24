@@ -70,6 +70,7 @@ app.config(function($routeProvider) {
             title: 'Платежи',
             templateUrl: '/resources/views/account/payments.html',
             controller:  'PaymentListCtrl',
+            reloadOnSearch: false,
             resolve: {
                 factory: checkPerson
             }
@@ -86,6 +87,7 @@ app.config(function($routeProvider) {
             title: 'Даты истечения',
             templateUrl: '/resources/views/account/paymentStatuses.html',
             controller:  'PaymentStatusListCtrl',
+            reloadOnSearch: false,
             resolve: {
                 factory: checkPerson
             }
@@ -102,6 +104,7 @@ app.config(function($routeProvider) {
             title: 'Списания',
             templateUrl: '/resources/views/account/transactions.html',
             controller:  'TransactionListCtrl',
+            reloadOnSearch: false,
             resolve: {
                 factory: checkPerson
             }
@@ -110,6 +113,40 @@ app.config(function($routeProvider) {
             title: 'Списание',
             templateUrl: '/resources/views/account/editTransaction.html',
             controller:  'TransactionCtrl',
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/coupon', {
+            title: 'Купоны',
+            templateUrl: '/resources/views/account/coupons.html',
+            controller:  'CouponListCtrl',
+            reloadOnSearch: false,
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/coupon/edit/:id?', {
+            title: 'Купон',
+            templateUrl: '/resources/views/account/editCoupon.html',
+            controller:  'CouponCtrl',
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/tariff', {
+            title: 'Тарифы',
+            templateUrl: '/resources/views/account/tariffs.html',
+            controller:  'TariffListCtrl',
+            reloadOnSearch: false,
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/tariff/edit/:id?', {
+            title: 'Тариф',
+            templateUrl: '/resources/views/account/editTariff.html',
+            controller:  'TariffCtrl',
             resolve: {
                 factory: checkPerson
             }

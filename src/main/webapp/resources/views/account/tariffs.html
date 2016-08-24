@@ -1,0 +1,46 @@
+
+<section class="md-well well--inset-2 tariffs-page list-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center">тарифы</h5>
+
+                <div onload="newLabel = 'Новый тариф'" ng-include="'/resources/views/include/listSearch.html'"></div>
+
+                <div class="table-responsive tariffs">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Зал</th>
+                            <th>Месяц</th>
+                            <th>Квартал</th>
+                            <th>Полгода</th>
+                            <th>Год</th>
+                            <th>Истекает</th>
+                            <th><i class="glyphicon glyphicon-cog"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="tariff in tariffs" ng-click="onClick(tariff.id)">
+                            <td>{{tariff.id}}</td>
+                            <td>{{tariff.name}}</td>
+                            <td>{{tariff.gym}}</td>
+                            <td>{{tariff.priceMonth}}</td>
+                            <td>{{tariff.priceQuarter}}</td>
+                            <td>{{tariff.priceHalfYear}}</td>
+                            <td>{{tariff.priceYear}}</td>
+                            <td>{{tariff.expiration}}</td>
+                            <td>
+                                <i class="glyphicon glyphicon-remove" ng-click="onClickRemove(tariff.id, $event)"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
+            </div>
+        </div>
+    </div>
+</section>

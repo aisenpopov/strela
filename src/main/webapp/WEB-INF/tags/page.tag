@@ -92,5 +92,7 @@
 	<script src="/resources/js/web/PaymentListCtrl.js"></script>
 	<script src="/resources/js/web/PaymentStatusCtrls.js"></script>
 	<script src="/resources/js/web/TransactionCtrls.js"></script>
+	<script src="/resources/js/web/CouponCtrls.js"></script>
+	<script src="/resources/js/web/TariffCtrls.js"></script>
 
 </html>

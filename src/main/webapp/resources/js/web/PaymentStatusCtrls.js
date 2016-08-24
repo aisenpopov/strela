@@ -28,7 +28,7 @@ app.controller("PaymentStatusListCtrl", function ($scope, $http, $location, Moda
     $scope.list();
 
     $scope.onClick = function (id) {
-        $location.url("/account/payment_status/edit/" + (id ? id  + "/" : ""))
+        $location.url("/account/payment_status/edit/" + (id ? id  + "/" : ""));
     };
     
     $scope.onClickNew = function () {

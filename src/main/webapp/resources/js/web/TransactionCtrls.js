@@ -29,7 +29,7 @@ app.controller("TransactionListCtrl", function ($scope, $http, $location, ModalS
 
     $scope.onClick = function (id) {
         if ($scope.person.admin) {
-            $location.url("/account/transaction/edit/" + (id ? id  + "/" : ""))
+            $location.url("/account/transaction/edit/" + (id ? id  + "/" : ""));
         }
     };
 

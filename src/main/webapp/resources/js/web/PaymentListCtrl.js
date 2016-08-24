@@ -6,7 +6,7 @@ var app = angular.module("app");
 
 app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
 
-    var size = 8;
+    var size = 10;
     CommonService.loader(true);
     $scope.list = function (page, query) {
         var search = $location.search(),

@@ -169,12 +169,15 @@ app.controller("ListSearchCtrl", function ($scope, $location, $timeout) {
     $scope.query = $location.search().query;
 
     var timer;
-    $scope.$watch("query", function (newValue, oldValue) {
-        if (newValue !== oldValue) {
-            $timeout.cancel(timer);
-            timer = $timeout(search, 500);
-        }
-    });
+    $scope.onChangeQuery = function () {
+        $timeout.cancel(timer);
+        timer = $timeout(search, 500);
+    };
+
+    $scope.onClickClearQuery = function () {
+        $scope.query = null;
+        search();
+    };
 
     function search() {
         if (!$scope.query) {
