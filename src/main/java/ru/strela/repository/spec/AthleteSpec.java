@@ -30,7 +30,7 @@ public class AthleteSpec extends Spec {
 
                 PermissionFilter permissionFilter = filter.getPermissionFilter();
                 if (permissionFilter != null && permissionFilter.getTeam() != null) {
-                    predicates.add(builder.equal(root.get("team").get("id"), permissionFilter.getTeam().getId()));
+                    predicates.add(builder.or(builder.equal(root.get("team").get("id"), permissionFilter.getTeam().getId()), builder.isNull(root.get("team"))));
                 }
 
                 return builder.and(predicates.toArray(new Predicate[0]));

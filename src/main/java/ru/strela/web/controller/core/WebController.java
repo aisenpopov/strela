@@ -1,6 +1,7 @@
 package ru.strela.web.controller.core;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.core.AbstractController;
@@ -10,6 +11,7 @@ import ru.strela.model.filter.BannerImageFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.util.ModelBuilder;
+import ru.strela.util.ajax.JsonData;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
 
@@ -93,6 +95,12 @@ public abstract class WebController extends AbstractController {
             item.put("bannerImage", bannerImage);
             item.put("image", FileDataSource.getImage(projectConfiguration, bannerImage, ImageFormat.BANNER_IMAGE));
         }
+    }
+
+    protected void fillPage(JsonData data, Page page) {
+        JsonData pageDate = data.addJsonData("page");
+        pageDate.put("number", page.getNumber());
+        pageDate.put("totalPages", page.getTotalPages());
     }
 
 }

@@ -40,6 +40,8 @@ public interface PaymentService {
 
     void remove(AthleteTariff athleteTariff);
 
+    String checkRemove(AthleteTariff athleteTariff);
+
     AthleteTariff findById(AthleteTariff athleteTariff);
 
     Page<AthleteTariff> findAthleteTariffs(AthleteTariffFilter filter, int pageNumber, int pageSize);
@@ -81,7 +83,7 @@ public interface PaymentService {
 
     Page<Payment> findPayments(PaymentFilter filter, int pageNumber, int pageSize);
 
-    List<Payment> findPayments(PaymentFilter filter);
+    List<Payment> findPayments(PaymentFilter filter, boolean checkPermissions);
 
 
     PaymentStatus save(PaymentStatus paymentStatus);

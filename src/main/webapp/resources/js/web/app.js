@@ -14,7 +14,7 @@ app.run(function($rootScope) {
     });
 });
 
-app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, CommonService) {
+app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, CommonService, $rootScope) {
 
     $scope.location = $location;
 
@@ -31,11 +31,11 @@ app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, Commo
         $(".rd-navbar-submenu").removeClass("focus");
     };
 
-    $scope.isInvalid = function (field) {
+    $rootScope.isInvalid = function (field) {
         return field.$invalid && field.$dirty;
     };
 
-    $scope.showFieldErrorMessage = function (field, errorMessage, duration) {
+    $rootScope.showFieldErrorMessage = function (field, errorMessage, duration) {
         var duration = duration || 2000;
         field.$setValidity("server", false);
         field.serverErrorMessage = errorMessage;
@@ -44,18 +44,18 @@ app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, Commo
         }, duration);
     };
 
-    $scope.clearFieldErrorMessage = function (field) {
+    $rootScope.clearFieldErrorMessage = function (field) {
         field.$setValidity("server", true);
         field.serverErrorMessage = "";
     };
 
-    $scope.showFormErrorMessages = function (form, fieldsMessages, duration) {
+    $rootScope.showFormErrorMessages = function (form, fieldsMessages, duration) {
         for (var p in fieldsMessages) {
             $scope.showFieldErrorMessage(form[p], fieldsMessages[p], duration);
         }
     };
 
-    $scope.clearFormErrorMessages = function (form) {
+    $rootScope.clearFormErrorMessages = function (form) {
         for (var p in form) {
             var value = form[p];
             if (typeof value === 'object' && value.hasOwnProperty('$modelValue')) {
@@ -64,7 +64,7 @@ app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, Commo
         }
     };
 
-    $scope.setFormFieldsDirty = function (form) {
+    $rootScope.setFormFieldsDirty = function (form) {
         for (var p in form) {
             var value = form[p];
             if (typeof value === 'object' && value.hasOwnProperty('$modelValue')) {
@@ -73,7 +73,7 @@ app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, Commo
         }
     };
 
-    $scope.setFormFieldsPristine = function (form) {
+    $rootScope.setFormFieldsPristine = function (form) {
         for (var p in form) {
             var value = form[p];
             if (typeof value === 'object' && value.hasOwnProperty('$modelValue')) {
@@ -185,6 +185,20 @@ app.controller("ListSearchCtrl", function ($scope, $location, $timeout) {
         }
         $scope.list(1, $scope.query);
     }
+
+});
+
+app.controller("SelectCtrl", function ($scope, CommonService) {
+
+    $scope.items = [];
+    $scope.search = function (type, query) {
+        CommonService.search({
+            type: type,
+            q: query
+        }).then(function (resp) {
+            $scope.items = resp.data;
+        });
+    };
 
 });
 

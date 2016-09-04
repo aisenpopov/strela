@@ -6,7 +6,7 @@
                 <label class="search-container">
                     <span class="title">Поиск</span>
                     <input placeholder="Введите запрос" name="query" ng-model="query" ng-change="onChangeQuery()"/>
-                    <abbr ng-click="onClickClearQuery()"/>
+                    <abbr ng-show="query" ng-click="onClickClearQuery()"/>
                 </label>
             </div>
             <div class="col-md-4" ng-if="newLabel">

@@ -7,9 +7,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 
-/**
- * Created by Aisen on 22.05.2016.
- */
 public class Spec {
 
     public static void fillDisplayNamePredicates(CriteriaBuilder builder, List<Predicate> predicates, BaseFilter filter,

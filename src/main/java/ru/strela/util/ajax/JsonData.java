@@ -27,7 +27,7 @@ public class JsonData {
 	
 	@SuppressWarnings("unchecked")
 	public JsonData createCollection(String key) {
-		List<Map<String, Object>> collection = (List<Map<String, Object>>)data.get(key);
+		List<Map<String, Object>> collection = (List<Map<String, Object>>) data.get(key);
 		if (collection == null) {
 			collection = new ArrayList<Map<String,Object>>();
 			data.put(key, collection);
@@ -37,6 +37,16 @@ public class JsonData {
 		collection.add(map);
 	
 		return new JsonData(map);
+	}
+
+	public void addCollectionItem(String key, Object item) {
+		List<Object> collection = (List<Object>) data.get(key);
+		if (collection == null) {
+			collection = new ArrayList<>();
+			data.put(key, collection);
+		}
+
+		collection.add(item);
 	}
 
 	public JsonData addJsonData(String key) {

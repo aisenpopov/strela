@@ -65,16 +65,6 @@ app.controller("TariffCtrl", function ($scope, $http, ModalService,
         expiration: null
     };
 
-    $scope.gyms = [];
-    $scope.search = function (query) {
-        CommonService.search({
-            type: "gym",
-            q: query
-        }).then(function (resp) {
-            $scope.gyms = resp.data;
-        });
-    };
-
     if ($scope.tariff.id) {
         CommonService.loader(true);
         CommonService.post("/account/tariff/info", {id: $scope.tariff.id}).then(function (resp) {

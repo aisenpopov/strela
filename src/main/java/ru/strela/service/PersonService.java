@@ -38,7 +38,9 @@ public interface PersonService {
     void remove(Athlete athlete);
     
     Athlete findById(Athlete athlete);
-	
+
+    String checkRemove(Athlete athlete);
+
     Athlete findByPerson(Person person);
     
     Page<Athlete> findAthletes(AthleteFilter filter, int pageNumber, int pageSize);

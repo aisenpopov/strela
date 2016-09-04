@@ -141,7 +141,7 @@ public class AutocompleteController {
         List<ResponseItem> result = new ArrayList<ResponseItem>();
         TeamFilter filter = new TeamFilter();
         filter.setQuery(q);
-        for(Team team : applicationService.findTeams(filter)) {
+        for(Team team : applicationService.findTeams(filter, 0, 30)) {
             result.add(new ResponseItem(team.getId(), team.getName()));
         }
         return result;
@@ -260,19 +260,19 @@ public class AutocompleteController {
         return result;
     }
     
-    @RequestMapping(value = "/registration_region/find", method = RequestMethod.POST)
+    @RequestMapping(value = "/registrationRegion/find", method = RequestMethod.POST)
     @ResponseBody
     public List<ResponseItem> findRegistrationRegion(@RequestParam(value = "q", required = false) String q) {
     	 List<ResponseItem> result = new ArrayList<ResponseItem>();
          BaseFilter filter = new BaseFilter();
          filter.setQuery(q);
-         for(RegistrationRegion registrationRegion : applicationService.findRegistrationRegions(filter)) {
+         for(RegistrationRegion registrationRegion : applicationService.findRegistrationRegions(filter, 0, 30)) {
          	result.add(new ResponseItem(registrationRegion.getId(), registrationRegion.getName()));
          }
          return result;
     }
 
-    @RequestMapping(value = "/registration_region/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/registrationRegion/get", method = RequestMethod.POST)
     @ResponseBody
     public List<ResponseItem> getRegistrationRegion(@RequestParam(value = "ids[]") Integer[] ids) {
         List<ResponseItem> result = new ArrayList<ResponseItem>();

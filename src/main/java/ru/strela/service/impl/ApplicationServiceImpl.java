@@ -269,8 +269,10 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	}
 
 	@Override
-	public List<Team> findTeams(TeamFilter filter) {
-		personService.updateFilter(filter);
+	public List<Team> findTeams(TeamFilter filter, boolean checkPermissions) {
+		if (checkPermissions) {
+			personService.updateFilter(filter);
+		}
 		return teamRepository.findAll(TeamSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 

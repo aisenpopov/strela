@@ -1,5 +1,7 @@
 package ru.strela.util.ajax;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ public class JsonResponse {
 	public static final String SUCCESS = "success";
 	
 	private String status = SUCCESS;
+	private String errorMessage;
 	private String redirect;
     private Map<String, Object> data;
 
@@ -79,5 +82,16 @@ public class JsonResponse {
 	public void addFieldMessage(String field, String message) {
 		setErrorStatus();
 		getFieldsMessages().put(field, message);
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		if (StringUtils.isNotBlank(errorMessage)) {
+			setErrorStatus();
+		}
+		this.errorMessage = errorMessage;
 	}
 }

@@ -16,9 +16,9 @@
                                         <span class="form-error" ng-show="paymentStatusForm.athlete.$error.required">Поле не может быть пустым</span>
                                         <span class="form-error" ng-show="paymentStatusForm.athlete.$error.server">{{paymentStatusForm.athlete.serverErrorMessage}}</span>
                                     </div>
-                                    <ui-select ng-model="paymentStatus.athlete" name="athlete" ng-required="true" theme="select2" title="Выберите атлета">
+                                    <ui-select ng-model="paymentStatus.athlete" name="athlete" ng-required="true" theme="select2" title="Выберите атлета" ng-controller="SelectCtrl">
                                         <ui-select-match allow-clear="true" placeholder="Выберите атлета">{{$select.selected.text}}</ui-select-match>
-                                        <ui-select-choices repeat="athlete in athletes" position="down"
+                                        <ui-select-choices repeat="athlete in items" position="down"
                                                            refresh="search('athlete', $select.search)" refresh-delay="500">
                                             <div ng-bind-html="athlete.text | highlight: $select.search"></div>
                                         </ui-select-choices>
@@ -35,9 +35,9 @@
                                         <span class="form-error" ng-show="paymentStatusForm.gym.$error.required">Поле не может быть пустым</span>
                                         <span class="form-error" ng-show="paymentStatusForm.gym.$error.server">{{paymentStatusForm.gym.serverErrorMessage}}</span>
                                     </div>
-                                    <ui-select ng-model="paymentStatus.gym" name="gym" ng-required="true" theme="select2" title="Выберите зал">
+                                    <ui-select ng-model="paymentStatus.gym" name="gym" ng-required="true" theme="select2" title="Выберите зал" ng-controller="SelectCtrl">
                                         <ui-select-match allow-clear="true" placeholder="Выберите зал">{{$select.selected.text}}</ui-select-match>
-                                        <ui-select-choices repeat="gym in gyms" position="down"
+                                        <ui-select-choices repeat="gym in items" position="down"
                                                            refresh="search('gym', $select.search)" refresh-delay="500">
                                             <div ng-bind-html="gym.text | highlight: $select.search"></div>
                                         </ui-select-choices>

@@ -348,7 +348,7 @@
 			}
 		});
 		C.initAutocomplete($("input[name*=registrationRegion]"), {
-			type: 'registration_region'
+			type: 'registrationRegion'
 		});
 		C.initAutocomplete($("input[name*=team]"), {
 			type: 'team'

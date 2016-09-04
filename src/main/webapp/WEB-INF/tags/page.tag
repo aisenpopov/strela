@@ -94,5 +94,6 @@
 	<script src="/resources/js/web/TransactionCtrls.js"></script>
 	<script src="/resources/js/web/CouponCtrls.js"></script>
 	<script src="/resources/js/web/TariffCtrls.js"></script>
+	<script src="/resources/js/web/AthleteCtrls.js"></script>
 
 </html>

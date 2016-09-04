@@ -47,21 +47,6 @@ app.controller("PaymentStatusCtrl", function ($scope, $http, ModalService,
         payedTill: null
     };
 
-    $scope.athletes = [];
-    $scope.gyms = [];
-    $scope.search = function (type, query) {
-        CommonService.search({
-            type: type,
-            q: query
-        }).then(function (resp) {
-            if (type === "athlete") {
-                $scope.athletes = resp.data;
-            } else {
-                $scope.gyms = resp.data;
-            }
-        });
-    };
-
     if ($scope.paymentStatus.id) {
         CommonService.loader(true);
         CommonService.post("/account/payment_status/info", {id: $scope.paymentStatus.id}).then(function (resp) {

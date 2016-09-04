@@ -118,7 +118,25 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void remove(AthleteTariff athleteTariff) {
+        String checkResult = checkRemove(athleteTariff);
+        if (checkResult != null) {
+            throw new IllegalArgumentException(checkResult);
+        }
+
         athleteTariffRepository.delete(athleteTariff);
+    }
+
+    @Override
+    public String checkRemove(AthleteTariff athleteTariff) {
+        if (athleteTariff != null) {
+            PaymentFilter filter = new PaymentFilter();
+            filter.setAthleteTariff(athleteTariff);
+            if (!findPayments(filter, false).isEmpty()) {
+                return "Невозможно удалить тариф атлета т.к по нему имеются платежи!";
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -423,8 +441,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findPayments(PaymentFilter filter) {
-        personService.updateFilter(filter);
+    public List<Payment> findPayments(PaymentFilter filter, boolean checkPermissions) {
+        if (checkPermissions) {
+            personService.updateFilter(filter);
+        }
         return paymentRepository.findAll(PaymentSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 

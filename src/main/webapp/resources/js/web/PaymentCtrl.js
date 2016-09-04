@@ -14,21 +14,6 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService,
 
     $scope.buttonLabel = "Провести";
 
-    $scope.athletes = [];
-    $scope.gyms = [];
-    $scope.search = function (type, query) {
-        CommonService.search({
-            type: type,
-            q: query
-        }).then(function (resp) {
-            if (type === "athlete") {
-                $scope.athletes = resp.data;
-            } else {
-                $scope.gyms = resp.data;
-            }
-        });
-    };
-
     var oldAmount, oldGymId;
     if ($scope.id) {
         $scope.buttonLabel = "Перепровести";

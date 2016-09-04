@@ -26,6 +26,10 @@ public class TeamSpec {
                             "%" + filter.getQuery().toLowerCase() + "%"));
                 }
 
+                if (filter.getChiefInstructor() != null) {
+                    predicates.add(builder.equal(root.get("chiefInstructor").get("id"), filter.getChiefInstructor().getId()));
+                }
+
                 PermissionFilter permissionFilter = filter.getPermissionFilter();
                 if (permissionFilter != null && permissionFilter.getTeam() != null) {
                     predicates.add(builder.equal(root.get("id"), permissionFilter.getTeam().getId()));

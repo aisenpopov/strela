@@ -105,5 +105,29 @@ app.factory('ModalService', function ($uibModal) {
 
     };
 
+    service.openAthleteTariffModal = function (athleteId, athleteTariffId, onSave) {
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'athleteTariffModal',
+            controller: 'AthleteTariffModalInstanceCtrl',
+            resolve: {
+                athleteId: function () {
+                    return athleteId;
+                },
+                athleteTariffId: function () {
+                    return athleteTariffId;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            if (onSave) {
+                onSave();
+            }
+        });
+
+    };
+
     return service;
 });

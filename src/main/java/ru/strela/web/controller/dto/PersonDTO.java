@@ -18,7 +18,6 @@ public class PersonDTO {
 		if (person != null) {
 			id = person.getId();
 			login = person.getLogin();
-			password = person.getPassword();
 			disabled = person.isDisabled();
 			admin = person.isAdmin();
 			instructor = person.isInstructor();

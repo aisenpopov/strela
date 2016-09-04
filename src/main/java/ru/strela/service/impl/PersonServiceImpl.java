@@ -6,17 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.strela.model.Athlete;
+import ru.strela.model.Team;
 import ru.strela.model.auth.Person;
-import ru.strela.model.filter.AthleteFilter;
-import ru.strela.model.filter.BaseFilter;
-import ru.strela.model.filter.PermissionFilter;
-import ru.strela.model.filter.PersonFilter;
+import ru.strela.model.filter.*;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.payment.AthleteTariff;
 import ru.strela.repository.AthleteRepository;
 import ru.strela.repository.auth.PersonRepository;
 import ru.strela.repository.spec.AthleteSpec;
 import ru.strela.repository.spec.PersonSpec;
+import ru.strela.service.ApplicationService;
 import ru.strela.service.PaymentService;
 import ru.strela.service.PersonServer;
 import ru.strela.service.PersonService;
@@ -39,6 +39,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonServer personServer;
+
+    @Autowired
+    private ApplicationService applicationService;
 
     @Override
     public void updateFilter(BaseFilter filter) {
@@ -121,16 +124,43 @@ public class PersonServiceImpl implements PersonService {
     
     @Override
 	public void remove(Athlete athlete) {
-        personRepository.delete(athlete.getPerson());
-
+        String checkResult = null;
+        if ((checkResult = checkRemove(athlete)) != null) {
+            throw new IllegalArgumentException(checkResult);
+        }
         AthleteTariffFilter filter = new AthleteTariffFilter();
         filter.setAthlete(athlete);
         for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, false)) {
+            PaymentFilter paymentFilter = new PaymentFilter();
+            paymentFilter.setAthleteTariff(athleteTariff);
             paymentService.remove(athleteTariff);
         }
 
+        personRepository.delete(athlete.getPerson());
     	athleteRepository.delete(athlete);
 	}
+
+    @Override
+    public String checkRemove(Athlete athlete) {
+        AthleteTariffFilter filter = new AthleteTariffFilter();
+        filter.setAthlete(athlete);
+        for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, false)) {
+            PaymentFilter paymentFilter = new PaymentFilter();
+            paymentFilter.setAthleteTariff(athleteTariff);
+            if (!paymentService.findPayments(paymentFilter, false).isEmpty()) {
+                return "Невозможно удалить атлета: " + athlete.getDisplayName() + " т.к по нему имеются платежи!";
+            }
+        }
+
+        TeamFilter teamFilter = new TeamFilter();
+        teamFilter.setChiefInstructor(athlete);
+        List<Team> teams = applicationService.findTeams(teamFilter, false);
+        if (!teams.isEmpty()) {
+            return "Невозможно удалить атлета: " + athlete.getDisplayName() + " т.к он является главным инструктором команды: " + teams.get(0).getName();
+        }
+
+        return null;
+    }
 
 	@Override
     public Athlete findByPerson(Person person) {

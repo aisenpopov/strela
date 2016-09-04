@@ -8,6 +8,8 @@ public class AthleteDTO {
 
 	private int id;
 	private PersonDTO person;
+	private TeamDTO team;
+	private RegistrationRegionDTO registrationRegion;
 
 	private String firstName;
 	private String lastName;
@@ -19,7 +21,12 @@ public class AthleteDTO {
 	private Double weight;
 	private Double height;
 	private String sex;
+	private String passportNumber;
+	private String startDate;
+	private boolean instructor;
+	private boolean retired;
 
+	private String phoneNumber;
 	private String mobileNumber;
 	private String email;
 	private String vk;
@@ -27,12 +34,23 @@ public class AthleteDTO {
 	private String instagram;
 	private String skype;
 
+	private Integer certificate;
+	private String comment;
+
 	public AthleteDTO() {}
 
 	public AthleteDTO(Athlete athlete) {
 		if (athlete != null) {
 			id = athlete.getId();
-			person = new PersonDTO(athlete.getPerson());
+			if (athlete.getPerson() != null) {
+				person = new PersonDTO(athlete.getPerson());
+			}
+			if (athlete.getTeam() != null) {
+				team = new TeamDTO(athlete.getTeam());
+			}
+			if (athlete.getRegistrationRegion() != null) {
+				registrationRegion = new RegistrationRegionDTO(athlete.getRegistrationRegion());
+			}
 
 			firstName = athlete.getFirstName();
 			lastName = athlete.getLastName();
@@ -41,16 +59,24 @@ public class AthleteDTO {
 			giSize = athlete.getGiSize();
 			rashguardSize = athlete.getRashguardSize();
 			birthday = DateUtils.formatDDMMYYYY(athlete.getBirthday());
+			startDate = DateUtils.formatDDMMYYYY(athlete.getStartDate());
 			weight = athlete.getWeight();
 			height = athlete.getHeight();
 			sex = athlete.getSex() != null ? athlete.getSex().name() : null;
+			passportNumber = athlete.getPassportNumber();
+			instructor = athlete.isInstructor();
+			retired = athlete.isRetired();
 
+			phoneNumber = athlete.getPhoneNumber();
 			mobileNumber = athlete.getMobileNumber();
 			email = athlete.getEmail();
 			vk = athlete.getVk();
 			facebook = athlete.getFacebook();
 			instagram = athlete.getInstagram();
 			skype = athlete.getSkype();
+
+			certificate = athlete.getCertificate();
+			comment = athlete.getComment();
 		}
 	}
 
@@ -69,7 +95,23 @@ public class AthleteDTO {
 	public void setPerson(PersonDTO person) {
 		this.person = person;
 	}
-	
+
+	public TeamDTO getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamDTO team) {
+		this.team = team;
+	}
+
+	public RegistrationRegionDTO getRegistrationRegion() {
+		return registrationRegion;
+	}
+
+	public void setRegistrationRegion(RegistrationRegionDTO registrationRegion) {
+		this.registrationRegion = registrationRegion;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -196,6 +238,62 @@ public class AthleteDTO {
 
 	public void setSkype(String skype) {
 		this.skype = skype;
+	}
+
+	public String getPassportNumber() {
+		return passportNumber;
+	}
+
+	public void setPassportNumber(String passportNumber) {
+		this.passportNumber = passportNumber;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public boolean isInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(boolean instructor) {
+		this.instructor = instructor;
+	}
+
+	public boolean isRetired() {
+		return retired;
+	}
+
+	public void setRetired(boolean retired) {
+		this.retired = retired;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public Integer getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(Integer certificate) {
+		this.certificate = certificate;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public String getDisplayName() {

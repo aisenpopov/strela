@@ -151,6 +151,23 @@ app.config(function($routeProvider) {
                 factory: checkPerson
             }
         })
+        .when('/account/athlete', {
+            title: 'Атлеты',
+            templateUrl: '/resources/views/account/athletes.html',
+            controller:  'AthleteListCtrl',
+            reloadOnSearch: false,
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/athlete/edit/:id?', {
+            title: 'Атлет',
+            templateUrl: '/resources/views/account/editAthlete.html',
+            controller:  'AthleteCtrl',
+            resolve: {
+                factory: checkPerson
+            }
+        })
         .otherwise({ redirectTo: '/' });
 
 });

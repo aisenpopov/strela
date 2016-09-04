@@ -153,7 +153,7 @@ public class EditorAthleteController extends EditorController {
     public JsonResponse remove(@PathVariable("id") int id) {
         JsonResponse response = new JsonResponse();
         try {
-        	personService.remove(new Athlete(id));
+        	personService.remove(personService.findById(new Athlete(id)));
         } catch(Exception e) {
             response.setErrorStatus();
         }
@@ -169,7 +169,7 @@ public class EditorAthleteController extends EditorController {
 		if (athleteTariff != null) {
 			PaymentFilter filter = new PaymentFilter();
 			filter.setAthleteTariff(athleteTariff);
-			if (!paymentService.findPayments(filter).isEmpty()) {
+			if (!paymentService.findPayments(filter, false).isEmpty()) {
 				response.setErrorStatus();
 			}
 		}
@@ -249,7 +249,7 @@ public class EditorAthleteController extends EditorController {
 				result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
 			}
 		}
-		if (person.isInstructor() && athlete.getTeam() == null) {
+		if (athlete.isInstructor() && athlete.getTeam() == null) {
 			result.rejectValue("team", "field.required", "Для инструктора необходимо выбрать команду");
 		}
 		String passwordCheckResult;

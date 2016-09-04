@@ -38,6 +38,8 @@ app.controller("AccountCtrl", function ($scope, $timeout, ModalService, CommonSe
         params.person = null;
         params['person.id'] = $scope.athlete.person.id;
         params['person.login'] = $scope.athlete.person.login;
+        params.team = $scope.athlete.team ? $scope.athlete.team.id : null;
+        params.registrationRegion = $scope.athlete.registrationRegion ? $scope.athlete.registrationRegion.id : null;
         CommonService.post("/account/saveAthlete", params).then(function (resp) {
             var data = resp.data;
             if (data.statusError) {

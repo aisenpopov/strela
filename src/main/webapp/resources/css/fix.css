@@ -1,4 +1,11 @@
 
+.finished-icon {
+    color: green;
+}
+.not-finished-icon {
+    color: red;
+}
+
 .mobile .page-content {
     min-height: 100vh;
 }
@@ -58,6 +65,7 @@
 */
 .rd-mailform .title,
 .rd-mailform .radio,
+.rd-mailform .checkbox,
 .rd-mailform .table,
 .rd-mailform .form-error {
     font-size: 16px;
@@ -196,6 +204,15 @@
 .rd-mailform .checkbox input:checked+i:after,
 .rd-mailform .radio input:checked+i:after {
     opacity: 1;
+}
+.rd-mailform .checkbox input:checked+i:after {
+    content: '\f00c';
+    top: -1px;
+    left: 1px;
+    width: 15px;
+    height: 15px;
+    font: 400 16px/19px FontAwesome;
+    text-align: center;
 }
 
 /*
@@ -377,10 +394,7 @@ input.error {
     outline: 0;
 }
 
-.tariff-page .rd-mailform fieldset,
-.transaction-page .rd-mailform fieldset,
-.payment-status-page .rd-mailform fieldset,
-.payment-page .rd-mailform fieldset {
+.rd-mailform fieldset {
     font-size: inherit;
 }
 

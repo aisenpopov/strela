@@ -23,3 +23,54 @@
         <button class="btn btn-md btn-default" type="button" ng-click="ok()">Закрыть</button>
     </div>
 </script>
+
+<script type="text/ng-template" id="athleteTariffModal">
+    <div class="modal-header text-center">
+        <h5 class="modal-title">Тариф</h5>
+    </div>
+    <div class="modal-body text-center">
+        <form class='athleteTariff rd-mailform' name="athleteTariffForm">
+            <fieldset>
+                <div class="row flow-offset-4">
+                    <div class="col-md-12">
+                        <label>
+                            <span class="title">Тариф<span>*</span></span>
+                            <div class="field-error" ng-show="isInvalid(athleteTariffForm.tariff)">
+                                <span class="form-error" ng-show="athleteTariffForm.tariff.$error.required">Поле не может быть пустым</span>
+                                <span class="form-error" ng-show="athleteTariffForm.tariff.$error.server">{{athleteTariffForm.tariff.serverErrorMessage}}</span>
+                            </div>
+                            <ui-select ng-model="athleteTariff.tariff" ng-required="true" name="tariff" theme="select2" title="Выберите тариф" ng-controller="SelectCtrl">
+                                <ui-select-match allow-clear="true" placeholder="Выберите тариф">{{$select.selected.text}}</ui-select-match>
+                                <ui-select-choices repeat="tariff in items" position="down"
+                                                   refresh="search('tariff', $select.search)" refresh-delay="500">
+                                    <div ng-bind-html="tariff.text | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row flow-offset-4">
+                    <div class="col-md-12">
+                        <label>
+                            <span class="title">Купон</span>
+                            <div class="field-error" ng-show="isInvalid(athleteTariffForm.coupon)">
+                                <span class="form-error" ng-show="athleteTariffForm.coupon.$error.server">{{athleteTariffForm.coupon.serverErrorMessage}}</span>
+                            </div>
+                            <ui-select ng-model="athleteTariff.coupon" name="coupon" theme="select2" title="Выберите купон" ng-controller="SelectCtrl">
+                                <ui-select-match allow-clear="true" placeholder="Выберите купон">{{$select.selected.text}}</ui-select-match>
+                                <ui-select-choices repeat="coupon in items" position="down"
+                                                   refresh="search('coupon', $select.search)" refresh-delay="500">
+                                    <div ng-bind-html="coupon.text | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer text-center">
+        <button class="btn btn-md btn-default" type="button" ng-click="save()">Сохранить</button>
+        <button class="btn btn-md" type="button" ng-click="cancel()">Отмена</button>
+    </div>
+</script>

@@ -30,10 +30,10 @@
                                         <span class="form-error" ng-show="tariffForm.gym.$error.required">Поле не может быть пустым</span>
                                         <span class="form-error" ng-show="tariffForm.gym.$error.server">{{tariffForm.gym.serverErrorMessage}}</span>
                                     </div>
-                                    <ui-select ng-model="tariff.gym" name="gym" ng-required="true" theme="select2" title="Выберите зал">
+                                    <ui-select ng-model="tariff.gym" name="gym" ng-required="true" theme="select2" title="Выберите зал" ng-controller="SelectCtrl">
                                         <ui-select-match allow-clear="true" placeholder="Выберите зал">{{$select.selected.text}}</ui-select-match>
-                                        <ui-select-choices repeat="gym in gyms" position="down"
-                                                           refresh="search($select.search)" refresh-delay="500">
+                                        <ui-select-choices repeat="gym in items" position="down"
+                                                           refresh="search('gym', $select.search)" refresh-delay="500">
                                             <div ng-bind-html="gym.text | highlight: $select.search"></div>
                                         </ui-select-choices>
                                     </ui-select>

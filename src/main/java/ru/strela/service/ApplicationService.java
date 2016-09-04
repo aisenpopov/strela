@@ -88,7 +88,7 @@ public interface ApplicationService {
     
     Page<Team> findTeams(TeamFilter filter, int pageNumber, int pageSize);
     
-    List<Team> findTeams(TeamFilter filter);
+    List<Team> findTeams(TeamFilter filter, boolean checkPermissions);
 
 
     Gym save(Gym gym);
