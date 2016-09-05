@@ -127,10 +127,14 @@ public class AthleteServiceImpl implements AthleteService {
     public void initNew(Athlete athlete) {
         if (athlete.getId() == 0) {
             Person person = athlete.getPerson();
-            person.setPassword(ValidateUtils.DEFAULT_PASSWORD);
-            Person lastPerson = personService.findLastPerson();
-            if (lastPerson != null) {
-                person.setLogin("user" + (lastPerson.getId() + 1));
+            if (StringUtils.isBlank(person.getPassword())) {
+                person.setPassword(ValidateUtils.DEFAULT_PASSWORD);
+            }
+            if (StringUtils.isBlank(person.getLogin())) {
+                Person lastPerson = personService.findLastPerson();
+                if (lastPerson != null) {
+                    person.setLogin("user" + (lastPerson.getId() + 1));
+                }
             }
         }
     }
