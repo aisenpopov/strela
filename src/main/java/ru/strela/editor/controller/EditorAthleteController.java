@@ -1,29 +1,27 @@
 package ru.strela.editor.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.Athlete;
-import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.payment.AthleteTariff;
+import ru.strela.service.AthleteService;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
-import ru.strela.util.ValidateUtils;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.image.FileDataSource;
 import ru.strela.util.image.ImageFormat;
+import ru.strela.util.validate.BindingResultValidateAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -34,7 +32,7 @@ import java.util.Map;
 public class EditorAthleteController extends EditorController {
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private AthleteService athleteService;
 	
     @RequestMapping(value = {"/"}, method = {RequestMethod.GET})
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
@@ -60,61 +58,13 @@ public class EditorAthleteController extends EditorController {
     
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
     public ModelAndView save(Athlete athlete, BindingResult result) {
-    	if (validate(result, athlete)) {
-			Person person = athlete.getPerson();
-			String newPassword = person.getPassword();
-			if (person.getId() != 0) {
-				Person existPerson = personService.findById(person);
+		if (athlete.getId() == 0) {
+			athleteService.initNew(athlete);
+		}
+    	if (athleteService.validate(athlete, new BindingResultValidateAdapter(result))) {
+			Athlete savedAthlete = athleteService.save(athlete);
 
-				existPerson.setLogin(person.getLogin());
-				existPerson.setAdmin(person.isAdmin());
-				existPerson.setDisabled(person.isDisabled());
-
-				person = existPerson;
-			}
-			person.setInstructor(athlete.isInstructor());
-			if (StringUtils.isNotBlank(newPassword)) {
-				person.setPassword(passwordEncoder.encode(newPassword));
-			}
-
-            if (athlete.getId() != 0) {
-            	Athlete existAthlete = personService.findById(new Athlete(athlete.getId()));
-
-            	existAthlete.setFirstName(athlete.getFirstName());
-            	existAthlete.setLastName(athlete.getLastName());
-            	existAthlete.setMiddleName(athlete.getMiddleName());
-            	existAthlete.setNickName(athlete.getNickName());
-            	existAthlete.setSex(athlete.getSex());
-            	existAthlete.setBirthday(athlete.getBirthday());
-            	existAthlete.setStartDate(athlete.getStartDate());
-            	existAthlete.setWeight(athlete.getWeight());
-            	existAthlete.setHeight(athlete.getHeight());
-            	existAthlete.setGiSize(athlete.getGiSize());
-            	existAthlete.setRashguardSize(athlete.getRashguardSize());
-            	existAthlete.setPassportNumber(athlete.getPassportNumber());
-            	existAthlete.setInstructor(athlete.isInstructor());
-            	existAthlete.setRetired(athlete.isRetired());
-
-            	existAthlete.setRegistrationRegion(athlete.getRegistrationRegion());
-				existAthlete.setTeam(athlete.getTeam());
-            	
-            	existAthlete.setEmail(athlete.getEmail());
-            	existAthlete.setPhoneNumber(athlete.getPhoneNumber());
-            	existAthlete.setMobileNumber(athlete.getMobileNumber());
-            	existAthlete.setVk(athlete.getVk());
-            	existAthlete.setFacebook(athlete.getFacebook());
-            	existAthlete.setInstagram(athlete.getInstagram());
-            	existAthlete.setSkype(athlete.getSkype());
-            	existAthlete.setComment(athlete.getComment());
-
-        		athlete = existAthlete;
-            }
-
-			person = personService.save(person);
-			athlete.setPerson(person);
-            athlete = personService.save(athlete);          
-            
-            return new Redirect("/editor/athlete/edit/" + athlete.getId() + "/");
+            return new Redirect("/editor/athlete/edit/" + savedAthlete.getId() + "/");
         }
 
         return getModel(athlete.getId(), false, null);
@@ -236,48 +186,6 @@ public class EditorAthleteController extends EditorController {
 		return model;
     }
     
-    private boolean validate(BindingResult result, Athlete athlete) {
-		Person person = athlete.getPerson();
-		String loginCheckResult;
-		if (person == null || StringUtils.isBlank(person.getLogin())) {
-			result.rejectValue("person.login", "field.required", FIELD_REQUIRED);
-		} else if ((loginCheckResult = ValidateUtils.checkLogin(person.getLogin())) != null) {
-			result.rejectValue("person.login", "field.required", loginCheckResult);
-		} else {
-			Person saved = personService.findByLogin(person);
-			if(saved != null && person.getId() != saved.getId()) {
-				result.rejectValue("person.login", "field.required", "Пользователь с таким login-ом уже существует");
-			}
-		}
-		if (athlete.isInstructor() && athlete.getTeam() == null) {
-			result.rejectValue("team", "field.required", "Для инструктора необходимо выбрать команду");
-		}
-		String passwordCheckResult;
-		if ((athlete.getId() == 0 || (athlete.getId() > 0 && StringUtils.isNotBlank(person.getPassword()))) && (passwordCheckResult = ValidateUtils.checkPassword(person.getPassword(), person.getLogin())) != null) {
-			result.rejectValue("person.password", "field.required", passwordCheckResult);
-		}
-    	if (StringUtils.isBlank(athlete.getFirstName())) {
-    		result.rejectValue("firstName", "field.required", FIELD_REQUIRED);
-    	}
-
-		String emailCheckResult;
-		if (StringUtils.isNotBlank(athlete.getEmail()) && (emailCheckResult = ValidateUtils.checkEmail(athlete.getEmail())) != null) {
-			result.rejectValue("email", "field.required", emailCheckResult);
-		}
-
-		String phoneCheckResult;
-		if (StringUtils.isNotBlank(athlete.getPhoneNumber()) && (phoneCheckResult = ValidateUtils.checkPhone(athlete.getPhoneNumber())) != null) {
-			result.rejectValue("phoneNumber", "field.required", phoneCheckResult);
-		}
-
-		String mobileCheckResult;
-		if (StringUtils.isNotBlank(athlete.getMobileNumber()) && (mobileCheckResult = ValidateUtils.checkPhone(athlete.getMobileNumber())) != null) {
-			result.rejectValue("mobileNumber", "field.required", mobileCheckResult);
-		}
-
-        return !result.hasErrors();
-    }
-
 	private boolean validate(BindingResult result, AthleteTariff athleteTariff) {
 		if (athleteTariff.getAthlete() == null) {
 			result.rejectValue("athlete", "field.required", FIELD_REQUIRED);

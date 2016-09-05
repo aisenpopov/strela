@@ -25,7 +25,9 @@ public interface PersonService {
     Person findByEmail(String email);
 
     Person findByLogin(Person person);
-    
+
+    Person findLastPerson();
+
     Page<Person> find(PersonFilter filter, int pageNumber, int pageSize);
     
 	List<Person> find(PersonFilter filter);

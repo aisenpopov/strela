@@ -31,9 +31,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Aisen on 04.07.2016.
- */
 @Controller
 public abstract class AbstractController extends AjaxUpdater {
 

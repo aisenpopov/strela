@@ -10,8 +10,10 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-title txt-color-blueDark">
-						<i class="fa ${activeMenu.icon} fa-fw"></i>${activeMenu.caption} 
-						<a href="/editor/${activeMenu.href}/edit/"class="btn btn-info right-header-button" role="button">Добавить</a>
+						<i class="fa ${activeMenu.icon} fa-fw"></i>${activeMenu.caption}
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<a href="/editor/${activeMenu.href}/edit/"class="btn btn-info right-header-button" role="button">Добавить</a>
+						</sec:authorize>
 					</h1>
 				</div>
 			</div>

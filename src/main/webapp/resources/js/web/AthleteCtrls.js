@@ -54,32 +54,26 @@ app.controller("AthleteListCtrl", function ($scope, $http, $location, ModalServi
 app.controller("AthleteCtrl", function ($scope, $http, ModalService,
                                        $location, CommonService, $routeParams, $timeout) {
 
-    $scope.athlete = {
-        sex: "male",
-        firstName: "",
-        lastName: "",
-        middleName: ""
-    };
+    $scope.athlete = {};
     $scope.athleteTariffs = [];
-    if ($routeParams.id) {
-        CommonService.loader(true);
-        getAthleteTariffs();
-        CommonService.post("/account/athlete/getAthlete", {id: $routeParams.id}).then(function (resp) {
-            var data = resp.data.data;
+    
+    CommonService.loader(true);
+    getAthleteTariffs();
+    CommonService.post("/account/athlete/getAthlete", {id: $routeParams.id}).then(function (resp) {
+        var data = resp.data.data;
 
-            $scope.athlete = data.athlete;
-            $scope.athleteTariffs = data.athleteTariffs;
+        $scope.athlete = data.athlete;
+        $scope.athleteTariffs = data.athleteTariffs;
 
-            if ($scope.athlete.team) {
-                $scope.athlete.team.text = $scope.athlete.team.name;
-            }
-            if ($scope.athlete.registrationRegion) {
-                $scope.athlete.registrationRegion.text = $scope.athlete.registrationRegion.name;
-            }
-        }).finally(function () {
-            CommonService.loader(false);
-        });
-    }
+        if ($scope.athlete.team) {
+            $scope.athlete.team.text = $scope.athlete.team.name;
+        }
+        if ($scope.athlete.registrationRegion) {
+            $scope.athlete.registrationRegion.text = $scope.athlete.registrationRegion.name;
+        }
+    }).finally(function () {
+        CommonService.loader(false);
+    });
 
     function getAthleteTariffs() {
         CommonService.post("/account/athlete/getAthleteTariffs", {id: $routeParams.id}).then(function (resp) {

@@ -13,7 +13,7 @@ import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.payment.AthleteTariff;
-import ru.strela.util.ValidateUtils;
+import ru.strela.util.validate.ValidateUtils;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.web.controller.core.WebController;

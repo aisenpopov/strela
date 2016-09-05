@@ -1,11 +1,13 @@
-package ru.strela.util;
+package ru.strela.util.validate;
 
 import org.apache.commons.lang.StringUtils;
 
 import java.util.regex.Pattern;
 
 public class ValidateUtils {
-	
+
+	public static final String DEFAULT_PASSWORD = "strela";
+
 	public static final String REQUIRED_ERROR = "Необходимо заполнить поле";
 
 	protected final static int MIN_PASSWORD_LENGTH = 6;

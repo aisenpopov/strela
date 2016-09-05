@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.Settings;
 import ru.strela.util.ModelBuilder;
-import ru.strela.util.ValidateUtils;
+import ru.strela.util.validate.ValidateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -100,6 +100,18 @@ public class PersonServiceImpl implements PersonService {
     public Person findByLogin(Person person) {
         return personRepository.findByLogin(person.getLogin());
     }
+
+    @Override
+    public Person findLastPerson() {
+        PersonFilter filter = new PersonFilter();
+        filter.addOrder(new Order("id", OrderDirection.Desc));
+        Page<Person> persons = find(filter, 0, 1);
+        if (persons.getNumberOfElements() > 0) {
+            return persons.getContent().get(0);
+        }
+
+        return null;
+    }
     
     @Override
     public Page<Person> find(PersonFilter filter, int pageNumber, int pageSize) {

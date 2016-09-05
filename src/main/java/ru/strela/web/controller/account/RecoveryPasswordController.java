@@ -11,7 +11,7 @@ import ru.strela.auth.AuthenticationProcessor;
 import ru.strela.mail.SendMailHelper;
 import ru.strela.model.Athlete;
 import ru.strela.model.auth.Person;
-import ru.strela.util.ValidateUtils;
+import ru.strela.util.validate.ValidateUtils;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.web.controller.core.WebController;
 

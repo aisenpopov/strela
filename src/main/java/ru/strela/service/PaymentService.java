@@ -9,9 +9,6 @@ import ru.strela.model.payment.*;
 
 import java.util.List;
 
-/**
- * Created by Aisen on 29.04.2016.
- */
 public interface PaymentService {
 
     Tariff save(Tariff tariff);

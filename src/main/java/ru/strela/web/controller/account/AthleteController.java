@@ -1,9 +1,7 @@
 package ru.strela.web.controller.account;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.strela.model.Athlete;
@@ -13,12 +11,14 @@ import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.payment.AthleteTariff;
-import ru.strela.util.ValidateUtils;
+import ru.strela.service.AthleteService;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.validate.JsonResponseValidateAdapter;
 import ru.strela.web.controller.core.WebController;
 import ru.strela.web.controller.dto.AthleteDTO;
 import ru.strela.web.controller.dto.AthleteTariffDTO;
+import ru.strela.web.controller.dto.PersonDTO;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
 public class AthleteController extends WebController {
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private AthleteService athleteService;
 
 	@ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -69,9 +69,15 @@ public class AthleteController extends WebController {
 		JsonData data = response.createJsonData();
 
 		Athlete athlete = personService.findById(new Athlete(id));
+		AthleteDTO athleteDTO = null;
 		if (athlete != null) {
-			data.put("athlete", new AthleteDTO(athlete));
+			athleteDTO = new AthleteDTO(athlete);
+		} else {
+			athleteDTO = new AthleteDTO();
+			athleteDTO.setPerson(new PersonDTO());
+			athleteDTO.setSex(Athlete.Sex.male.name());
 		}
+		data.put("athlete", athleteDTO);
 
 		return response;
 	}
@@ -135,61 +141,13 @@ public class AthleteController extends WebController {
     @RequestMapping(value = "/saveAthlete", method = RequestMethod.POST)
     public JsonResponse save(Athlete athlete) {
 		JsonResponse response = new JsonResponse();
-    	if (validate(response, athlete)) {
-			Person person = athlete.getPerson();
-			String newPassword = person.getPassword();
-			if (person.getId() != 0) {
-				Person existPerson = personService.findById(person);
 
-				existPerson.setLogin(person.getLogin());
-				existPerson.setAdmin(person.isAdmin());
-				existPerson.setDisabled(person.isDisabled());
-
-				person = existPerson;
-			}
-			person.setInstructor(athlete.isInstructor());
-			if (StringUtils.isNotBlank(newPassword)) {
-				person.setPassword(passwordEncoder.encode(newPassword));
-			}
-
-            if (athlete.getId() != 0) {
-            	Athlete existAthlete = personService.findById(new Athlete(athlete.getId()));
-
-            	existAthlete.setFirstName(athlete.getFirstName());
-            	existAthlete.setLastName(athlete.getLastName());
-            	existAthlete.setMiddleName(athlete.getMiddleName());
-            	existAthlete.setNickName(athlete.getNickName());
-            	existAthlete.setSex(athlete.getSex());
-            	existAthlete.setBirthday(athlete.getBirthday());
-            	existAthlete.setStartDate(athlete.getStartDate());
-            	existAthlete.setWeight(athlete.getWeight());
-            	existAthlete.setHeight(athlete.getHeight());
-            	existAthlete.setGiSize(athlete.getGiSize());
-            	existAthlete.setRashguardSize(athlete.getRashguardSize());
-            	existAthlete.setPassportNumber(athlete.getPassportNumber());
-            	existAthlete.setInstructor(athlete.isInstructor());
-            	existAthlete.setRetired(athlete.isRetired());
-
-            	existAthlete.setRegistrationRegion(athlete.getRegistrationRegion());
-				existAthlete.setTeam(athlete.getTeam());
-
-            	existAthlete.setEmail(athlete.getEmail());
-            	existAthlete.setPhoneNumber(athlete.getPhoneNumber());
-            	existAthlete.setMobileNumber(athlete.getMobileNumber());
-            	existAthlete.setVk(athlete.getVk());
-            	existAthlete.setFacebook(athlete.getFacebook());
-            	existAthlete.setInstagram(athlete.getInstagram());
-            	existAthlete.setSkype(athlete.getSkype());
-            	existAthlete.setComment(athlete.getComment());
-
-        		athlete = existAthlete;
-            }
-
-			person = personService.save(person);
-			athlete.setPerson(person);
-			athlete = personService.save(athlete);
-
-			response.addData("id", athlete.getId());
+		if (athlete.getId() == 0) {
+			athleteService.initNew(athlete);
+		}
+    	if (athleteService.validate(athlete, new JsonResponseValidateAdapter(response))) {
+			Athlete savedAthlete = athleteService.save(athlete);
+			response.addData("id", savedAthlete.getId());
         }
 
 		return response;
@@ -250,48 +208,6 @@ public class AthleteController extends WebController {
 		return response;
 	}
     
-    private boolean validate(JsonResponse response, Athlete athlete) {
-		Person person = athlete.getPerson();
-		String loginCheckResult;
-		if (person == null || StringUtils.isBlank(person.getLogin())) {
-			response.addFieldMessage("personLogin", FIELD_REQUIRED);
-		} else if ((loginCheckResult = ValidateUtils.checkLogin(person.getLogin())) != null) {
-			response.addFieldMessage("personLogin", loginCheckResult);
-		} else {
-			Person saved = personService.findByLogin(person);
-			if(saved != null && person.getId() != saved.getId()) {
-				response.addFieldMessage("personLogin", "Пользователь с таким login-ом уже существует");
-			}
-		}
-		if (athlete.isInstructor() && athlete.getTeam() == null) {
-			response.addFieldMessage("team", "Для инструктора необходимо выбрать команду");
-		}
-		String passwordCheckResult;
-		if ((athlete.getId() == 0 || (athlete.getId() > 0 && StringUtils.isNotBlank(person.getPassword()))) && (passwordCheckResult = ValidateUtils.checkPassword(person.getPassword(), person.getLogin())) != null) {
-			response.addFieldMessage("personPassword", passwordCheckResult);
-		}
-    	if (StringUtils.isBlank(athlete.getFirstName())) {
-			response.addFieldMessage("firstName", FIELD_REQUIRED);
-    	}
-
-		String emailCheckResult;
-		if (StringUtils.isNotBlank(athlete.getEmail()) && (emailCheckResult = ValidateUtils.checkEmail(athlete.getEmail())) != null) {
-			response.addFieldMessage("email", emailCheckResult);
-		}
-
-		String phoneCheckResult;
-		if (StringUtils.isNotBlank(athlete.getPhoneNumber()) && (phoneCheckResult = ValidateUtils.checkPhone(athlete.getPhoneNumber())) != null) {
-			response.addFieldMessage("phoneNumber", phoneCheckResult);
-		}
-
-		String mobileCheckResult;
-		if (StringUtils.isNotBlank(athlete.getMobileNumber()) && (mobileCheckResult = ValidateUtils.checkPhone(athlete.getMobileNumber())) != null) {
-			response.addFieldMessage("mobileNumber", mobileCheckResult);
-		}
-
-        return !response.isStatusError();
-    }
-
 	private boolean validate(JsonResponse response, AthleteTariff athleteTariff) {
 		if (athleteTariff.getAthlete() == null) {
 			response.addFieldMessage("athlete", FIELD_REQUIRED);
