@@ -39,20 +39,25 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
                     }
                 };
                 $scope.payment.athleteTariff.tariff.gym.text = data.gym.name;
+                getTariff();
             }
         }).finally(function () {
             CommonService.loader(false);
         });
     }
 
+    function getTariff() {
+        CommonService.post("/account/payment/getTariff", {id: $scope.payment.athleteTariff.tariff.gym.id}).then(function (resp) {
+            var data = resp.data.data;
+            if (data && data.tariff) {
+                $scope.payment.amount = data.tariff.priceMonth || data.tariff.priceQuarter || data.tariff.priceHalfYear || data.tariff.priceYear;
+            }
+        });
+    }
+
     $scope.onChangeGym = function () {
         if (!$routeParams.id) {
-            CommonService.post("/account/payment/getTariff", {id: $scope.payment.athleteTariff.tariff.gym.id}).then(function (resp) {
-                var data = resp.data.data;
-                if (data && data.tariff) {
-                    $scope.payment.amount = data.tariff.priceMonth || data.tariff.priceQuarter || data.tariff.priceHalfYear || data.tariff.priceYear;
-                }
-            });
+            getTariff();
         }
     };
     
