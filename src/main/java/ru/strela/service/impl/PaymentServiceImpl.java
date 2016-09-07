@@ -16,14 +16,13 @@ import ru.strela.service.ApplicationService;
 import ru.strela.service.PaymentService;
 import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
+import ru.strela.util.validate.IValidateResult;
+import ru.strela.util.validate.ValidateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Aisen on 29.04.2016.
- */
 @Service
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
@@ -474,5 +473,58 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter) {
         personService.updateFilter(filter);
         return paymentStatusRepository.findAll(PaymentStatusSpec.filter(filter), PageRequestBuilder.getSort(filter));
+    }
+
+    @Override
+    public boolean validate(Payment payment, IValidateResult validateResult) {
+        if (payment.getAmount() == null) {
+            validateResult.addError("amount", ValidateUtils.REQUIRED_ERROR);
+        } else if (payment.getAmount() <= 0.0d) {
+            validateResult.addError("amount", ValidateUtils.POSITIVE_NUMBER_ERROR);
+        }
+        Gym gym = payment.getAthleteTariff().getTariff().getGym();
+        if (gym == null) {
+            validateResult.addError("athleteTariff.tariff.gym", ValidateUtils.REQUIRED_ERROR);
+        } else {
+            TariffFilter tariffFilter = new TariffFilter();
+            tariffFilter.setGym(gym);
+            List<Tariff> tariffs = findTariffs(tariffFilter, false);
+            if (tariffs.isEmpty()) {
+                validateResult.addError("athleteTariff.tariff.gym", "Для данного зала нету тарифов. Создайте тариф.");
+            }
+        }
+
+        if (payment.getAthleteTariff().getAthlete() == null) {
+            validateResult.addError("athleteTariff.athlete", ValidateUtils.REQUIRED_ERROR);
+        }
+
+        if (payment.getDate() == null) {
+            validateResult.addError("date", ValidateUtils.REQUIRED_ERROR);
+        }
+        if (payment.getOperator() == null) {
+            validateResult.addError("operator", ValidateUtils.REQUIRED_ERROR);
+        }
+
+        return !validateResult.hasErrors();
+    }
+
+    @Override
+    public Payment savePayment(Payment payment) {
+        AthleteTariff athleteTariff = getOrCreateAthleteTariff(payment.getAthleteTariff().getAthlete(), payment.getAthleteTariff().getTariff().getGym());
+        payment.setAthleteTariff(athleteTariff);
+        if(payment.getId() != 0) {
+            Payment saved = findById(new Payment(payment.getId()));
+
+            saved.setAmount(payment.getAmount());
+            saved.setOperator(payment.getOperator());
+            saved.setDate(payment.getDate());
+            saved.setAthleteTariff(payment.getAthleteTariff());
+
+            payment = saved;
+        }
+
+        Payment savedPayment = save(payment);
+
+        return savedPayment;
     }
 }

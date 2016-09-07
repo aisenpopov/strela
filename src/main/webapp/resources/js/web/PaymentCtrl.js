@@ -4,38 +4,26 @@
 
 var app = angular.module("app");
 
-app.controller("PaymentCtrl", function ($scope, $http, ModalService,
+app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
                                         $location, CommonService, $routeParams) {
     
-    $scope.id = $routeParams.id;
-    $scope.athlete = {};
-    $scope.gym = {};
-    $scope.amount = null;
+    $scope.payment = {};
 
     $scope.buttonLabel = "Провести";
 
     var oldAmount, oldGymId;
-    if ($scope.id) {
+    if ($routeParams.id) {
         $scope.buttonLabel = "Перепровести";
         CommonService.loader(true);
-        CommonService.post("/account/payment/info", {id: $scope.id}).then(function (resp) {
+        CommonService.post("/account/payment/getPayment", {id: $routeParams.id}).then(function (resp) {
             var data = resp.data.data;
-            if (data) {
-                $scope.amount = data.amount;
-                oldAmount = data.amount;
-                $scope.athlete = {
-                    selected: {
-                        id: data.athleteId,
-                        text: data.athleteDisplayName
-                    }
-                };
-                $scope.gym = {
-                    selected: {
-                        id: data.gymId,
-                        text: data.gymName
-                    }
-                };
-                oldGymId = data.gymId;
+            if (data && data.payment) {
+                $scope.payment = data.payment;
+                $scope.payment.athleteTariff.athlete.text = $scope.payment.athleteTariff.athlete.displayName;
+                $scope.payment.athleteTariff.tariff.gym.text = $scope.payment.athleteTariff.tariff.gym.name;
+                
+                oldAmount = data.payment.amount;
+                oldGymId = data.payment.athleteTariff.tariff.gym.id;
             }
         }).finally(function () {
             CommonService.loader(false);
@@ -45,22 +33,31 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService,
         CommonService.post("/account/payment/checkSingleGym").then(function (resp) {
             var data = resp.data.data;
             if (data && data.gym) {
-                $scope.gym = {
-                    selected: {
-                        id: data.gym.id,
-                        text: data.gym.name
+                $scope.payment.athleteTariff = {
+                    tariff: {
+                        gym: data.gym
                     }
                 };
+                $scope.payment.athleteTariff.tariff.gym.text = data.gym.name;
             }
         }).finally(function () {
             CommonService.loader(false);
         });
     }
+
+    $scope.onChangeGym = function () {
+        if (!$routeParams.id) {
+            CommonService.post("/account/payment/getTariff", {id: $scope.payment.athleteTariff.tariff.gym.id}).then(function (resp) {
+                var data = resp.data.data;
+                if (data && data.tariff) {
+                    $scope.payment.amount = data.tariff.priceMonth || data.tariff.priceQuarter || data.tariff.priceHalfYear || data.tariff.priceYear;
+                }
+            });
+        }
+    };
     
     $scope.onClickButton = function () {
-        $scope.paymentForm.athlete.$setDirty();
-        $scope.paymentForm.gym.$setDirty();
-        $scope.paymentForm.amount.$setDirty();
+        $scope.setFormFieldsDirty($scope.paymentForm);
 
         if ($scope.paymentForm.$invalid) {
             return;
@@ -68,10 +65,10 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService,
 
         function save() {
             var params = {
-                id: $scope.id ? $scope.id : 0,
-                amount: $scope.amount,
-                'athleteTariff.athlete': $scope.athlete.selected.id,
-                'athleteTariff.tariff.gym': $scope.gym.selected.id
+                id: $scope.payment.id ? $scope.payment.id : 0,
+                amount: $scope.payment.amount,
+                'athleteTariff.athlete': $scope.payment.athleteTariff.athlete.id,
+                'athleteTariff.tariff.gym': $scope.payment.athleteTariff.tariff.gym.id
             };
 
             CommonService.post("/account/payment/save", params).then(function (resp) {
@@ -85,8 +82,8 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService,
             });
         }
 
-        if ($scope.id && $scope.id > 0
-            && ($scope.gym.selected.id != oldGymId || $scope.amount != oldAmount)) {
+        if ($scope.payment.id
+            && ($scope.payment.athleteTariff.tariff.gym.id != oldGymId || $scope.payment.amount != oldAmount)) {
             ModalService.openConfirmModal("Вы действительно хотите изменить платеж? Дата истечения атлета будет пересчитана.", function () {
                save();
             });

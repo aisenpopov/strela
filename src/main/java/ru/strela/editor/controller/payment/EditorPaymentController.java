@@ -22,6 +22,7 @@ import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.validate.BindingResultValidateAdapter;
 
 import java.util.*;
 
@@ -60,22 +61,11 @@ public class EditorPaymentController extends EditorController {
 
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
     public ModelAndView save(Payment payment, BindingResult result) {
-        if(validate(result, payment)) {
-            AthleteTariff athleteTariff = paymentService.getOrCreateAthleteTariff(payment.getAthleteTariff().getAthlete(), payment.getAthleteTariff().getTariff().getGym());
-            payment.setAthleteTariff(athleteTariff);
-            if(payment.getId() != 0) {
-                Payment saved = paymentService.findById(new Payment(payment.getId()));
+        if(paymentService.validate(payment, new BindingResultValidateAdapter(result))) {
 
-                saved.setAmount(payment.getAmount());
-                saved.setOperator(payment.getOperator());
-                saved.setDate(payment.getDate());
+            Payment savedPayment = paymentService.savePayment(payment);
 
-                payment = saved;
-            }
-
-            payment = paymentService.save(payment);
-
-            return new Redirect("/editor/payment/edit/" + payment.getId() + "/");
+            return new Redirect("/editor/payment/edit/" + savedPayment.getId() + "/");
         }
 
         return getModel(null, null);

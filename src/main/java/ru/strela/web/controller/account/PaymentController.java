@@ -11,22 +11,26 @@ import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.filter.payment.TariffFilter;
-import ru.strela.model.payment.AthleteTariff;
 import ru.strela.model.payment.Payment;
 import ru.strela.model.payment.Tariff;
 import ru.strela.util.DateUtils;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.validate.JsonResponseValidateAdapter;
 import ru.strela.web.controller.core.WebController;
+import ru.strela.web.controller.dto.GymDTO;
+import ru.strela.web.controller.dto.PaymentDTO;
+import ru.strela.web.controller.dto.TariffDTO;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/account/payment")
 public class PaymentController extends WebController {
 
     @ResponseBody
-    @RequestMapping(value = "/list/", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public JsonResponse list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
                              @RequestParam(value = "query", required = false) String query) {
@@ -38,20 +42,14 @@ public class PaymentController extends WebController {
         filter.addOrder(new Order("id", OrderDirection.Desc));
         Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
         for (Payment payment : page) {
-            JsonData item = data.createCollection("payments");
-            item.put("id", payment.getId());
-            item.put("athlete", payment.getAthleteTariff().getAthlete().getDisplayName());
-            item.put("tariff", payment.getAthleteTariff().getTariff().getName());
-            item.put("coupon", payment.getAthleteTariff().getCoupon() != null ? payment.getAthleteTariff().getCoupon().getName() : "");
-            item.put("amount", payment.getAmount());
+            PaymentDTO paymentDTO = new PaymentDTO(payment);
+            paymentDTO.setDate(DateUtils.formatDayMonthYear(payment.getDate()));
             Athlete operatorAthlete = personService.findByPerson(payment.getOperator());
-            item.put("operator", payment.getOperator().getLogin() + (operatorAthlete != null ? (", " + operatorAthlete.getDisplayName()) : ""));
-            item.put("date", DateUtils.formatDayMonthYear(payment.getDate()));
+            paymentDTO.getOperator().setLogin(payment.getOperator().getLogin() + (operatorAthlete != null ? (", " + operatorAthlete.getDisplayName()) : ""));
+            data.addCollectionItem("payments", paymentDTO);
         }
 
-        JsonData pageData = data.addJsonData("page");
-        pageData.put("number", page.getNumber());
-        pageData.put("totalPages", page.getTotalPages());
+        fillPage(data, page);
 
         return response;
     }
@@ -69,25 +67,14 @@ public class PaymentController extends WebController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPayment", method = RequestMethod.POST)
     public JsonResponse getPayment(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
         JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
 
         Payment payment = paymentService.findById(new Payment(id));
         if (payment != null) {
-            Map<String, Object> paymentItem = new HashMap<>();
-            paymentItem.put("amount", payment.getAmount());
-
-            AthleteTariff athleteTariff = payment.getAthleteTariff();
-            Athlete athlete = athleteTariff.getAthlete();
-            paymentItem.put("athleteId", athlete.getId());
-            paymentItem.put("athleteDisplayName", athlete.getDisplayName());
-
-            Gym gym = athleteTariff.getTariff().getGym();
-            paymentItem.put("gymId", gym.getId());
-            paymentItem.put("gymName", gym.getName());
-
-            response.setData(paymentItem);
+            data.put("payment", new PaymentDTO(payment));
         }
 
         return response;
@@ -110,9 +97,7 @@ public class PaymentController extends WebController {
 
                     if (gyms != null && !gyms.isEmpty() && gyms.size() == 1) {
                         Gym gym = gyms.get(0);
-                        JsonData jsonData = data.addJsonData("gym");
-                        jsonData.put("id", gym.getId());
-                        jsonData.put("name", gym.getName());
+                        data.put("gym", new GymDTO(gym));
                     }
                 }
             }
@@ -122,53 +107,37 @@ public class PaymentController extends WebController {
     }
 
     @ResponseBody
-    @RequestMapping(value = {"/save"}, method = RequestMethod.POST)
-    public JsonResponse save(Payment payment) {
+    @RequestMapping(value="/getTariff", method=RequestMethod.POST)
+    public JsonResponse getTariff(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
         JsonResponse response = new JsonResponse();
-        if(validate(response, payment)) {
-            AthleteTariff athleteTariff = paymentService.getOrCreateAthleteTariff(payment.getAthleteTariff().getAthlete(), payment.getAthleteTariff().getTariff().getGym());
-            payment.setAthleteTariff(athleteTariff);
-            payment.setDate(new Date());
-            payment.setOperator(personServer.getCurrentPerson());
-            if(payment.getId() != 0) {
-                Payment saved = paymentService.findById(new Payment(payment.getId()));
+        JsonData data = response.createJsonData();
 
-                saved.setAmount(payment.getAmount());
-                saved.setOperator(payment.getOperator());
-                saved.setDate(payment.getDate());
-
-                payment = saved;
-            }
-
-            paymentService.save(payment);
+        Gym gym = applicationService.findById(new Gym(id));
+        TariffFilter tariffFilter = new TariffFilter();
+        tariffFilter.setGym(gym);
+        List<Tariff> tariffs = paymentService.findTariffs(tariffFilter, false);
+        if (!tariffs.isEmpty()) {
+            Tariff tariff = tariffs.get(0);
+            data.put("tariff", new TariffDTO(tariff));
         }
 
         return response;
     }
 
-    private boolean validate(JsonResponse response, Payment payment) {
-        if (payment.getAmount() == null) {
-            response.addFieldMessage("amount", FIELD_REQUIRED);
-        } else if (payment.getAmount() <= 0.0d) {
-            response.addFieldMessage("amount", "Введите значение большее нуля");
-        }
-        Gym gym = payment.getAthleteTariff().getTariff().getGym();
-        if (gym == null) {
-            response.addFieldMessage("gym", FIELD_REQUIRED);
-        } else {
-            TariffFilter tariffFilter = new TariffFilter();
-            tariffFilter.setGym(gym);
-            List<Tariff> tariffs = paymentService.findTariffs(tariffFilter, false);
-            if (tariffs.isEmpty()) {
-                response.addFieldMessage("gym", "Для данного зала нету тарифов. Создайте тариф.");
-            }
+    @ResponseBody
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public JsonResponse save(Payment payment) {
+        JsonResponse response = new JsonResponse();
+
+        payment.setDate(new Date());
+        payment.setOperator(personServer.getCurrentPerson());
+        if(paymentService.validate(payment, new JsonResponseValidateAdapter(response))) {
+
+            paymentService.savePayment(payment);
+
         }
 
-        if (payment.getAthleteTariff().getAthlete() == null) {
-            response.addFieldMessage("athlete", FIELD_REQUIRED);
-        }
-
-        return !response.isStatusError();
+        return response;
     }
 
 }

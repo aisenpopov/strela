@@ -4,10 +4,9 @@
 
 var app = angular.module("app");
 
-app.controller("PaymentStatusListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
+app.controller("PaymentStatusListCtrl", function ($scope, $http, $location) {
 
     var size = 8;
-    CommonService.loader(true);
     $scope.list = function (page, query) {
         var search = $location.search(),
             page = page || search.page || 1,
@@ -21,8 +20,6 @@ app.controller("PaymentStatusListCtrl", function ($scope, $http, $location, Moda
                 $location.search("page", page);
                 $location.search("query", query);
             }
-        }).finally(function () {
-            CommonService.loader(false);
         });
     };
     $scope.list();

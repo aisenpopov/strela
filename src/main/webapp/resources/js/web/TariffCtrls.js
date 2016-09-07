@@ -4,10 +4,9 @@
 
 var app = angular.module("app");
 
-app.controller("TariffListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
+app.controller("TariffListCtrl", function ($scope, $http, $location, ModalService) {
 
     var size = 10;
-    CommonService.loader(true);
     $scope.list = function (page, query) {
         var search = $location.search(),
             page = page || search.page || 1,
@@ -21,8 +20,6 @@ app.controller("TariffListCtrl", function ($scope, $http, $location, ModalServic
                 $location.search("page", page);
                 $location.search("query", query);
             }
-        }).finally(function () {
-            CommonService.loader(false);
         });
     };
     $scope.list();

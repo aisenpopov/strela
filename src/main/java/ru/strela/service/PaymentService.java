@@ -6,6 +6,7 @@ import ru.strela.model.Gym;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.payment.*;
 import ru.strela.model.payment.*;
+import ru.strela.util.validate.IValidateResult;
 
 import java.util.List;
 
@@ -92,5 +93,10 @@ public interface PaymentService {
     Page<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, int pageNumber, int pageSize);
 
     List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter);
+
+
+    boolean validate(Payment payment, IValidateResult validateResult);
+
+    Payment savePayment(Payment payment);
 
 }

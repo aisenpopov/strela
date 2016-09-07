@@ -19,7 +19,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="transaction in transactions" ng-click="onClick(transaction.id)">
+                        <tr ng-repeat="transaction in transactions" ng-click="onClick(transaction.id)" class="ngAnimation">
                             <td>{{transaction.id}}</td>
                             <td>{{transaction.date}}</td>
                             <td>{{transaction.operator}}</td>

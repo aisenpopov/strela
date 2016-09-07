@@ -10,6 +10,8 @@ public class ValidateUtils {
 
 	public static final String REQUIRED_ERROR = "Необходимо заполнить поле";
 
+	public static final String POSITIVE_NUMBER_ERROR = "Введите значение больше нуля";
+
 	protected final static int MIN_PASSWORD_LENGTH = 6;
 	
 	private static final Pattern emailCheckPattern = Pattern.compile(

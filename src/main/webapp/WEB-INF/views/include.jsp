@@ -5,7 +5,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags/" %>
-<%@ taglib prefix="tp" tagdir="/WEB-INF/tags/panel/" %>
 <%@ taglib prefix="te" tagdir="/WEB-INF/tags/editor/" %>
 <%@ taglib prefix="textUtils" uri="/WEB-INF/taglibs/textUtils.tld" %>
 <%@ taglib prefix="dateUtils" uri="/WEB-INF/taglibs/dateUtils.tld" %>
