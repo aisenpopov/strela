@@ -2,7 +2,7 @@
  * Основной модуль
  */
 
-var app = angular.module("app", ['ngAnimate', 'ngRoute', 'ui.bootstrap', 'ngSanitize', 'ui.select']);
+var app = angular.module("app", ['ngAnimate', 'ngRoute', 'ui.bootstrap', 'ngSanitize', 'ui.select', 'ngResource']);
 
 app.run(function($rootScope) {
     $rootScope.$on('$routeChangeSuccess', function (event, current) {

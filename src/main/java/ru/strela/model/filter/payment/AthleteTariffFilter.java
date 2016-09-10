@@ -5,9 +5,6 @@ import ru.strela.model.Gym;
 import ru.strela.model.filter.BaseFilter;
 import ru.strela.model.payment.Tariff;
 
-/**
- * Created by Aisen on 28.04.2016.
- */
 public class AthleteTariffFilter extends BaseFilter {
 
     private Athlete athlete;

@@ -36,8 +36,7 @@
                                         <span class="form-error" ng-show="paymentForm.athleteTariffTariffGym.$error.server">{{paymentForm.athleteTariffTariffGym.serverErrorMessage}}</span>
                                     </div>
                                     <ui-select ng-model="payment.athleteTariff.tariff.gym" name="athleteTariffTariffGym"
-                                               ng-required="true" theme="select2" title="Выберите зал" ng-controller="SelectCtrl"
-                                               ng-change="onChangeGym()">
+                                               ng-required="true" theme="select2" title="Выберите зал" ng-controller="SelectCtrl">
                                         <ui-select-match allow-clear="true" placeholder="Выберите зал">{{$select.selected.text}}</ui-select-match>
                                         <ui-select-choices repeat="gym in items" position="down"
                                                            refresh="search('gym', $select.search)" refresh-delay="500">

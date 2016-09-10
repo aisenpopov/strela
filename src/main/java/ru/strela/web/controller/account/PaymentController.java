@@ -9,8 +9,11 @@ import ru.strela.model.auth.Person;
 import ru.strela.model.filter.GymFilter;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.payment.AthleteTariff;
+import ru.strela.model.payment.Coupon;
 import ru.strela.model.payment.Payment;
 import ru.strela.model.payment.Tariff;
 import ru.strela.util.DateUtils;
@@ -68,7 +71,7 @@ public class PaymentController extends WebController {
 
     @ResponseBody
     @RequestMapping(value = "/getPayment", method = RequestMethod.POST)
-    public JsonResponse getPayment(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
+    public JsonResponse getPayment(@RequestParam(value = "id", defaultValue = "0") Integer id) {
         JsonResponse response = new JsonResponse();
         JsonData data = response.createJsonData();
 
@@ -108,7 +111,7 @@ public class PaymentController extends WebController {
 
     @ResponseBody
     @RequestMapping(value="/getTariff", method=RequestMethod.POST)
-    public JsonResponse getTariff(@RequestParam(value = "id", required = true, defaultValue = "0") Integer id) {
+    public JsonResponse getTariff(@RequestParam(value = "id", defaultValue = "0") Integer id) {
         JsonResponse response = new JsonResponse();
         JsonData data = response.createJsonData();
 
@@ -119,6 +122,44 @@ public class PaymentController extends WebController {
         if (!tariffs.isEmpty()) {
             Tariff tariff = tariffs.get(0);
             data.put("tariff", new TariffDTO(tariff));
+        }
+
+        return response;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getNewPaymentAmount", method = RequestMethod.POST)
+    public JsonResponse getNewPaymentAmount(@RequestParam(value = "athleteId", defaultValue = "0") Integer athleteId,
+                                            @RequestParam(value = "gymId", defaultValue = "0") Integer gymId) {
+        JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
+
+        Gym gym = applicationService.findById(new Gym(gymId));
+        Athlete athlete = personService.findById(new Athlete(athleteId));
+
+        TariffFilter tariffFilter = new TariffFilter();
+        tariffFilter.setGym(gym);
+        List<Tariff> tariffs = paymentService.findTariffs(tariffFilter, false);
+        if (!tariffs.isEmpty() && athlete != null) {
+            Tariff tariff = tariffs.get(0);
+
+            Double amount = tariff.getPriceMonth() != null ? tariff.getPriceMonth() :
+                        (tariff.getPriceQuarter() != null ? tariff.getPriceQuarter() :
+                            (tariff.getPriceHalfYear() != null ? tariff.getPriceHalfYear() : tariff.getPriceYear()));
+
+            AthleteTariffFilter athleteTariffFilter = new AthleteTariffFilter();
+            athleteTariffFilter.setTariff(tariff);
+            athleteTariffFilter.setAthlete(athlete);
+
+            List<AthleteTariff> athleteTariffs = paymentService.findAthleteTariffs(athleteTariffFilter, false);
+            if (!athleteTariffs.isEmpty()) {
+                Coupon coupon = athleteTariffs.get(0).getCoupon();
+                if (coupon != null) {
+                    amount *= 1 - coupon.getDiscountPercent() / 100;;
+                }
+            }
+
+            data.put("amount", amount);
         }
 
         return response;

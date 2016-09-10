@@ -4,7 +4,7 @@
 
 var app = angular.module("app");
 
-app.controller("GymListCtrl", function ($scope, CommonService, $routeParams, $rootScope) {
+app.controller("GymListCtrl", function ($scope, CommonService, $routeParams, $rootScope, $timeout) {
 
     var cityId = $routeParams.cityId;
     $scope.gyms = [];
@@ -26,6 +26,9 @@ app.controller("GymListCtrl", function ($scope, CommonService, $routeParams, $ro
                     }
                 });
             }
+            $timeout(function () {
+                CommonService.scrollTo($(".gym-list .gym").first().offset().top - 70);
+            });
         });
     }
     getGyms(cityId);

@@ -67,6 +67,7 @@
 <script src="/resources/js/libs/angularjs/angular-animate.min.js"></script>
 <script src="/resources/js/libs/angularjs/angular-touch.min.js"></script>
 <script src="/resources/js/libs/angularjs/angular-sanitize.min.js"></script>
+<script src="/resources/js/libs/angularjs/angular-resource.min.js"></script>
 <script src="/resources/js/libs/angularjs/ui-bootstrap-tpls-2.0.0.js"></script>
 <script src="/resources/js/libs/angularjs/select.min.js"></script>
 

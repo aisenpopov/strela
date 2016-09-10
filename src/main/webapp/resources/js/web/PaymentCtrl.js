@@ -39,28 +39,34 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
                     }
                 };
                 $scope.payment.athleteTariff.tariff.gym.text = data.gym.name;
-                getTariff();
             }
         }).finally(function () {
             CommonService.loader(false);
         });
     }
 
-    function getTariff() {
-        CommonService.post("/account/payment/getTariff", {id: $scope.payment.athleteTariff.tariff.gym.id}).then(function (resp) {
+    function getNewPaymentAmount(athleteId, gymId) {
+        CommonService.post("/account/payment/getNewPaymentAmount", {
+            athleteId: athleteId,
+            gymId: gymId
+        }).then(function (resp) {
             var data = resp.data.data;
-            if (data && data.tariff) {
-                $scope.payment.amount = data.tariff.priceMonth || data.tariff.priceQuarter || data.tariff.priceHalfYear || data.tariff.priceYear;
+            if (data && data.amount) {
+                $scope.payment.amount = data.amount;
             }
         });
     }
 
-    $scope.onChangeGym = function () {
-        if (!$routeParams.id) {
-            getTariff();
-        }
-    };
-    
+    if (!$routeParams.id) {
+        $scope.$watchGroup(["payment.athleteTariff.athlete", "payment.athleteTariff.tariff.gym"], function (newValues) {
+            var athlete = newValues[0],
+                gym = newValues[1];
+            if (athlete && athlete.id && gym && gym.id) {
+                getNewPaymentAmount(athlete.id, gym.id);
+            }
+        });
+    }
+
     $scope.onClickButton = function () {
         $scope.setFormFieldsDirty($scope.paymentForm);
 
