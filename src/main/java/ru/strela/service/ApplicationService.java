@@ -3,6 +3,7 @@ package ru.strela.service;
 import org.springframework.data.domain.Page;
 import ru.strela.model.*;
 import ru.strela.model.filter.*;
+import ru.strela.util.validate.IValidateResult;
 
 import java.util.List;
 
@@ -89,6 +90,10 @@ public interface ApplicationService {
     Page<Team> findTeams(TeamFilter filter, int pageNumber, int pageSize);
     
     List<Team> findTeams(TeamFilter filter, boolean checkPermissions);
+
+    Team saveTeam(Team team);
+
+    boolean validateTeam(Team team, IValidateResult validateResult);
 
 
     Gym save(Gym gym);

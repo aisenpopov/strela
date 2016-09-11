@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <h5 class="text-center">даты истечения</h5>
 
-                <div onload="newLabel = 'Добавить'" ng-include="'/resources/views/include/listSearch.html'"></div>
+                <ng-list-search-panel data-new-label="Добавить" data-can-add="true">
+                </ng-list-search-panel>
 
                 <div class="table-responsive payment-statuses">
                     <table class="table table-bordered table-hover">

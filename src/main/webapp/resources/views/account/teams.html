@@ -1,0 +1,39 @@
+
+<section class="md-well well--inset-2 teams-page list-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center">команды</h5>
+
+                <ng-list-search-panel data-new-label="Новая команда" data-can-add="{{person.admin}}">
+                </ng-list-search-panel>
+
+                <div class="table-responsive tariffs">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Город</th>
+                            <th>Инструктор</th>
+                            <th><i class="glyphicon glyphicon-cog"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="team in teams" ng-click="onClick(team.id)" class="ngAnimation">
+                            <td>{{team.id}}</td>
+                            <td>{{team.name}}</td>
+                            <td>{{team.city.name}}</td>
+                            <td>{{team.chiefInstructor.displayName}}</td>
+                            <td>
+                                <i class="glyphicon glyphicon-remove" ng-if="person.admin" ng-click="onClickRemove(team.id, $event)"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -22,6 +22,18 @@ app.directive('ngDatepicker', function() {
     };
 });
 
+app.directive('ngListSearchPanel', function() {
+    return {
+        templateUrl: "/resources/views/include/listSearch.html",
+        restrict: 'E',
+        scope: true,
+        link: function(scope, element, attrs) {
+            scope.newLabel = attrs.newLabel;
+            scope.canAdd = attrs.canAdd === "true";
+        }
+    }
+});
+
 app.directive('ngCarousel', function($timeout) {
     return {
         link: function(scope, element) {

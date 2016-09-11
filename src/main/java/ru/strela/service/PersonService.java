@@ -6,6 +6,7 @@ import ru.strela.model.auth.Person;
 import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.BaseFilter;
 import ru.strela.model.filter.PersonFilter;
+import ru.strela.util.validate.IValidateResult;
 
 import java.util.List;
 
@@ -48,5 +49,12 @@ public interface PersonService {
     Page<Athlete> findAthletes(AthleteFilter filter, int pageNumber, int pageSize);
     
     List<Athlete> findAthletes(AthleteFilter filter);
+
+
+    Athlete saveAthlete(Athlete athlete);
+
+    boolean validateAthlete(Athlete athlete, IValidateResult validateResult);
+
+    void initNewAthlete(Athlete athlete);
 
 }

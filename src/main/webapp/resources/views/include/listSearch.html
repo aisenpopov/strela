@@ -9,7 +9,7 @@
                     <abbr ng-show="query" ng-click="onClickClearQuery()"/>
                 </label>
             </div>
-            <div class="col-md-4" ng-if="newLabel">
+            <div class="col-md-4" ng-if="canAdd">
                 <button class="btn btn-md btn-default" ng-click="onClickNew()">{{newLabel}}</button>
             </div>
         </div>

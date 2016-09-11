@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <h5 class="text-center">платежи</h5>
 
-                <div onload="newLabel = 'Новый платеж'" ng-include="'/resources/views/include/listSearch.html'"></div>
+                <ng-list-search-panel data-new-label="Новый платеж" data-can-add="true">
+                </ng-list-search-panel>
 
                 <div class="table-responsive payments">
                     <table class="table table-bordered table-hover">

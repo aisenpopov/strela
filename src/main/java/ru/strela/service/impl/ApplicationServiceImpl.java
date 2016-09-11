@@ -1,5 +1,6 @@
 package ru.strela.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import ru.strela.util.PageRequestBuilder;
 import ru.strela.util.image.ImageDir;
 import ru.strela.util.image.ImageFormat;
 import ru.strela.util.image.UploadImageHelper;
+import ru.strela.util.validate.IValidateResult;
+import ru.strela.util.validate.ValidateUtils;
 
 import java.util.List;
 
@@ -276,6 +279,36 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 		return teamRepository.findAll(TeamSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
 
+	@Override
+	public Team saveTeam(Team team) {
+		if(team.getId() != 0) {
+			Team saved = findById(new Team(team.getId()));
+
+			saved.setName(team.getName());
+			saved.setCity(team.getCity());
+			saved.setChiefInstructor(team.getChiefInstructor());
+
+			team = saved;
+		}
+		Team savedTeam = save(team);
+
+		return savedTeam;
+	}
+
+	@Override
+	public boolean validateTeam(Team team, IValidateResult validateResult) {
+		if(StringUtils.isBlank(team.getName())) {
+			validateResult.addError("name", ValidateUtils.REQUIRED_ERROR);
+		}
+		if(team.getCity() == null) {
+			validateResult.addError("city", ValidateUtils.REQUIRED_ERROR);
+		}
+		if(team.getChiefInstructor() == null) {
+			validateResult.addError("chiefInstructor", ValidateUtils.REQUIRED_ERROR);
+		}
+
+		return !validateResult.hasErrors();
+	}
 
 	@Override
 	public Gym save(Gym gym) {

@@ -61,9 +61,11 @@
 														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.chiefInstructor.displayName}</a></td>
 																
 												        <td>
-												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
-												        		<i class="glyphicon glyphicon-remove"></i>
-												        	</a>
+															<sec:authorize access="hasRole('ROLE_ADMIN')">
+																<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">
+																	<i class="glyphicon glyphicon-remove"></i>
+																</a>
+															</sec:authorize>
 												        </td>
 													</tr>
 												</c:forEach>

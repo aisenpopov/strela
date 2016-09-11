@@ -1,0 +1,73 @@
+
+<section class="md-well well--inset-2 team-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h5 class="text-center">команда</h5>
+
+                <form class='rd-mailform' name="teamForm">
+                    <fieldset>
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Название<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(teamForm.name)">
+                                        <span class="form-error" ng-show="teamForm.name.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="teamForm.name.$error.server">{{teamForm.name.serverErrorMessage}}</span>
+                                    </div>
+                                    <input type="text" name="name"
+                                           ng-model="team.name" ng-required="true"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Город<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(teamForm.city)">
+                                        <span class="form-error" ng-show="teamForm.city.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="teamForm.city.$error.server">{{teamForm.city.serverErrorMessage}}</span>
+                                    </div>
+                                    <ui-select ng-model="team.city" name="city" ng-required="true" theme="select2" title="Выберите город" ng-controller="SelectCtrl">
+                                        <ui-select-match allow-clear="true" placeholder="Выберите город">{{$select.selected.text}}</ui-select-match>
+                                        <ui-select-choices repeat="city in items" position="down"
+                                                           refresh="search('city', $select.search)" refresh-delay="500">
+                                            <div ng-bind-html="city.text | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row flow-offset-4">
+                            <div class="col-md-12">
+                                <label>
+                                    <span class="title">Инструктор<span>*</span></span>
+                                    <div class="field-error" ng-show="isInvalid(teamForm.chiefInstructor)">
+                                        <span class="form-error" ng-show="teamForm.chiefInstructor.$error.required">Поле не может быть пустым</span>
+                                        <span class="form-error" ng-show="teamForm.chiefInstructor.$error.server">{{teamForm.chiefInstructor.serverErrorMessage}}</span>
+                                    </div>
+                                    <ui-select ng-model="team.chiefInstructor" name="chiefInstructor" ng-required="true" theme="select2" title="Выберите инструктора" ng-controller="SelectCtrl">
+                                        <ui-select-match allow-clear="true" placeholder="Выберите инструктора">{{$select.selected.text}}</ui-select-match>
+                                        <ui-select-choices repeat="chiefInstructor in items" position="down"
+                                                           refresh="searchInstructor($select.search)" refresh-delay="500">
+                                            <div ng-bind-html="chiefInstructor.text | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mfControls btn-group text-center text-md-left">
+                            <button class="btn btn-md btn-default" ng-click="onClickButton()">Сохранить</button>
+                            <a ng-href="/#/account/team" class="btn btn-md">Список</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>

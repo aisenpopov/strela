@@ -91,5 +91,6 @@
 <script src="/resources/js/web/CouponCtrls.js"></script>
 <script src="/resources/js/web/TariffCtrls.js"></script>
 <script src="/resources/js/web/AthleteCtrls.js"></script>
+<script src="/resources/js/web/TeamCtrls.js"></script>
 
 </html>

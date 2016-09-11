@@ -3,6 +3,7 @@ package ru.strela.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.strela.model.Athlete;
@@ -21,6 +22,8 @@ import ru.strela.service.PaymentService;
 import ru.strela.service.PersonServer;
 import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
+import ru.strela.util.validate.IValidateResult;
+import ru.strela.util.validate.ValidateUtils;
 
 import java.util.List;
 
@@ -42,6 +45,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private ApplicationService applicationService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void updateFilter(BaseFilter filter) {
@@ -195,5 +201,123 @@ public class PersonServiceImpl implements PersonService {
         updateFilter(filter);
 		return athleteRepository.findAll(AthleteSpec.filter(filter), PageRequestBuilder.getSort(filter));
 	}
+
+
+    @Override
+    public Athlete saveAthlete(Athlete athlete) {
+        Person person = athlete.getPerson();
+        String newPassword = person.getPassword();
+        if (person.getId() != 0) {
+            Person existPerson = findById(person);
+
+            existPerson.setLogin(person.getLogin());
+            existPerson.setAdmin(person.isAdmin());
+            existPerson.setDisabled(person.isDisabled());
+
+            person = existPerson;
+        }
+        person.setInstructor(athlete.isInstructor());
+        if (StringUtils.isNotBlank(newPassword)) {
+            person.setPassword(passwordEncoder.encode(newPassword));
+        }
+
+        if (athlete.getId() != 0) {
+            Athlete existAthlete = findById(new Athlete(athlete.getId()));
+
+            existAthlete.setFirstName(athlete.getFirstName());
+            existAthlete.setLastName(athlete.getLastName());
+            existAthlete.setMiddleName(athlete.getMiddleName());
+            existAthlete.setNickName(athlete.getNickName());
+            existAthlete.setSex(athlete.getSex());
+            existAthlete.setBirthday(athlete.getBirthday());
+            existAthlete.setStartDate(athlete.getStartDate());
+            existAthlete.setWeight(athlete.getWeight());
+            existAthlete.setHeight(athlete.getHeight());
+            existAthlete.setGiSize(athlete.getGiSize());
+            existAthlete.setRashguardSize(athlete.getRashguardSize());
+            existAthlete.setPassportNumber(athlete.getPassportNumber());
+            existAthlete.setInstructor(athlete.isInstructor());
+            existAthlete.setRetired(athlete.isRetired());
+
+            existAthlete.setRegistrationRegion(athlete.getRegistrationRegion());
+            existAthlete.setTeam(athlete.getTeam());
+
+            existAthlete.setEmail(athlete.getEmail());
+            existAthlete.setPhoneNumber(athlete.getPhoneNumber());
+            existAthlete.setMobileNumber(athlete.getMobileNumber());
+            existAthlete.setVk(athlete.getVk());
+            existAthlete.setFacebook(athlete.getFacebook());
+            existAthlete.setInstagram(athlete.getInstagram());
+            existAthlete.setSkype(athlete.getSkype());
+            existAthlete.setComment(athlete.getComment());
+
+            athlete = existAthlete;
+        }
+
+        person = save(person);
+        athlete.setPerson(person);
+        Athlete savedAthlete = save(athlete);
+
+        return savedAthlete;
+    }
+
+    @Override
+    public boolean validateAthlete(Athlete athlete, IValidateResult validateResult) {
+        Person person = athlete.getPerson();
+        String loginCheckResult;
+        if (person == null || StringUtils.isBlank(person.getLogin())) {
+            validateResult.addError("person.login", ValidateUtils.REQUIRED_ERROR);
+        } else if ((loginCheckResult = ValidateUtils.checkLogin(person.getLogin())) != null) {
+            validateResult.addError("person.login", loginCheckResult);
+        } else {
+            Person saved = findByLogin(person);
+            if(saved != null && person.getId() != saved.getId()) {
+                validateResult.addError("person.login", "Пользователь с таким login-ом уже существует");
+            }
+        }
+        if (athlete.isInstructor() && athlete.getTeam() == null) {
+            validateResult.addError("team", "Для инструктора необходимо выбрать команду");
+        }
+        String passwordCheckResult;
+        if ((athlete.getId() == 0 || (athlete.getId() > 0 && StringUtils.isNotBlank(person.getPassword()))) && (passwordCheckResult = ValidateUtils.checkPassword(person.getPassword(), person.getLogin())) != null) {
+            validateResult.addError("person.password", passwordCheckResult);
+        }
+        if (StringUtils.isBlank(athlete.getFirstName())) {
+            validateResult.addError("firstName", ValidateUtils.REQUIRED_ERROR);
+        }
+
+        String emailCheckResult;
+        if (StringUtils.isNotBlank(athlete.getEmail()) && (emailCheckResult = ValidateUtils.checkEmail(athlete.getEmail())) != null) {
+            validateResult.addError("email", emailCheckResult);
+        }
+
+        String phoneCheckResult;
+        if (StringUtils.isNotBlank(athlete.getPhoneNumber()) && (phoneCheckResult = ValidateUtils.checkPhone(athlete.getPhoneNumber())) != null) {
+            validateResult.addError("phoneNumber", phoneCheckResult);
+        }
+
+        String mobileCheckResult;
+        if (StringUtils.isNotBlank(athlete.getMobileNumber()) && (mobileCheckResult = ValidateUtils.checkPhone(athlete.getMobileNumber())) != null) {
+            validateResult.addError("mobileNumber", mobileCheckResult);
+        }
+
+        return !validateResult.hasErrors();
+    }
+
+    @Override
+    public void initNewAthlete(Athlete athlete) {
+        if (athlete.getId() == 0) {
+            Person person = athlete.getPerson();
+            if (StringUtils.isBlank(person.getPassword())) {
+                person.setPassword(ValidateUtils.DEFAULT_PASSWORD);
+            }
+            if (StringUtils.isBlank(person.getLogin())) {
+                Person lastPerson = findLastPerson();
+                if (lastPerson != null) {
+                    person.setLogin("user" + (lastPerson.getId() + 1));
+                }
+            }
+        }
+    }
     
 }

@@ -1,6 +1,5 @@
 package ru.strela.web.controller.account;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.payment.AthleteTariff;
-import ru.strela.service.AthleteService;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
 import ru.strela.util.validate.JsonResponseValidateAdapter;
@@ -25,9 +23,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/account/athlete")
 public class AthleteController extends WebController {
-
-	@Autowired
-	private AthleteService athleteService;
 
 	@ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -143,10 +138,10 @@ public class AthleteController extends WebController {
 		JsonResponse response = new JsonResponse();
 
 		if (athlete.getId() == 0) {
-			athleteService.initNew(athlete);
+			personService.initNewAthlete(athlete);
 		}
-    	if (athleteService.validate(athlete, new JsonResponseValidateAdapter(response))) {
-			Athlete savedAthlete = athleteService.save(athlete);
+    	if (personService.validateAthlete(athlete, new JsonResponseValidateAdapter(response))) {
+			Athlete savedAthlete = personService.saveAthlete(athlete);
 			response.addData("id", savedAthlete.getId());
         }
 

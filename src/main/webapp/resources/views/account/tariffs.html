@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <h5 class="text-center">тарифы</h5>
 
-                <div onload="newLabel = 'Новый тариф'" ng-include="'/resources/views/include/listSearch.html'"></div>
+                <ng-list-search-panel data-new-label="Новый тариф" data-can-add="true">
+                </ng-list-search-panel>
 
                 <div class="table-responsive tariffs">
                     <table class="table table-bordered table-hover">

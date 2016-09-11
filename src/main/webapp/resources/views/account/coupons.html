@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <h5 class="text-center">купоны</h5>
 
-                <div onload="newLabel = 'Новый купон'" ng-include="'/resources/views/include/listSearch.html'"></div>
+                <ng-list-search-panel data-new-label="Новый купон" data-can-add="true">
+                </ng-list-search-panel>
 
                 <div class="table-responsive coupons">
                     <table class="table table-bordered table-hover">

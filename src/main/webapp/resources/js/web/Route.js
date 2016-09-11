@@ -168,6 +168,23 @@ app.config(function($routeProvider) {
                 factory: checkPerson
             }
         })
+        .when('/account/team', {
+            title: 'Команды',
+            templateUrl: '/resources/views/account/teams.html',
+            controller:  'TeamListCtrl',
+            reloadOnSearch: false,
+            resolve: {
+                factory: checkPerson
+            }
+        })
+        .when('/account/team/edit/:id?', {
+            title: 'Команда',
+            templateUrl: '/resources/views/account/editTeam.html',
+            controller:  'TeamCtrl',
+            resolve: {
+                factory: checkPerson
+            }
+        })
         .otherwise({ redirectTo: '/' });
 
 });

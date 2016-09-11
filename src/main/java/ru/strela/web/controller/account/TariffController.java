@@ -44,9 +44,7 @@ public class TariffController extends WebController {
             jsonData.put("expiration", DateUtils.formatDayMonthYear(t.getExpiration()));
         }
 
-        JsonData pageDate = data.addJsonData("page");
-        pageDate.put("number", page.getNumber());
-        pageDate.put("totalPages", page.getTotalPages());
+        fillPage(data, page);
 
         return response;
     }

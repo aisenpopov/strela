@@ -1,6 +1,5 @@
 package ru.strela.editor.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,7 +13,6 @@ import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
 import ru.strela.model.filter.payment.PaymentFilter;
 import ru.strela.model.payment.AthleteTariff;
-import ru.strela.service.AthleteService;
 import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
@@ -31,9 +29,6 @@ import java.util.Map;
 @RequestMapping("/editor/athlete")
 public class EditorAthleteController extends EditorController {
 
-	@Autowired
-	private AthleteService athleteService;
-	
     @RequestMapping(value = {"/"}, method = {RequestMethod.GET})
     public ModelAndView list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
@@ -59,10 +54,10 @@ public class EditorAthleteController extends EditorController {
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
     public ModelAndView save(Athlete athlete, BindingResult result) {
 		if (athlete.getId() == 0) {
-			athleteService.initNew(athlete);
+			personService.initNewAthlete(athlete);
 		}
-    	if (athleteService.validate(athlete, new BindingResultValidateAdapter(result))) {
-			Athlete savedAthlete = athleteService.save(athlete);
+    	if (personService.validateAthlete(athlete, new BindingResultValidateAdapter(result))) {
+			Athlete savedAthlete = personService.saveAthlete(athlete);
 
             return new Redirect("/editor/athlete/edit/" + savedAthlete.getId() + "/");
         }

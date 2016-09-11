@@ -1,6 +1,5 @@
 package ru.strela.editor.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +14,7 @@ import ru.strela.util.ModelBuilder;
 import ru.strela.util.Redirect;
 import ru.strela.util.TextUtils;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.validate.BindingResultValidateAdapter;
 
 import java.util.Map;
 
@@ -45,21 +45,12 @@ public class EditorTeamController extends EditorController {
     }
     
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
-    public ModelAndView save(Team team, BindingResult result, @PathVariable Map<String, String> pathVariables) {
-    	if(validate(result, team)) {
-            if(team.getId() != 0) {
-            	Team saved = applicationService.findById(new Team(team.getId()));
-            	
-    			saved.setName(team.getName());
-    			saved.setCity(team.getCity());
-    			saved.setChiefInstructor(team.getChiefInstructor());
+    public ModelAndView save(Team team, BindingResult result) {
+    	if(applicationService.validateTeam(team, new BindingResultValidateAdapter(result))) {
 
-        		team = saved;
-            }         
+            Team savedTeam = applicationService.saveTeam(team);
             
-            team = applicationService.save(team);          
-            
-            return new Redirect("/editor/team/edit/" + team.getId() + "/");
+            return new Redirect("/editor/team/edit/" + savedTeam.getId() + "/");
         }
 
         return new ModelAndView("editor/editTeam");
@@ -91,17 +82,4 @@ public class EditorTeamController extends EditorController {
 		return model;
     }
     
-    private boolean validate(BindingResult result, Team team) {
-    	if(StringUtils.isBlank(team.getName())) {
-    		result.rejectValue("name", "field.required", FIELD_REQUIRED);
-    	}
-    	if(team.getCity() == null) {
-    		result.rejectValue("city", "field.required", FIELD_REQUIRED);
-    	}
-    	if(team.getChiefInstructor() == null) {
-    		result.rejectValue("chiefInstructor", "field.required", FIELD_REQUIRED);
-    	}
-        
-        return !result.hasErrors();
-    }
 }

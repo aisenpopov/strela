@@ -191,12 +191,25 @@ app.controller("ListSearchCtrl", function ($scope, $location, $timeout) {
 app.controller("SelectCtrl", function ($scope, CommonService) {
 
     $scope.items = [];
+
+    $scope.searchBase = function (params) {
+        CommonService.search(params).then(function (resp) {
+            $scope.items = resp.data;
+        });
+    };
+
     $scope.search = function (type, query) {
-        CommonService.search({
+        $scope.searchBase({
             type: type,
             q: query
-        }).then(function (resp) {
-            $scope.items = resp.data;
+        });
+    };
+
+    $scope.searchInstructor = function (query) {
+        $scope.searchBase({
+            type: "athlete",
+            instructor: true,
+            q: query
         });
     };
 

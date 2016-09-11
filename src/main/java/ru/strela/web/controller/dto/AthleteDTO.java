@@ -40,12 +40,16 @@ public class AthleteDTO {
 	public AthleteDTO() {}
 
 	public AthleteDTO(Athlete athlete) {
+		this(athlete, true);
+	}
+
+	public AthleteDTO(Athlete athlete, boolean initTeam) {
 		if (athlete != null) {
 			id = athlete.getId();
 			if (athlete.getPerson() != null) {
 				person = new PersonDTO(athlete.getPerson());
 			}
-			if (athlete.getTeam() != null) {
+			if (initTeam && athlete.getTeam() != null) {
 				team = new TeamDTO(athlete.getTeam());
 			}
 			if (athlete.getRegistrationRegion() != null) {
