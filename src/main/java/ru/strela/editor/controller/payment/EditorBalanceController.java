@@ -14,9 +14,6 @@ import ru.strela.util.Redirect;
 
 import java.util.Date;
 
-/**
- * Created by Aisen on 08.07.2016.
- */
 @Controller
 @RequestMapping("/editor/balance")
 public class EditorBalanceController extends EditorController {
