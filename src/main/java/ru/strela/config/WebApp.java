@@ -4,12 +4,17 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import ru.strela.util.ajax.AjaxUpdateFilter;
 
-import javax.servlet.*;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 import java.util.EnumSet;
 
 public class WebApp implements WebApplicationInitializer {
@@ -29,7 +34,11 @@ public class WebApp implements WebApplicationInitializer {
 	    dispatcher.setLoadOnStartup(1);
 	    dispatcher.setAsyncSupported(true);
 	    dispatcher.addMapping(DISPATCHER_SERVLET_MAPPING);
-	    
+
+//		ServletRegistration.Dynamic exportServlet = servletContext.addServlet("exportServlet", new HttpRequestHandlerServlet());
+//		exportServlet.setAsyncSupported(true);
+//		exportServlet.addMapping("/export/*");
+
 	    FilterRegistration.Dynamic ajaxFilter = servletContext.addFilter("ajaxUpdateFilter", new AjaxUpdateFilter());
 	    ajaxFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 	    

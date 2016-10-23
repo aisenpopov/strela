@@ -9,17 +9,18 @@ import org.springframework.core.Ordered;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import ru.strela.mail.MailService;
-import ru.strela.mail.MailServiceImpl;
-import ru.strela.mail.SendMailHelper;
-import ru.strela.mail.SendMailHelperImpl;
+import ru.strela.export.ExportServlet;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(value={	"ru.strela.web.controller",
+@ComponentScan(value = {"ru.strela.web.controller",
 						"ru.strela.editor.controller",
 						"ru.strela.editor.api"})
 @EnableTransactionManagement
@@ -74,15 +75,10 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
         commonsMultipartResolver.setMaxUploadSize(100000000);
         return commonsMultipartResolver;
     }
-    
-    @Bean
-	public SendMailHelper sendMailHelper() {
-		return new SendMailHelperImpl();
-	}
 
-	@Bean
-	public MailService mailService() {
-		return new MailServiceImpl();
-	}
-	
+    @Bean
+    public ExportServlet exportServlet() {
+        return new ExportServlet();
+    }
+
 }

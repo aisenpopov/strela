@@ -21,10 +21,6 @@ import ru.strela.auth.AjaxLogoutSuccessHandler;
 import ru.strela.auth.AuthenticationProcessor;
 import ru.strela.service.PersonServer;
 
-/**
- * Created by Aisen on 01.07.2016.
- */
-
 @Configuration
 @EnableWebMvcSecurity
 @Order(1)

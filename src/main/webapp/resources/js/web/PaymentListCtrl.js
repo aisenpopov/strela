@@ -4,9 +4,9 @@
 
 var app = angular.module("app");
 
-app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalService) {
+app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
 
-    var size = 10;
+    var size = 15;
     $scope.list = function (page, query) {
         var search = $location.search(),
             page = page || search.page || 1,
@@ -43,6 +43,17 @@ app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalServi
                     ModalService.openMessageModal("Не удалось удалить платеж");
                 }
             });
+        });
+    };
+
+    $scope.onExport = function () {
+        var search = $location.search(),
+            query = search.query;
+
+        CommonService.export({
+            fileName: 'Платежи от 16.01.2016',
+            exporterName: 'payment',
+            query: query
         });
     };
 });

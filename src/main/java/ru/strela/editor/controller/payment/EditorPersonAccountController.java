@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Aisen on 08.07.2016.
- */
 @Controller
 @RequestMapping("/editor/person_account")
 public class EditorPersonAccountController extends EditorController {

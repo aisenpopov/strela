@@ -13,6 +13,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import ru.strela.editor.menu.EditorMenuBuilder;
+import ru.strela.export.AbstractExporter;
+import ru.strela.export.ExportersList;
+import ru.strela.export.exporter.PaymentExporter;
+import ru.strela.mail.MailService;
+import ru.strela.mail.MailServiceImpl;
+import ru.strela.mail.SendMailHelper;
+import ru.strela.mail.SendMailHelperImpl;
 import ru.strela.util.image.Converter;
 import ru.strela.util.image.ConverterImpl;
 import ru.strela.util.image.UploadImageHelper;
@@ -20,6 +27,8 @@ import ru.strela.util.image.UploadImageHelperImpl;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 @Configuration
@@ -129,6 +138,32 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Bean
     public EditorMenuBuilder editorMenuBuilder() {
         return new EditorMenuBuilder();
+    }
+
+    @Bean
+    public SendMailHelper sendMailHelper() {
+        return new SendMailHelperImpl();
+    }
+
+    @Bean
+    public MailService mailService() {
+        return new MailServiceImpl();
+    }
+
+    @Bean
+    public ExportersList exportersList() {
+        ExportersList exportersList = new ExportersList();
+        Map<String, AbstractExporter> exporters = new HashMap<String, AbstractExporter>();
+        exportersList.setExporters(exporters);
+
+        exporters.put("payment", paymentExporter());
+
+        return exportersList;
+    }
+
+    @Bean
+    public PaymentExporter paymentExporter() {
+        return new PaymentExporter();
     }
     
 }

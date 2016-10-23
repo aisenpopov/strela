@@ -66,6 +66,14 @@ app.factory('CommonService', function ($http, $location, $q, $rootScope) {
         });
     };
 
+    service.export = function (options) {
+        var filter = $.extend({
+            fileExtension: 'xlsx'
+        }, options);
+
+        location.replace(encodeURI('/export/' + filter.exporterName + '?') + $.param(filter));
+    };
+
     return service;
 });
 

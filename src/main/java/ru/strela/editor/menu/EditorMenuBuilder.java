@@ -1,8 +1,5 @@
 package ru.strela.editor.menu;
 
-/**
- * Created by Aisen on 22.05.2016.
- */
 public class EditorMenuBuilder {
 
     public EditorMenuBar build(boolean isAdmin) {

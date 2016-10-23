@@ -22,9 +22,6 @@ import ru.strela.web.controller.core.WebController;
 
 import java.util.List;
 
-/**
- * Created by Aisen on 27.04.2016.
- */
 @Controller
 @RequestMapping(value = {"/gym"})
 public class GymController extends WebController {

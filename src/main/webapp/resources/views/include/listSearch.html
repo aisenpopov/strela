@@ -9,8 +9,11 @@
                     <abbr ng-show="query" ng-click="onClickClearQuery()"/>
                 </label>
             </div>
-            <div class="col-md-4" ng-if="canAdd">
-                <button class="btn btn-md btn-default" ng-click="onClickNew()">{{newLabel}}</button>
+            <div class="col-md-2" ng-if="canAdd">
+                <button class="btn btn-md btn-default width-100-percent" ng-click="onClickNew()">{{newLabel}}</button>
+            </div>
+            <div class="col-md-2" ng-if="canExport">
+                <button class="btn btn-md btn-default width-100-percent" ng-click="onExport()">Выгрузить</button>
             </div>
         </div>
     </fieldset>

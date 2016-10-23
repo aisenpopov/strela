@@ -28,8 +28,9 @@ app.directive('ngListSearchPanel', function() {
         restrict: 'E',
         scope: true,
         link: function(scope, element, attrs) {
-            scope.newLabel = attrs.newLabel;
-            scope.canAdd = attrs.canAdd === "true";
+            scope.newLabel = attrs.newLabel ? attrs.newLabel : 'Добавить';
+            scope.canAdd = attrs.canAdd === 'true';
+            scope.canExport = attrs.canExport === 'true';
         }
     }
 });
