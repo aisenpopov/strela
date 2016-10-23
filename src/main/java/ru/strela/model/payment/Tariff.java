@@ -6,9 +6,6 @@ import ru.strela.model.Gym;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by Aisen on 28.04.2016.
- */
 @Entity
 @Table(name = "tariff", indexes = {
         @Index(name = "tariff_gym", columnList="gym_id")
