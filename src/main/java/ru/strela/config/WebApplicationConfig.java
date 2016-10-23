@@ -16,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import ru.strela.export.ExportServlet;
 
 @Configuration
 @EnableWebMvc
@@ -74,11 +73,6 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setMaxUploadSize(100000000);
         return commonsMultipartResolver;
-    }
-
-    @Bean
-    public ExportServlet exportServlet() {
-        return new ExportServlet();
     }
 
 }

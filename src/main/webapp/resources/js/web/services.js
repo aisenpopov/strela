@@ -71,7 +71,7 @@ app.factory('CommonService', function ($http, $location, $q, $rootScope) {
             fileExtension: 'xlsx'
         }, options);
 
-        location.replace(encodeURI('/export/' + filter.exporterName + '?') + $.param(filter));
+        location.replace(encodeURI('/account/export/' + filter.exporterName + '?') + $.param(filter));
     };
 
     return service;

@@ -4,7 +4,7 @@
 
 var app = angular.module("app");
 
-app.controller("AthleteListCtrl", function ($scope, $http, $location, ModalService) {
+app.controller("AthleteListCtrl", function ($scope, $http, $location, ModalService, CommonService) {
 
     var size = 15;
     $scope.list = function (page, query) {
@@ -43,6 +43,17 @@ app.controller("AthleteListCtrl", function ($scope, $http, $location, ModalServi
                     ModalService.openMessageModal(data.errorMessage);
                 }
             });
+        });
+    };
+
+    $scope.onExport = function () {
+        var search = $location.search(),
+            query = search.query;
+
+        CommonService.export({
+            fileName: 'Атлеты от ' + $scope.formatDateDDMMYYYY(new Date()),
+            exporterName: 'athlete',
+            query: query
         });
     };
 

@@ -1,6 +1,6 @@
 package ru.strela.export.filter;
 
-public class AbstractExportFilter {
+public class BaseExportFilter {
 
     private String fileName;
     private String exporterName;

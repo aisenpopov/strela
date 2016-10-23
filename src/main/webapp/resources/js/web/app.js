@@ -84,6 +84,14 @@ app.controller("CommonCtrl", function ($scope, $timeout, $location, $http, Commo
 
     $scope.currentYear = (new Date).getFullYear();
 
+    $scope.formatDateDDMMYYYY = function (date) {
+        if (date && date instanceof Date) {
+            return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+        }
+        
+        return '';
+    };
+
 });
 
 app.controller("HeaderCtrl", function ($scope, CommonService, $q, $timeout, $rootScope) {

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import ru.strela.editor.menu.EditorMenuBuilder;
 import ru.strela.export.AbstractExporter;
 import ru.strela.export.ExportersList;
+import ru.strela.export.exporter.AthleteExporter;
 import ru.strela.export.exporter.PaymentExporter;
 import ru.strela.mail.MailService;
 import ru.strela.mail.MailServiceImpl;
@@ -157,6 +158,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         exportersList.setExporters(exporters);
 
         exporters.put("payment", paymentExporter());
+        exporters.put("athlete", athleteExporter());
 
         return exportersList;
     }
@@ -164,6 +166,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Bean
     public PaymentExporter paymentExporter() {
         return new PaymentExporter();
+    }
+
+    @Bean
+    public AthleteExporter athleteExporter() {
+        return new AthleteExporter();
     }
     
 }

@@ -8,10 +8,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import ru.strela.export.AbstractExporter;
-import ru.strela.export.IExportDataAdapter;
 import ru.strela.export.StylesFactory;
 import ru.strela.export.XLSBuilder;
-import ru.strela.export.filter.AbstractExportFilter;
+import ru.strela.export.filter.BaseExportFilter;
 import ru.strela.model.Athlete;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
@@ -21,7 +20,6 @@ import ru.strela.model.payment.Payment;
 import ru.strela.service.PaymentService;
 import ru.strela.util.DateUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class PaymentExporter extends AbstractExporter {
@@ -30,7 +28,7 @@ public class PaymentExporter extends AbstractExporter {
     private PaymentService paymentService;
 
     @Override
-    protected void fillDocument(AbstractExportFilter filter, Workbook workbook) {
+    protected void fillDocument(BaseExportFilter filter, Workbook workbook) {
         Sheet sheet = workbook.getSheetAt(0);
         Map<String, CellStyle> styles = StylesFactory.createStyles(workbook);
 
@@ -65,6 +63,7 @@ public class PaymentExporter extends AbstractExporter {
         PaymentFilter paymentFilter = new PaymentFilter();
         paymentFilter.setQuery(filter.getQuery());
         paymentFilter.addOrder(new Order("id", OrderDirection.Desc));
+
         builder.setStyle("cell");
         Cell cell;
         int currentRow = 3;
@@ -92,21 +91,5 @@ public class PaymentExporter extends AbstractExporter {
                 currentRow++;
             }
         } while (page.hasNext());
-
     }
-
-    @Override
-    protected IExportDataAdapter getExportDataAdapter(HttpServletRequest request) {
-        return null;
-    }
-
-    @Override
-    protected String fillModel(IExportDataAdapter dataAdapter, Map<String, Object> model) {
-        return "payment";
-    }
-
-    @Override
-    protected void fillTemplate(Map<String, Object> model, Workbook workbook) {
-    }
-
 }

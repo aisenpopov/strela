@@ -51,7 +51,7 @@ app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalServi
             query = search.query;
 
         CommonService.export({
-            fileName: 'Платежи от 16.01.2016',
+            fileName: 'Платежи от ' + $scope.formatDateDDMMYYYY(new Date()),
             exporterName: 'payment',
             query: query
         });

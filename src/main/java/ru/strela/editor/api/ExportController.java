@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.strela.export.AbstractExporter;
 import ru.strela.export.ExportersList;
-import ru.strela.export.filter.AbstractExportFilter;
-import ru.strela.export.filter.PaymentExportFilter;
+import ru.strela.export.filter.BaseExportFilter;
 import ru.strela.model.auth.Person;
 import ru.strela.service.PersonServer;
 
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 @Controller
-@RequestMapping("/export")
+@RequestMapping("/account/export")
 public class ExportController {
 
     @Autowired
@@ -27,11 +26,16 @@ public class ExportController {
     private ExportersList exportersList;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public void exportPayment(HttpServletResponse response, PaymentExportFilter filter) throws IOException {
+    public void exportPayment(HttpServletResponse response, BaseExportFilter filter) throws IOException {
         export(response, filter);
     }
 
-    private void export(HttpServletResponse response, AbstractExportFilter filter) throws IOException {
+    @RequestMapping(value = "/athlete", method = RequestMethod.GET)
+    public void exportAthlete(HttpServletResponse response, BaseExportFilter filter) throws IOException {
+        export(response, filter);
+    }
+
+    private void export(HttpServletResponse response, BaseExportFilter filter) throws IOException {
         Person currentPerson = personServer.getCurrentPerson();
 
         if (currentPerson != null) {
