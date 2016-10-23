@@ -6,11 +6,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.strela.config.ProjectConfiguration;
-import ru.strela.model.*;
-import ru.strela.model.filter.*;
-import ru.strela.repository.*;
-import ru.strela.repository.spec.*;
+import ru.strela.model.Article;
+import ru.strela.model.ArticleImage;
+import ru.strela.model.ArticleVideo;
+import ru.strela.model.BannerImage;
+import ru.strela.model.City;
+import ru.strela.model.Country;
+import ru.strela.model.Gym;
+import ru.strela.model.RegistrationRegion;
+import ru.strela.model.Settings;
+import ru.strela.model.Team;
+import ru.strela.model.filter.ArticleFilter;
+import ru.strela.model.filter.BannerImageFilter;
+import ru.strela.model.filter.BaseFilter;
+import ru.strela.model.filter.CityFilter;
+import ru.strela.model.filter.CountryFilter;
+import ru.strela.model.filter.GymFilter;
+import ru.strela.model.filter.Order;
+import ru.strela.model.filter.OrderDirection;
+import ru.strela.model.filter.TeamFilter;
+import ru.strela.repository.ArticleImageRepository;
+import ru.strela.repository.ArticleRepository;
+import ru.strela.repository.ArticleVideoRepository;
+import ru.strela.repository.BannerImageRepository;
+import ru.strela.repository.CityRepository;
+import ru.strela.repository.CountryRepository;
+import ru.strela.repository.GymRepository;
+import ru.strela.repository.RegistrationRegionRepository;
+import ru.strela.repository.SettingsRepository;
+import ru.strela.repository.TeamRepository;
+import ru.strela.repository.spec.ArticleSpec;
+import ru.strela.repository.spec.BannerImageSpec;
+import ru.strela.repository.spec.CitySpec;
+import ru.strela.repository.spec.CountrySpec;
+import ru.strela.repository.spec.GymSpec;
+import ru.strela.repository.spec.RegistrationRegionSpec;
+import ru.strela.repository.spec.TeamSpec;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PersonService;
 import ru.strela.util.PageRequestBuilder;
@@ -58,18 +89,11 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 	@Autowired
 	private GymRepository gymRepository;
 
-//	@Autowired
-//	private GalleryImageRepository galleryImageRepository;
-//	
 	@Autowired
 	private BannerImageRepository bannerImageRepository;
 
-
 	@Autowired
 	private UploadImageHelper uploadImageHelper;
-
-	@Autowired
-	private ProjectConfiguration projectConfiguration;
 
 	@Override
     public Article save(Article article) {
@@ -78,7 +102,9 @@ public class ApplicationServiceImpl implements ApplicationService, InitializingB
 
     @Override
     public void remove(Article article) {
-    	for(ArticleImage articleImage : getArticleImages(article)) {
+		// Достаем из базы, т.к у аргумента заполнен только id.
+		article = findById(article);
+    	for (ArticleImage articleImage : getArticleImages(article)) {
     		remove(articleImage);
     	}
 
