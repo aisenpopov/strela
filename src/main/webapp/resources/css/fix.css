@@ -19,6 +19,10 @@
 }
 .article-image img {
     width: auto;
+    border-radius: 10px;
+}
+.terms-list {
+    color: #333;
 }
 
 .advert-header {
