@@ -1,4 +1,10 @@
 
+.header-logo-text {
+    width: 80%;
+    vertical-align: middle;
+    margin-top: -8px;
+}
+
 .finished-icon {
     color: green;
 }
