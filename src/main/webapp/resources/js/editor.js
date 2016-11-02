@@ -15,23 +15,23 @@
     	$('.wysiwyg').each(function() {
 			var self = $(this);
 			self.summernote({
-				height: 300, 
+				height: 500,
+				lang: 'ru-RU',
 				toolbar: [
-				            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-				            ['ul', ['ul', 'paragraph']],
-				            ['color', ['color']],
-				            ['height', ['height']],
-				            ['misc', ['fullscreen', 'codeview']],
-				            ['insert', ['link']]
-				         ],
-				onPaste: function(e) {
-					console.log(e);
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['ul', ['paragraph']],
+					['misc', ['fullscreen', 'codeview']],
+					['insert', ['link']]
+				 ],
+				callbacks: {
+					onPaste: function(e) {
+						var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+						e.preventDefault();
+						setTimeout(function() {
+							document.execCommand( 'insertText', false, bufferText);
+						}, 10);
+					}
 				}
-			});
-			self.code(self.val());
-			
-			self.everyTime(300, "wysiwyg", function() {
-				self.val(self.code());
 			});
 		});
 		

@@ -16,6 +16,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/resources/css/libs/font-awesome.min.css"/>
 	    <link rel="stylesheet" type="text/css" media="screen" href="/resources/css/libs/smartadmin-production.min.css"/>
 		<link rel="stylesheet" type="text/css" media="screen" href="/resources/css/libs/smartadmin-skins.min.css"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="/resources/css/libs/summernote.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="/resources/css/editor.css"/>
 	    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700"/>
 	
@@ -34,7 +35,8 @@
 		<script src="/resources/js/libs/smartwidgets/jarvis.widget.min.js"></script>
 		<script src="/resources/js/libs/plugin/select2/select2.min.js"></script>
 		<script src="/resources/js/libs/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
-		<script src="/resources/js/libs/plugin/summernote/summernote.min.js"></script>
+		<script src="/resources/js/libs/summernote/summernote.min.js"></script>
+		<script src="/resources/js/libs/summernote/summernote-ru-RU.js"></script>
 		<script src="/resources/js/libs/plugin/superbox/superbox.min.js"></script>
 		<script src="/resources/js/libs/plugin/bootstrap-timepicker.min.js"></script>
 		<script src="/resources/js/app.config.js"></script>
