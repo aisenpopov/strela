@@ -105,13 +105,13 @@ public class EditorMenuBuilder {
             }
         }
 
-        if (isAdmin) {
-            MenuItem news = new MenuItem();
-            news.setCaption("Новости");
-            news.setIcon("fa-newspaper-o");
-            news.setHref("article/news");
-            menuBar.addItem(news);
+        MenuItem news = new MenuItem();
+        news.setCaption("Новости");
+        news.setIcon("fa-newspaper-o");
+        news.setHref("article/news");
+        menuBar.addItem(news);
 
+        if (isAdmin) {
             MenuItem staticPages = new MenuItem();
             staticPages.setCaption("Статические страницы");
             staticPages.setIcon("fa-file-text");

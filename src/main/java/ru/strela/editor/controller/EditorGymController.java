@@ -56,6 +56,7 @@ public class EditorGymController extends EditorController {
             article.setName(gym.getName());
             if (article.getId() != 0) {
                 Article existArticle = applicationService.findById(new Article(article.getId()));
+                existArticle.setVisible(article.isVisible());
                 existArticle.setText(article.getText());
                 existArticle.setMetaDescription(article.getMetaDescription());
                 existArticle.setMetaKeywords(article.getMetaKeywords());

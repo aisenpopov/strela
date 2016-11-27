@@ -44,6 +44,9 @@
                         <li ng-show="person" ng-class="{'active': location.path().indexOf('account') > 0}">
                             <a ng-href="/#/account" ng-click="hideMenu()">Личный кабинет</a>
                             <ul class="rd-navbar-dropdown">
+                                <li ng-show="person.admin">
+                                    <a href="/editor/" ng-click="hideMenu()">Администрирование</a>
+                                </li>
                                 <li ng-show="person.admin || person.instructor">
                                     <a>Оплата</a>
                                     <ul class="rd-navbar-dropdown">
@@ -80,6 +83,9 @@
                                             <a href="/editor/gym/">Залы</a>
                                         </li>
                                     </ul>
+                                </li>
+                                <li ng-show="person.admin || person.instructor">
+                                    <a href="/editor/article/news/" ng-click="hideMenu()">Новости</a>
                                 </li>
                                 <li>
                                     <a class="logout" ng-click="logout(); hideMenu()">Выйти</a>

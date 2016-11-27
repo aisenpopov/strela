@@ -33,7 +33,22 @@
                                     <form:hidden path="latitude"/>
 
                                     <fieldset>
-                                    	<te:baseEntityNamed isHideable="false"/>
+                                        <section>
+                                            <label class="label">Название <span>*</span></label>
+                                            <label class="input">
+                                                <form:input type="text" path="name" class="form-control"/>
+                                                <form:errors class="help-block error" path="name"/>
+                                            </label>
+                                        </section>
+
+                                        <section>
+                                            <label class="checkbox">
+                                                <form:checkbox path="article.visible"/>
+                                                <i></i>
+                                                Отображать на сайте
+                                            </label>
+                                        </section>
+
                                         <section>
                                             <label class="label">Адрес <span>*</span></label>
                                             <label class="input">

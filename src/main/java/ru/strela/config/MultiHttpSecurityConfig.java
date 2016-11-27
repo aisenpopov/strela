@@ -99,7 +99,7 @@ public class MultiHttpSecurityConfig {
                     .antMatchers("/editor/registration_region/**").hasRole("ADMIN")
                     .antMatchers("/editor/country/**").hasRole("ADMIN")
                     .antMatchers("/editor/city/**").hasRole("ADMIN")
-                    .antMatchers("/editor/article/news/**").hasRole("ADMIN")
+                    .antMatchers("/editor/article/news/**").hasAnyRole("ADMIN", "INSTRUCTOR")
                     .antMatchers("/editor/article/static_page/**").hasRole("ADMIN")
                     .antMatchers("/editor/settings/**").hasRole("ADMIN")
                     .antMatchers("/editor/person_account/**").hasRole("ADMIN")

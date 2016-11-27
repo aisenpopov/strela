@@ -66,6 +66,7 @@ public class GymController extends WebController {
         }
 
         GymFilter gymFilter = new GymFilter();
+        gymFilter.setVisible(true);
         gymFilter.setCity(city);
         gymFilter.addOrder(new Order("id", OrderDirection.Asc));
         List<Gym> gyms = applicationService.findGyms(gymFilter, false);

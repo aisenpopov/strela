@@ -49,6 +49,7 @@
 													<th>Город</th>
 													<th>Адрес</th>
 													<th>Инструкторы</th>
+													<th>Показывать</th>
 													<th><i class="glyphicon glyphicon-cog"></i></th>
 												</tr>
 											</thead>
@@ -68,6 +69,7 @@
 																</c:forEach>
 															</a>
 														</td>
+														<td><a href="/editor/${activeMenu.href}/edit/${item.id}/">${item.article.visible ? "Да" : "Нет"}</a></td>
 
 												        <td>
 												        	<a href="/editor/${activeMenu.href}/remove/${item.id}/" class="sys-remove">

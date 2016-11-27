@@ -20,7 +20,11 @@ public class GymSpec {
 			public Predicate toPredicate(Root<Gym> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 List<Predicate> predicates = new ArrayList<Predicate>();
               	query.distinct(true);
-              	
+
+                if (filter.getVisible() != null) {
+                    predicates.add(builder.equal(root.get("article").get("visible"), filter.getVisible()));
+                }
+
                 if (StringUtils.isNotBlank(filter.getQuery())) {
                     predicates.add(builder.like(builder.lower(root.get("name").as(String.class)),
                             "%" + filter.getQuery().toLowerCase() + "%"));

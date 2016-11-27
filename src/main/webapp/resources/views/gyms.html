@@ -24,7 +24,7 @@
             <div class="col-md-8 relative">
                 <h2 class="offset-6">{{selectedCity.name || 'Залы'}}</h2>
 
-                <article ng-repeat-start="gym in gyms" class="gym ngAnimation">
+                <article ng-repeat-start="gym in gyms" class="offset-2 gym ngAnimation">
                     <a ng-href="/#/gym/{{gym.id}}">
                         <img class="sm-max-width" ng-src="{{gym.image}}" alt="">
                     </a>
