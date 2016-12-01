@@ -58,7 +58,7 @@
 <script src="/resources/js/script.js"></script>
 
 <!-- Libs -->
-<script src="/resources/js/libs/yandex-map-2.1.min.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
 <script src="/resources/js/libs/jquery-ui-1.10.3.min.js"></script>
 <script src="/resources/js/libs/owl.carousel.min.js"></script>
 <script src="/resources/js/libs/jquery.loading-indicator.min.js"></script>
