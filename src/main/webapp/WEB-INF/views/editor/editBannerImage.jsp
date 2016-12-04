@@ -49,7 +49,7 @@
                                         </section>
                                        	<c:if test="${bannerImage.type == 'advert'}">
 	                                       	<section>
-												<label class="label">Ссылка</label>
+												<label class="label">Абсолютная ссылка</label>
 	                                            <label class="input">
 	                                                <form:input class="form-control" type="text" path="link"/>
 	                                            </label>

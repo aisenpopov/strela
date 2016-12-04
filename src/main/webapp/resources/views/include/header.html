@@ -123,7 +123,7 @@
                  data-nav-speed="500">
                 <div class="owl-item" ng-repeat="banner in bannerList">
                     <!--News Post-->
-                    <a ng-if="banner.type == 'advert'" ng-href="/#/static/{{banner.link}}">
+                    <a ng-if="banner.type == 'advert'" ng-href="{{banner.link}}">
                         <article class="news-post text-center">
                             <img height="596" width="1170" ng-src="{{banner.image}}" alt="">
                             <h4 class="advert-header">{{banner.name}}</h4>

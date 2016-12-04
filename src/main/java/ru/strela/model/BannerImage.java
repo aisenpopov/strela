@@ -38,8 +38,7 @@ public class BannerImage extends BaseEntitySortable implements HasImage {
     private Integer image;
 	private boolean visible;
 
-    public BannerImage() {
-    }
+    public BannerImage() {}
 
     public BannerImage(int id) {
        this.id = id;
