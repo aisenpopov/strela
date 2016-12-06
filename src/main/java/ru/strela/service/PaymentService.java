@@ -4,8 +4,20 @@ import org.springframework.data.domain.Page;
 import ru.strela.model.Athlete;
 import ru.strela.model.Gym;
 import ru.strela.model.auth.Person;
-import ru.strela.model.filter.payment.*;
-import ru.strela.model.payment.*;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.filter.payment.CouponFilter;
+import ru.strela.model.filter.payment.PaymentFilter;
+import ru.strela.model.filter.payment.PaymentStatusFilter;
+import ru.strela.model.filter.payment.PersonAccountFilter;
+import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.filter.payment.TransactionFilter;
+import ru.strela.model.payment.AthleteTariff;
+import ru.strela.model.payment.Coupon;
+import ru.strela.model.payment.Payment;
+import ru.strela.model.payment.PaymentStatus;
+import ru.strela.model.payment.PersonAccount;
+import ru.strela.model.payment.Tariff;
+import ru.strela.model.payment.Transaction;
 import ru.strela.util.validate.IValidateResult;
 
 import java.util.List;
@@ -92,7 +104,7 @@ public interface PaymentService {
 
     Page<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, int pageNumber, int pageSize);
 
-    List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter);
+    List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, boolean checkPermissions);
 
 
     boolean validate(Payment payment, IValidateResult validateResult);

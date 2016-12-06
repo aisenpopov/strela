@@ -7,10 +7,6 @@ import ru.strela.model.Gym;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by Aisen on 28.04.2016.
- */
-
 @Entity
 @Table(name = "payment_status", indexes = {
         @Index(name = "payment_status_athlete", columnList="athlete_id"),
@@ -23,8 +19,7 @@ public class PaymentStatus extends BaseEntity {
     private Gym gym;
     private Date payedTill;
 
-    public PaymentStatus() {
-    }
+    public PaymentStatus() {}
 
     public PaymentStatus(int id) {
         this.id = id;

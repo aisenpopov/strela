@@ -58,6 +58,14 @@ app.config(function($routeProvider) {
                 factory: checkPerson
             }
         })
+        .when('/account/info', {
+            title: 'Личный кабинет',
+            templateUrl: '/resources/views/account/info.html',
+            controller:  'InfoCtrl',
+            resolve: {
+                factory: checkPerson
+            }
+        })
         .when('/account/balance', {
             title: 'Баланс',
             templateUrl: '/resources/views/account/balance.html',

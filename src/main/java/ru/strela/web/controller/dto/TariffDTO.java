@@ -2,9 +2,8 @@ package ru.strela.web.controller.dto;
 
 import ru.strela.model.payment.Tariff;
 
-public class TariffDTO {
+public class TariffDTO extends BaseDTO {
 
-    private int id;
     private String name;
     private GymDTO gym;
 
@@ -15,6 +14,11 @@ public class TariffDTO {
     private Double priceYear;
 
     public TariffDTO() {}
+
+    public TariffDTO(int id, String name) {
+        super(id);
+        this.name = name;
+    }
 
     public TariffDTO(Tariff tariff) {
         if (tariff != null) {
@@ -38,15 +42,6 @@ public class TariffDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public GymDTO getGym() {

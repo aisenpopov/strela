@@ -2,14 +2,17 @@ package ru.strela.web.controller.dto;
 
 import ru.strela.model.payment.AthleteTariff;
 
-public class AthleteTariffDTO {
+public class AthleteTariffDTO extends BaseDTO {
 
-    private int id;
     private AthleteDTO athlete;
     private TariffDTO tariff;
     private CouponDTO coupon;
 
     public AthleteTariffDTO() {}
+
+    public AthleteTariffDTO(int id) {
+        super(id);
+    }
 
     public AthleteTariffDTO(AthleteTariff athleteTariff) {
         if (athleteTariff != null) {
@@ -24,14 +27,6 @@ public class AthleteTariffDTO {
                 coupon = new CouponDTO(athleteTariff.getCoupon());
             }
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public AthleteDTO getAthlete() {

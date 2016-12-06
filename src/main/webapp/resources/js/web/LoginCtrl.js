@@ -24,7 +24,7 @@ app.controller("LoginCtrl", function ($scope, CommonService, $location) {
         }, headers).then(function (resp) {
             if (resp.data === "success") {
                 CommonService.updatePerson(true);
-                $location.path("account");
+                $location.path("account/info");
             } else {
                 $scope.showFieldErrorMessage($scope.loginForm.username, "Неправильный login или пароль");
             }

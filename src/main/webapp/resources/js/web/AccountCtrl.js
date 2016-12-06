@@ -10,7 +10,6 @@ app.controller("AccountCtrl", function ($scope, $timeout, ModalService, CommonSe
     $scope.hasAthlete = false;
     $scope.athleteTariffs = [];
     $scope.changePassword = null;
-    CommonService.loader(true);
     CommonService.post("/account/getCurrentAthlete").then(function (resp) {
         var data = resp.data.data;
         if (data.athlete) {
@@ -23,7 +22,6 @@ app.controller("AccountCtrl", function ($scope, $timeout, ModalService, CommonSe
         if (data.changePassword) {
             $scope.changePassword = data.changePassword;
         }
-        CommonService.loader(false);
     });
 
     $scope.saveAthlete = function () {

@@ -8,10 +8,34 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.strela.model.Athlete;
 import ru.strela.model.Gym;
 import ru.strela.model.auth.Person;
-import ru.strela.model.filter.payment.*;
-import ru.strela.model.payment.*;
-import ru.strela.repository.payment.*;
-import ru.strela.repository.spec.payment.*;
+import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.filter.payment.CouponFilter;
+import ru.strela.model.filter.payment.PaymentFilter;
+import ru.strela.model.filter.payment.PaymentStatusFilter;
+import ru.strela.model.filter.payment.PersonAccountFilter;
+import ru.strela.model.filter.payment.TariffFilter;
+import ru.strela.model.filter.payment.TransactionFilter;
+import ru.strela.model.payment.AthleteTariff;
+import ru.strela.model.payment.Coupon;
+import ru.strela.model.payment.Payment;
+import ru.strela.model.payment.PaymentStatus;
+import ru.strela.model.payment.PersonAccount;
+import ru.strela.model.payment.Tariff;
+import ru.strela.model.payment.Transaction;
+import ru.strela.repository.payment.AthleteTariffRepository;
+import ru.strela.repository.payment.CouponRepository;
+import ru.strela.repository.payment.PaymentRepository;
+import ru.strela.repository.payment.PaymentStatusRepository;
+import ru.strela.repository.payment.PersonAccountRepository;
+import ru.strela.repository.payment.TariffRepository;
+import ru.strela.repository.payment.TransactionRepository;
+import ru.strela.repository.spec.payment.AthleteTariffSpec;
+import ru.strela.repository.spec.payment.CouponSpec;
+import ru.strela.repository.spec.payment.PaymentSpec;
+import ru.strela.repository.spec.payment.PaymentStatusSpec;
+import ru.strela.repository.spec.payment.PersonAccountSpec;
+import ru.strela.repository.spec.payment.TariffSpec;
+import ru.strela.repository.spec.payment.TransactionSpec;
 import ru.strela.service.ApplicationService;
 import ru.strela.service.PaymentService;
 import ru.strela.service.PersonService;
@@ -470,8 +494,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter) {
-        personService.updateFilter(filter);
+    public List<PaymentStatus> findPaymentStatuses(PaymentStatusFilter filter, boolean checkPermissions) {
+        if (checkPermissions) {
+            personService.updateFilter(filter);
+        }
+
         return paymentStatusRepository.findAll(PaymentStatusSpec.filter(filter), PageRequestBuilder.getSort(filter));
     }
 

@@ -8,17 +8,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.strela.model.Athlete;
+import ru.strela.model.Gym;
 import ru.strela.model.auth.Person;
 import ru.strela.model.filter.Order;
 import ru.strela.model.filter.OrderDirection;
 import ru.strela.model.filter.payment.AthleteTariffFilter;
+import ru.strela.model.filter.payment.PaymentStatusFilter;
 import ru.strela.model.payment.AthleteTariff;
-import ru.strela.util.validate.ValidateUtils;
+import ru.strela.model.payment.Coupon;
+import ru.strela.model.payment.PaymentStatus;
+import ru.strela.model.payment.Tariff;
+import ru.strela.util.DateUtils;
 import ru.strela.util.ajax.JsonData;
 import ru.strela.util.ajax.JsonResponse;
+import ru.strela.util.validate.ValidateUtils;
 import ru.strela.web.controller.core.WebController;
 import ru.strela.web.controller.dto.AthleteDTO;
+import ru.strela.web.controller.dto.AthleteTariffDTO;
+import ru.strela.web.controller.dto.CouponDTO;
+import ru.strela.web.controller.dto.GymDTO;
+import ru.strela.web.controller.dto.PaymentStatusDTO;
 import ru.strela.web.controller.dto.PersonDTO;
+import ru.strela.web.controller.dto.TariffDTO;
 
 import java.util.List;
 
@@ -95,6 +106,53 @@ public class AccountController extends WebController {
                     at.put("id", athleteTariff.getId());
                     at.put("tariffName", athleteTariff.getTariff() != null ? athleteTariff.getTariff().getName() : "");
                     at.put("couponName", athleteTariff.getCoupon() != null ? athleteTariff.getCoupon().getName() : "");
+                }
+            }
+        }
+
+        return response;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/account/getCurrentAthleteInfo", method = RequestMethod.POST)
+    public JsonResponse getCurrentAthleteInfo() {
+        JsonResponse response = new JsonResponse();
+        JsonData data = response.createJsonData();
+
+        Person person = personServer.getCurrentPerson();
+        if (person != null) {
+            Athlete athlete = personService.findByPerson(person);
+            if (athlete != null) {
+                data.put("athlete", new AthleteDTO(athlete));
+
+                PaymentStatusFilter paymentStatusFilter = new PaymentStatusFilter();
+                paymentStatusFilter.setAthlete(athlete);
+                for (PaymentStatus paymentStatus : paymentService.findPaymentStatuses(paymentStatusFilter, false)) {
+                    PaymentStatusDTO paymentStatusDTO = new PaymentStatusDTO(paymentStatus.getId());
+                    paymentStatusDTO.setPayedTill(DateUtils.formatDDMMYYYY(paymentStatus.getPayedTill()));
+                    Gym gym = paymentStatus.getGym();
+                    if (gym != null) {
+                        paymentStatusDTO.setGym(new GymDTO(gym.getId(), gym.getName()));
+                    }
+                    data.addCollectionItem("paymentStatuses", paymentStatusDTO);
+                }
+
+                AthleteTariffFilter filter = new AthleteTariffFilter();
+                filter.setAthlete(athlete);
+                filter.addOrder(new Order("id", OrderDirection.Asc));
+                for (AthleteTariff athleteTariff : paymentService.findAthleteTariffs(filter, false)) {
+                    AthleteTariffDTO athleteTariffDTO = new AthleteTariffDTO(athleteTariff.getId());
+
+                    Tariff tariff = athleteTariff.getTariff();
+                    if (tariff != null) {
+                        athleteTariffDTO.setTariff(new TariffDTO(tariff.getId(), tariff.getName()));
+                    }
+
+                    Coupon coupon = athleteTariff.getCoupon();
+                    if (coupon != null) {
+                        athleteTariffDTO.setCoupon(new CouponDTO(coupon.getId(), coupon.getName()));
+                    }
+                    data.addCollectionItem("athleteTariffs", athleteTariffDTO);
                 }
             }
         }

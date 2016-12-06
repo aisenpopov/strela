@@ -2,9 +2,8 @@ package ru.strela.web.controller.dto;
 
 import ru.strela.model.Gym;
 
-public class GymDTO {
+public class GymDTO extends BaseDTO {
 
-    private int id;
     private String name;
 
     public GymDTO() {}
@@ -16,12 +15,9 @@ public class GymDTO {
         }
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public GymDTO(int id, String name) {
+        super(id);
+        this.name = name;
     }
 
     public String getName() {

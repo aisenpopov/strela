@@ -11,38 +11,38 @@
                 <div class="table-responsive athletes">
                     <table class="table table-bordered table-hover">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ФИО</th>
-                            <th>Пользов.</th>
-                            <th>Инстр.</th>
-                            <th>Админ</th>
-                            <th>Заблок.</th>
-                            <th>Команда</th>
-                            <th>Регион регистрации</th>
-                            <th><i class="glyphicon glyphicon-cog"></i></th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>ФИО</th>
+                                <th>Пользов.</th>
+                                <th>Инстр.</th>
+                                <th>Админ</th>
+                                <th>Заблок.</th>
+                                <th>Команда</th>
+                                <th>Регион регистрации</th>
+                                <th><i class="glyphicon glyphicon-cog"></i></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="athlete in athletes" ng-click="onClick(athlete.id)" class="ngAnimation">
-                            <td>{{athlete.id}}</td>
-                            <td>{{athlete.displayName}}</td>
-                            <td>{{athlete.person}}</td>
-                            <td>
-                                <i ng-class="athlete.instructor ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
-                            </td>
-                            <td>
-                                <i ng-class="athlete.admin ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
-                            </td>
-                            <td>
-                                <i ng-class="athlete.disabled ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
-                            </td>
-                            <td>{{athlete.team}}</td>
-                            <td>{{athlete.registrationRegion}}</td>
-                            <td>
-                                <i class="glyphicon glyphicon-remove" ng-click="onClickRemove(athlete.id, $event)"></i>
-                            </td>
-                        </tr>
+                            <tr ng-repeat="athlete in athletes" ng-click="onClick(athlete.id)" class="ngAnimation">
+                                <td>{{athlete.id}}</td>
+                                <td>{{athlete.displayName}}</td>
+                                <td>{{athlete.person}}</td>
+                                <td>
+                                    <i ng-class="athlete.instructor ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
+                                </td>
+                                <td>
+                                    <i ng-class="athlete.admin ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
+                                </td>
+                                <td>
+                                    <i ng-class="athlete.disabled ? 'glyphicon-ok-circle finished-icon' : 'glyphicon-remove-circle not-finished-icon'" class="glyphicon "></i>
+                                </td>
+                                <td>{{athlete.team}}</td>
+                                <td>{{athlete.registrationRegion}}</td>
+                                <td>
+                                    <i class="glyphicon glyphicon-remove" ng-click="onClickRemove(athlete.id, $event)"></i>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

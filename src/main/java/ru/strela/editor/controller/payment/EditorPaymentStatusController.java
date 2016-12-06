@@ -109,7 +109,7 @@ public class EditorPaymentStatusController extends EditorController {
             PaymentStatusFilter filter = new PaymentStatusFilter();
             filter.setAthlete(athlete);
             filter.setGym(gym);
-            List<PaymentStatus> paymentStatuses = paymentService.findPaymentStatuses(filter);
+            List<PaymentStatus> paymentStatuses = paymentService.findPaymentStatuses(filter, true);
             if(!paymentStatuses.isEmpty() && paymentStatuses.get(0).getId() != paymentStatus.getId()) {
                 result.rejectValue("athlete", "field.required", "Запись с таким атлетом и залом уже существует");
                 result.rejectValue("gym", "field.required", "Запись с таким атлетом и залом уже существует");

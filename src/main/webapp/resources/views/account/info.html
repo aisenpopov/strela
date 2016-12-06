@@ -1,0 +1,55 @@
+
+<section class="md-well well--inset-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row text-md-left inset-1 flow-offset-2">
+                    <div class="col-sm-preffix-3 col-sm-6 col-md-preffix-0 col-md-12 col-md-push-1">
+                        <!--<div class="divider divider-small offset-4 md-visible"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 relative">
+                <h2 class="offset-6">{{athlete.displayName}}</h2>
+
+                <div class="table-responsive" ng-show="paymentStatuses && paymentStatuses.length">
+                    <h5>Оплачено до</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Зал</th>
+                                <th>Дата</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="paymentStatus in paymentStatuses" class="ngAnimation">
+                                <td>{{paymentStatus.gym.name}}</td>
+                                <td>{{paymentStatus.payedTill}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive" ng-show="athleteTariffs && athleteTariffs.length">
+                    <h5>Тарифы</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Купон</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="athleteTariff in athleteTariffs" class="ngAnimation">
+                                <td>{{athleteTariff.tariff.name}}</td>
+                                <td>{{paymentStatus.coupon.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="divider divider-big divider-md-vertical divider-left md-visible"></div>
+            </div>
+        </div>
+    </div>
+</section>

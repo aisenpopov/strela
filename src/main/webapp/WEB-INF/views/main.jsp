@@ -82,6 +82,7 @@
 <script src="/resources/js/web/NewsCtrls.js"></script>
 
 <script src="/resources/js/web/AccountCtrl.js"></script>
+<script src="/resources/js/web/InfoCtrl.js"></script>
 <script src="/resources/js/web/RecoveryCtrl.js"></script>
 <script src="/resources/js/web/BalanceCtrl.js"></script>
 <script src="/resources/js/web/PaymentCtrl.js"></script>
