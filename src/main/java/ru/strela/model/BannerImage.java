@@ -32,10 +32,31 @@ public class BannerImage extends BaseEntitySortable implements HasImage {
 		}
 		
     }
-	
+
+	/**
+	 * Тип баннера.
+	 */
 	private Type type;
+
+	/**
+	 * Абсолютная ссылка баннера.
+	 */
 	private String link;
-    private Integer image;
+
+	/**
+	 * Текст объявления, которое выводится поверх картинки.
+	 */
+	private String text;
+
+    /**
+	 * Если картинка загружена, то содержит случайное число.
+	 * Используется для сброса кэша браузера при обновлении картинки.
+	 */
+	private Integer image;
+
+	/**
+	 * Показывается?
+	 */
 	private boolean visible;
 
     public BannerImage() {}
@@ -68,6 +89,14 @@ public class BannerImage extends BaseEntitySortable implements HasImage {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
