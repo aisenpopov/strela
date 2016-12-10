@@ -467,7 +467,6 @@ input.error {
 /**
  * Angular animation
  */
-
 .ngAnimation {
     -webkit-transition: 0.5s linear all;
     -moz-transition: 0.5s linear all;
@@ -483,3 +482,10 @@ input.error {
 
 .ngAnimation.ng-enter { opacity: 0; }
 .ngAnimation.ng-enter.ng-enter-active { opacity: 1; }
+
+/**
+ * Яндекс метрика.
+ */
+.yandex-metrika-informer {
+    margin-left: 5px;
+}
