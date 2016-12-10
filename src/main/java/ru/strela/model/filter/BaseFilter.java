@@ -3,10 +3,37 @@ package ru.strela.model.filter;
 
 public class BaseFilter extends OrderFilter {
 
+	/**
+	 * Параметры пэйджинга.
+	 */
+	private int pageNumber = 0;
+	private int pageSize = 1;
+
 	private String query;
 	private Boolean visible;
+
+	/**
+	 * Фильтр для ролей.
+	 */
 	private PermissionFilter permissionFilter;
-	
+
+
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
 	public String getQuery() {
 		return query;
 	}

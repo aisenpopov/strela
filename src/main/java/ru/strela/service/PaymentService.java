@@ -91,7 +91,7 @@ public interface PaymentService {
 
     Payment findById(Payment payment);
 
-    Page<Payment> findPayments(PaymentFilter filter, int pageNumber, int pageSize);
+    Page<Payment> pagePayments(PaymentFilter filter, boolean checkPermissions);
 
     List<Payment> findPayments(PaymentFilter filter, boolean checkPermissions);
 

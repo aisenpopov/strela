@@ -14,7 +14,6 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
     var oldAmount, oldGymId;
     if ($routeParams.id) {
         $scope.buttonLabel = "Перепровести";
-        CommonService.loader(true);
         CommonService.post("/account/payment/getPayment", {id: $routeParams.id}).then(function (resp) {
             var data = resp.data.data;
             if (data && data.payment) {
@@ -25,11 +24,8 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
                 oldAmount = data.payment.amount;
                 oldGymId = data.payment.athleteTariff.tariff.gym.id;
             }
-        }).finally(function () {
-            CommonService.loader(false);
         });
     } else {
-        CommonService.loader(true);
         CommonService.post("/account/payment/checkSingleGym").then(function (resp) {
             var data = resp.data.data;
             if (data && data.gym) {
@@ -40,8 +36,6 @@ app.controller("PaymentCtrl", function ($scope, $http, ModalService, $timeout,
                 };
                 $scope.payment.athleteTariff.tariff.gym.text = data.gym.name;
             }
-        }).finally(function () {
-            CommonService.loader(false);
         });
     }
 

@@ -12,7 +12,13 @@ app.controller("PaymentListCtrl", function ($scope, $http, $location, ModalServi
             page = page || search.page || 1,
             query = query || search.query;
         
-        $http.get("/account/payment/list", {params: {page: page, size: size, query: query}}).then(function (resp) {
+        var filter = {
+            pageNumber: page,
+            pageSize: size,
+            query: query
+        };
+        
+        CommonService.post("/account/payment/list", filter).then(function (resp) {
             var data = resp.data.data;
             if (data) {
                 $scope.payments = data.payments;

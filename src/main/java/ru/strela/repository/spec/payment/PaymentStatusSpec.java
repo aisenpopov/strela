@@ -7,7 +7,10 @@ import ru.strela.model.filter.payment.PaymentStatusFilter;
 import ru.strela.model.payment.PaymentStatus;
 import ru.strela.repository.spec.Spec;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +23,7 @@ public class PaymentStatusSpec extends Spec {
               	query.distinct(true);
               	
                 if (StringUtils.isNotBlank(filter.getQuery())) {
-                    Expression<String> firstName = root.get("athlete").get("firstName").as(String.class);
-                    Expression<String> lastName = root.get("athlete").get("lastName").as(String.class);
-                    Expression<String> middleName = root.get("athlete").get("middleName").as(String.class);
-
-                    fillDisplayNamePredicates(builder, predicates, filter, firstName, lastName, middleName);
+                    fillAthleteDisplayNamePredicates(builder, predicates, filter, root.get("athlete"));
                 }
                 if (filter.getAthlete() != null) {
                     predicates.add(builder.equal(root.get("athlete").get("id"), filter.getAthlete().getId()));

@@ -6,7 +6,10 @@ import ru.strela.model.Athlete;
 import ru.strela.model.filter.AthleteFilter;
 import ru.strela.model.filter.PermissionFilter;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +21,7 @@ public class AthleteSpec extends Spec {
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
                 if(StringUtils.isNotBlank(filter.getQuery())) {
-                    Expression<String> firstName = root.get("firstName").as(String.class);
-                    Expression<String> lastName = root.get("lastName").as(String.class);
-                    Expression<String> middleName = root.get("middleName").as(String.class);
-
-                    fillDisplayNamePredicates(builder, predicates, filter, firstName, lastName, middleName);
+                    fillAthleteDisplayNamePredicates(builder, predicates, filter, root);
                 }
                 if (filter.getInstructor() != null) {
                     predicates.add(builder.equal(root.get("instructor"), filter.getInstructor()));

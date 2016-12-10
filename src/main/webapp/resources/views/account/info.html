@@ -1,5 +1,5 @@
 
-<section class="md-well well--inset-2">
+<section class="md-well well--inset-2 list-page">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -47,6 +47,33 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="table-responsive" ng-show="payments && payments.length">
+                    <h5>Платежи</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Тариф</th>
+                                <th>Купон</th>
+                                <th>Сумма</th>
+                                <th>Оператор</th>
+                                <th>Дата</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="payment in payments" class="ngAnimation">
+                                <td>{{payment.id}}</td>
+                                <td>{{payment.athleteTariff.tariff.name}}</td>
+                                <td>{{payment.athleteTariff.coupon ? payment.athleteTariff.coupon.name : ''}}</td>
+                                <td>{{payment.amount}}</td>
+                                <td>{{payment.operator.login}}</td>
+                                <td>{{payment.date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-include="'/resources/views/include/paging.html'"></div>
 
                 <div class="divider divider-big divider-md-vertical divider-left md-visible"></div>
             </div>

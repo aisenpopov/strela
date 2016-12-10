@@ -4,7 +4,7 @@
 
 var app = angular.module("app");
 
-app.controller("InfoCtrl", function ($scope, $timeout, ModalService, CommonService) {
+app.controller("InfoCtrl", function ($scope, $timeout, $location, ModalService, CommonService) {
 
     $scope.athlete = null;
     $scope.paymentStatuses = [];
@@ -16,6 +16,27 @@ app.controller("InfoCtrl", function ($scope, $timeout, ModalService, CommonServi
         $scope.athlete = data.athlete;
         $scope.paymentStatuses = data.paymentStatuses;
         $scope.athleteTariffs = data.athleteTariffs;
+    }).then(function () {
+        $scope.list();
     });
+
+    var size = 5;
+    $scope.list = function (page, query) {
+        if ($scope.athlete) {
+            var filter = {
+                pageNumber: page || 1,
+                pageSize: size,
+                'athlete.id': $scope.athlete.id
+            };
+
+            CommonService.post("/account/payment/list", filter).then(function (resp) {
+                var data = resp.data.data;
+                if (data) {
+                    $scope.payments = data.payments;
+                    $scope.page = data.page;
+                }
+            });
+        }
+    };
 
 });

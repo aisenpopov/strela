@@ -37,17 +37,16 @@ import java.util.List;
 public class PaymentController extends WebController {
 
     @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public JsonResponse list(@RequestParam(value = "page", required = false, defaultValue = "1") int pageNumber,
-                             @RequestParam(value = "size", required = false, defaultValue = "50") int pageSize,
-                             @RequestParam(value = "query", required = false) String query) {
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public JsonResponse list(PaymentFilter filter) {
         JsonResponse response = new JsonResponse();
         JsonData data = response.createJsonData();
 
-        PaymentFilter filter = new PaymentFilter();
-        filter.setQuery(query);
+        if (filter == null) {
+            filter = new PaymentFilter();
+        }
         filter.addOrder(new Order("id", OrderDirection.Desc));
-        Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
+        Page<Payment> page = paymentService.pagePayments(filter, true);
         for (Payment payment : page) {
             PaymentDTO paymentDTO = new PaymentDTO(payment);
             paymentDTO.setDate(DateUtils.formatDayMonthYear(payment.getDate()));

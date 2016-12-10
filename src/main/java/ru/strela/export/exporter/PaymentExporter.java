@@ -62,16 +62,18 @@ public class PaymentExporter extends AbstractExporter {
 
         PaymentFilter paymentFilter = new PaymentFilter();
         paymentFilter.setQuery(filter.getQuery());
+        paymentFilter.setPageSize(100);
         paymentFilter.addOrder(new Order("id", OrderDirection.Desc));
 
         builder.setStyle("cell");
         Cell cell;
         int currentRow = 3;
 
-        int pageNumber = 0;
+        int pageNumber = 1;
         Page<Payment> page;
         do {
-            page = paymentService.findPayments(paymentFilter, pageNumber++, 100);
+            paymentFilter.setPageNumber(pageNumber++);
+            page = paymentService.pagePayments(paymentFilter, true);
             for (Payment payment : page) {
                 cell = builder.createCell(currentRow, 0);
                 cell.setCellValue(payment.getId());

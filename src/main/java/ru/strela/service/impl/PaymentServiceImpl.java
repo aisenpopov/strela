@@ -458,9 +458,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Page<Payment> findPayments(PaymentFilter filter, int pageNumber, int pageSize) {
-        personService.updateFilter(filter);
-        return paymentRepository.findAll(PaymentSpec.filter(filter), PageRequestBuilder.build(filter, pageNumber, pageSize));
+    public Page<Payment> pagePayments(PaymentFilter filter, boolean checkPermissions) {
+        if (checkPermissions) {
+            personService.updateFilter(filter);
+        }
+        return paymentRepository.findAll(PaymentSpec.filter(filter), PageRequestBuilder.build(filter, filter.getPageNumber() - 1, filter.getPageSize()));
     }
 
     @Override

@@ -38,8 +38,10 @@ public class EditorPaymentController extends EditorController {
         if (filter == null) {
             filter = new PaymentFilter();
         }
+        filter.setPageNumber(pageNumber);
+        filter.setPageSize(pageSize);
         filter.addOrder(new Order("id", OrderDirection.Desc));
-        Page<Payment> page = paymentService.findPayments(filter, pageNumber - 1, pageSize);
+        Page<Payment> page = paymentService.pagePayments(filter, true);
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         for (Payment payment : page) {
             Map<String, Object> item = new HashMap<String, Object>();
