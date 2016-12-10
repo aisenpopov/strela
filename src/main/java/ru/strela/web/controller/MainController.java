@@ -54,6 +54,7 @@ public class MainController extends WebController {
             JsonData jsonData = data.createCollection("bannerList");
             jsonData.put("name", bannerImage.getName());
             jsonData.put("type", bannerImage.getType().name());
+            jsonData.put("text", bannerImage.getText());
             jsonData.put("link", bannerImage.getLink());
             jsonData.put("image", FileDataSource.getImage(projectConfiguration, bannerImage, ImageFormat.BANNER_IMAGE));
         }

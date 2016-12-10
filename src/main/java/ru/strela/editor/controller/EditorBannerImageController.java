@@ -4,7 +4,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ru.strela.editor.controller.core.EditorController;
 import ru.strela.model.BannerImage;
@@ -64,12 +69,13 @@ public class EditorBannerImageController extends EditorController {
     }
 
     @RequestMapping(value = {"/edit", "/edit/{id}"}, method = RequestMethod.POST)
-    public ModelAndView save(BannerImage bannerImage, BindingResult result, @PathVariable Map<String, String> pathVariables) {
+    public ModelAndView save(BannerImage bannerImage, BindingResult result) {
         if (validate(result, bannerImage)) {
             if(bannerImage.getId() != 0) {
                 BannerImage saved = applicationService.findById(new BannerImage(bannerImage.getId()));
             	saved.setType(bannerImage.getType());
                 saved.setName(bannerImage.getName());
+                saved.setText(bannerImage.getText());
                 saved.setLink(bannerImage.getLink());
                 saved.setVisible(bannerImage.isVisible());
 
